@@ -1,0 +1,17 @@
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\bin\Debug\DynamicDataHub.exe.config
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\bin\Debug\DynamicDataHub.exe
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\bin\Debug\DynamicDataHub.pdb
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.AssemblyReference.cache
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\Views\DDHAuthorizationWindow.g.cs
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\Views\DDHManagerWindow.g.cs
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\App.g.cs
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub_MarkupCompile.cache
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub_MarkupCompile.lref
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\Views\DDHAuthorizationWindow.baml
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\Views\DDHManagerWindow.baml
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.g.resources
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.Properties.Resources.resources
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.GenerateResource.cache
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.CoreCompileInputs.cache
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.exe
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.pdb
