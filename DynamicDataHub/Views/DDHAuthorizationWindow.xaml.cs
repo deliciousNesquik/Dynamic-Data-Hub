@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DynamicDataHub.Modules;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,15 +18,33 @@ namespace DynamicDataHub.Views
 {
     public partial class DDHAuthorization : Window
     {
+        public List<string> _test = new List<string>();
         public DDHAuthorization()
         {
             InitializeComponent();
-            
+            ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
+            _test = Test.GetDBManagementSystems();
         }
 
         private void Window_LocationChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void DBMSComboBox_DropDownOpened(object sender, EventArgs e)
+        {
+            DBMSComboBox.Items.Clear();
+            if (_test.Count == 0)
+            {
+                MessageBox.Show("У вас отсутствуют соответствующие СУБД");
+            }
+            else
+            {
+                foreach (string test in _test)
+                {
+                    DBMSComboBox.Items.Add(test);
+                }
+            }
         }
         //public class ConfigurationSettings
         //{

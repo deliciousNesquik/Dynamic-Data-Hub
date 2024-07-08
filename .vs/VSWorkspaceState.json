@@ -1,4 +1,9 @@
 {
-  "ExpandedNodes": [],
+  "ExpandedNodes": [
+    "",
+    "\\DynamicDataHub",
+    "\\DynamicDataHub\\Modules"
+  ],
+  "SelectedNode": "\\DynamicDataHub\\Modules\\ChoosingDBManagementSystem.cs",
   "PreviewInSolutionExplorer": false
 }
