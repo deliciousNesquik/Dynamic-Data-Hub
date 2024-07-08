@@ -1,4 +1,5 @@
 ﻿using DynamicDataHub.Modules;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,10 @@ namespace DynamicDataHub.Views
             InitializeComponent();
             ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
             _test = Test.GetDBManagementSystems();
+            foreach (string test in _test)
+            {
+                DBMSComboBox.Items.Add(test);
+            }
         }
 
         private void Window_LocationChanged(object sender, EventArgs e)
@@ -33,17 +38,41 @@ namespace DynamicDataHub.Views
 
         private void DBMSComboBox_DropDownOpened(object sender, EventArgs e)
         {
-            DBMSComboBox.Items.Clear();
+            
             if (_test.Count == 0)
             {
                 MessageBox.Show("У вас отсутствуют соответствующие СУБД");
             }
-            else
-            {
-                foreach (string test in _test)
-                {
-                    DBMSComboBox.Items.Add(test);
-                }
+        }
+
+        private void DBMSComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(!DBMSComboBox.SelectedItem.ToString().Contains("SQLite")){
+                NameBDBlock.Visibility = Visibility.Visible;
+                NameBDBox.Visibility = Visibility.Visible;
+                NameBDServerBlock.Text = "Имя сервера";
+                NameBDServerBox.Clear();
+                OpenExplorer.Visibility = Visibility.Hidden;
+            }
+            else{
+                NameBDBlock.Visibility = Visibility.Hidden;
+                NameBDBox.Visibility = Visibility.Hidden;
+                NameBDServerBlock.Text = "Файл базы данных";
+                OpenExplorer.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void OpenExplorer_Click(object sender, RoutedEventArgs e){
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            openFileDialog.Filter = "Database Files (*.db)|*.db";
+
+            if (openFileDialog.ShowDialog() == true){
+                string selectedFilePath = openFileDialog.FileName;
+                int lastSlashIndex = selectedFilePath.LastIndexOf('\\');
+                int lastIndex = selectedFilePath.Length - 1;
+                string result = selectedFilePath.Substring(lastSlashIndex + 1, lastIndex - lastSlashIndex);
+                NameBDServerBox.Text = result;
             }
         }
         //public class ConfigurationSettings
