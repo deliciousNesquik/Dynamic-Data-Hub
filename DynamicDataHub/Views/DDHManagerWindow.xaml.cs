@@ -16,13 +16,31 @@ using System.Windows.Shapes;
 
 namespace DynamicDataHub
 {
-    public partial class DDHManager : Window
-    {
+    public partial class DDHManager : Window{
+
         public DDHManager()
         {
             InitializeComponent();
             var ConnectionWindow = new DDHAuthorization();
             ConnectionWindow.Show();
+        }
+        public DDHManager(string ServerName, string DBName){
+            InitializeComponent();
+            MessageBox.Show("NOT SQLITE");
+        }
+        public DDHManager(string DBFileName){
+            InitializeComponent();
+            MessageBox.Show("SQLITE");
+        }
+
+        public static DDHManager Create(string DBFileName)
+        {
+            return new DDHManager(DBFileName);
+        }
+
+        public static DDHManager Create(string ServerName, string DBName)
+        {
+            return new DDHManager(ServerName, DBName);
         }
     }
 }

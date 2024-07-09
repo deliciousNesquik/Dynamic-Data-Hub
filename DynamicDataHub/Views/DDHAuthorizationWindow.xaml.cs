@@ -17,47 +17,40 @@ using System.Windows.Shapes;
 
 namespace DynamicDataHub.Views
 {
-    public partial class DDHAuthorization : Window
-    {
+    public partial class DDHAuthorization : Window{
         public List<string> _test = new List<string>();
-        public DDHAuthorization()
-        {
+        public DDHAuthorization(){
             InitializeComponent();
             ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
             _test = Test.GetDBManagementSystems();
-            foreach (string test in _test)
-            {
+            foreach (string test in _test){
                 DBMSComboBox.Items.Add(test);
             }
         }
 
-        private void Window_LocationChanged(object sender, EventArgs e)
-        {
+        private void Window_LocationChanged(object sender, EventArgs e){
 
         }
 
-        private void DBMSComboBox_DropDownOpened(object sender, EventArgs e)
-        {
+        private void DBMSComboBox_DropDownOpened(object sender, EventArgs e){
             
-            if (_test.Count == 0)
-            {
+            if (_test.Count == 0){
                 MessageBox.Show("У вас отсутствуют соответствующие СУБД");
             }
         }
 
-        private void DBMSComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
+        private void DBMSComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e){
             if(!DBMSComboBox.SelectedItem.ToString().Contains("SQLite")){
-                NameBDBlock.Visibility = Visibility.Visible;
-                NameBDBox.Visibility = Visibility.Visible;
-                NameBDServerBlock.Text = "Имя сервера";
-                NameBDServerBox.Clear();
+                NameDBBlock.Visibility = Visibility.Visible;
+                NameDBBox.Visibility = Visibility.Visible;
+                NameDBServerBlock.Text = "Имя сервера";
+                NameDBServerBox.Clear();
                 OpenExplorer.Visibility = Visibility.Hidden;
             }
             else{
-                NameBDBlock.Visibility = Visibility.Hidden;
-                NameBDBox.Visibility = Visibility.Hidden;
-                NameBDServerBlock.Text = "Файл базы данных";
+                NameDBBlock.Visibility = Visibility.Hidden;
+                NameDBBox.Visibility = Visibility.Hidden;
+                NameDBServerBlock.Text = "Файл базы данных";
                 OpenExplorer.Visibility = Visibility.Visible;
             }
         }
@@ -72,8 +65,41 @@ namespace DynamicDataHub.Views
                 int lastSlashIndex = selectedFilePath.LastIndexOf('\\');
                 int lastIndex = selectedFilePath.Length - 1;
                 string result = selectedFilePath.Substring(lastSlashIndex + 1, lastIndex - lastSlashIndex);
-                NameBDServerBox.Text = result;
+                NameDBServerBox.Text = result;
             }
+        }
+
+
+        private void ConnectionButton_Click(object sender, RoutedEventArgs e) {
+
+            string _fileName;
+            if (string.IsNullOrEmpty(DBMSComboBox.Text)){
+                MessageBox.Show("Выберите СУБД");
+            }
+            else{
+                if (DBMSComboBox.SelectedItem.ToString().Contains("SQLite")){
+                    _fileName = NameDBServerBox.Text;
+                    if (!string.IsNullOrEmpty(_fileName)){
+                        var ManagerWindow = new DDHManager(_fileName);
+                        this.Close();
+                    }
+                    else{
+                        MessageBox.Show("Выберите файл базы данных");
+                    }
+                }
+                else{
+                    if (string.IsNullOrEmpty(NameDBServerBox.Text) && string.IsNullOrEmpty(NameDBBox.Text)){
+                        MessageBox.Show("Укажите имя сервера и базы данных!");
+                    }
+                    else if (string.IsNullOrEmpty(NameDBServerBox.Text)){
+                        MessageBox.Show("Укажите имя сервера!");
+                    }
+                    else if (string.IsNullOrEmpty(NameDBBox.Text)){
+                        MessageBox.Show("Укажите имя базы данных!");
+                    }
+                }
+            }
+            
         }
         //public class ConfigurationSettings
         //{
