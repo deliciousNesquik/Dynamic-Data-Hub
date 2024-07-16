@@ -32,3 +32,12 @@ C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicData
 C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.CoreCompileInputs.cache
 C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.exe
 C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.pdb
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\EntityFramework.dll
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.dll
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\EntityFramework.xml
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.xml
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.CopyComplete

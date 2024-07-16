@@ -17,8 +17,22 @@ using System.Windows.Shapes;
 
 namespace DynamicDataHub.Views
 {
+    
     public partial class DDHAuthorization : Window{
         public List<string> _test = new List<string>();
+        public string selectedFilePath;
+
+        public void IsNullOrWhiteSpaceTextBox(string _serverName, string _dbName){
+            if (string.IsNullOrWhiteSpace(_serverName) && string.IsNullOrWhiteSpace(_dbName)){
+                MessageBox.Show("Укажите имя сервера и базы данных!");
+            }
+            else if (string.IsNullOrWhiteSpace(_serverName)){
+                MessageBox.Show("Укажите имя сервера!");
+            }
+            else if (string.IsNullOrWhiteSpace(_dbName)){
+                MessageBox.Show("Укажите имя базы данных!");
+            }
+        }
         public DDHAuthorization(){
             InitializeComponent();
             ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
@@ -45,6 +59,7 @@ namespace DynamicDataHub.Views
                 NameDBBox.Visibility = Visibility.Visible;
                 NameDBServerBlock.Text = "Имя сервера";
                 NameDBServerBox.Clear();
+                NameDBBox.Clear();
                 OpenExplorer.Visibility = Visibility.Hidden;
             }
             else{
@@ -62,6 +77,7 @@ namespace DynamicDataHub.Views
 
             if (openFileDialog.ShowDialog() == true){
                 string selectedFilePath = openFileDialog.FileName;
+                this.selectedFilePath = selectedFilePath;
                 int lastSlashIndex = selectedFilePath.LastIndexOf('\\');
                 int lastIndex = selectedFilePath.Length - 1;
                 string result = selectedFilePath.Substring(lastSlashIndex + 1, lastIndex - lastSlashIndex);
@@ -73,31 +89,51 @@ namespace DynamicDataHub.Views
         private void ConnectionButton_Click(object sender, RoutedEventArgs e) {
 
             string _fileName;
-            if (string.IsNullOrEmpty(DBMSComboBox.Text)){
+            string _serverName;
+            string _dbName;
+
+            if (string.IsNullOrWhiteSpace(DBMSComboBox.Text)){
                 MessageBox.Show("Выберите СУБД");
             }
             else{
-                if (DBMSComboBox.SelectedItem.ToString().Contains("SQLite")){
-                    _fileName = NameDBServerBox.Text;
-                    if (!string.IsNullOrEmpty(_fileName)){
-                        var ManagerWindow = new DDHManager(_fileName);
-                        this.Close();
-                    }
-                    else{
-                        MessageBox.Show("Выберите файл базы данных");
-                    }
-                }
-                else{
-                    if (string.IsNullOrEmpty(NameDBServerBox.Text) && string.IsNullOrEmpty(NameDBBox.Text)){
-                        MessageBox.Show("Укажите имя сервера и базы данных!");
-                    }
-                    else if (string.IsNullOrEmpty(NameDBServerBox.Text)){
-                        MessageBox.Show("Укажите имя сервера!");
-                    }
-                    else if (string.IsNullOrEmpty(NameDBBox.Text)){
-                        MessageBox.Show("Укажите имя базы данных!");
-                    }
-                }
+                string _currentDBManagementSystem = DBMSComboBox.SelectedItem.ToString().Trim();
+
+                switch (_currentDBManagementSystem){
+                    case "DB Browser for SQLite":
+                        _fileName = NameDBServerBox.Text;
+                        if (!string.IsNullOrEmpty(_fileName)){
+                            var ManagerWindow = new DDHManager(_fileName);
+                            SQLIteConnector test_connection = new SQLIteConnector(selectedFilePath);
+                            if (test_connection.GetInfoConnection())
+                                this.Close();
+                            else{
+                                MessageBox.Show("Не удалось подключится к базе данных");
+                            }
+                        }
+                        else{
+                            MessageBox.Show("Выберите файл базы данных");
+                        }
+                        break;
+                    case "SQL Server Management Studio":
+                        _serverName = NameDBServerBox.Text;
+                        _dbName = NameDBServerBox.Text;
+                        if (!string.IsNullOrWhiteSpace(_serverName) && !string.IsNullOrWhiteSpace(_dbName)){
+                            var ManagerWindow = new DDHManager(_serverName, _dbName);
+                            SQLServerConnector test_connection = new SQLServerConnector(_serverName, _dbName);
+                            if (test_connection.GetInfoConnection())
+                                this.Close();
+                            else{
+                                MessageBox.Show("Не удалось подключится к базе данных");
+                            }
+                        }
+                        else{
+                            IsNullOrWhiteSpaceTextBox(_serverName, _dbName);
+                        }
+                        break;
+
+                    default:
+                        throw new InvalidOperationException($"Неизвестная система управления базами данных: {_currentDBManagementSystem}");
+                } 
             }
             
         }
