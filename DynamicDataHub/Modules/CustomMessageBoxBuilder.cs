@@ -11,27 +11,22 @@ namespace DynamicDataHub.Modules
 {
     internal class CustomMessageBoxBuilder
     {
-        public Window customMessageBox;
-        public CustomMessageBoxBuilder()
+        public readonly Window CustomMessageBox = new Window()
         {
-            customMessageBox = new Window()
-            {
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                ResizeMode = ResizeMode.NoResize,
-                WindowStyle = WindowStyle.None,
-                Background = new SolidColorBrush(Color.FromRgb(20, 20, 20)),
-                Width = 350,
-                Height = 150,
-            };
-            
-        }
+            WindowStartupLocation = WindowStartupLocation.CenterScreen,
+            ResizeMode = ResizeMode.NoResize,
+            WindowStyle = WindowStyle.None,
+            Background = new SolidColorBrush(Color.FromRgb(20, 20, 20)),
+            Width = 350,
+            Height = 150,
+        };
 
         public void ShowError(string title, string message, string messageButton)
         {
-            customMessageBox.Title = title;
-            TextBlock messageTextBlock = new TextBlock()
+            CustomMessageBox.Title = title;
+            var messageTextBlock = new TextBlock()
             {
-                Text = message,
+                Text = $"Ошибка: \n{message}",
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 14.0,
@@ -40,18 +35,18 @@ namespace DynamicDataHub.Modules
                 Height = 70,
 
             };
-            Button closeButton = new Button()
+            var closeButton = new Button()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom,
                 Content = messageButton,
-                Width = 150,
-                Height = 30,
-                FontSize = 20,
+                Width = 120,
+                Height = 25,
+                FontSize = 14,
             };
-            closeButton.Click += (s, e) => customMessageBox.Visibility = Visibility.Hidden;
+            closeButton.Click += (s, e) => CustomMessageBox.Visibility = Visibility.Hidden;
 
-            StackPanel panelCenter = new StackPanel()
+            var panelCenter = new StackPanel()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -60,16 +55,16 @@ namespace DynamicDataHub.Modules
             panelCenter.Children.Add(messageTextBlock);
             panelCenter.Children.Add(closeButton);
 
-            customMessageBox.Content = panelCenter;
+            CustomMessageBox.Content = panelCenter;
 
 
-            if (customMessageBox.Visibility == Visibility.Hidden)
+            if (CustomMessageBox.Visibility == Visibility.Hidden)
             {
-                customMessageBox.Visibility = Visibility.Visible;
+                CustomMessageBox.Visibility = Visibility.Visible;
             }
             else
             {
-                customMessageBox.Show();
+                CustomMessageBox.Show();
             }
         }
     }

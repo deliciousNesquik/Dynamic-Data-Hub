@@ -1,0 +1,71 @@
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\bin\Debug\DynamicDataHub.exe.config
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\bin\Debug\DynamicDataHub.exe
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\bin\Debug\DynamicDataHub.pdb
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.AssemblyReference.cache
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\Views\DDHAuthorizationWindow.g.cs
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\Views\DDHManagerWindow.g.cs
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\App.g.cs
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub_MarkupCompile.cache
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub_MarkupCompile.lref
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\Views\DDHAuthorizationWindow.baml
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\Views\DDHManagerWindow.baml
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.g.resources
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.Properties.Resources.resources
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.GenerateResource.cache
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.CoreCompileInputs.cache
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.exe
+C:\Users\SystemX\Documents\DDH\DynamicDataHub\obj\Debug\DynamicDataHub.pdb
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\DynamicDataHub.exe.config
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\DynamicDataHub.exe
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\DynamicDataHub.pdb
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.AssemblyReference.cache
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\Views\DDHAuthorizationWindow.g.cs
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\Views\DDHManagerWindow.g.cs
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\App.g.cs
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub_MarkupCompile.cache
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub_MarkupCompile.lref
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\Views\DDHAuthorizationWindow.baml
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\Views\DDHManagerWindow.baml
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.g.resources
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.Properties.Resources.resources
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.GenerateResource.cache
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.CoreCompileInputs.cache
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.exe
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.pdb
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\EntityFramework.dll
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.dll
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\EntityFramework.xml
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.xml
+C:\Users\prod_upal\Desktop\Dynamic Data Hub\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.CopyComplete
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\DynamicDataHub.exe.config
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\DynamicDataHub.exe
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\DynamicDataHub.pdb
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\EntityFramework.dll
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.dll
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\EntityFramework.xml
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\bin\Debug\System.Data.SQLite.xml
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.AssemblyReference.cache
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\Views\DDHAuthorizationWindow.g.cs
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\Views\DDHManagerWindow.g.cs
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\App.g.cs
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub_MarkupCompile.cache
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub_MarkupCompile.lref
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\App.baml
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\Views\DDHAuthorizationWindow.baml
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\Views\DDHManagerWindow.baml
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub.g.resources
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub.Properties.Resources.resources
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.GenerateResource.cache
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.CoreCompileInputs.cache
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub.csproj.CopyComplete
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub.exe
+C:\Users\User\Source\Repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub.pdb
+C:\Users\User\source\repos\projects\Dynamic-Data-Hub\DynamicDataHub\obj\Debug\DynamicDataHub_Content.g.cs
