@@ -19,21 +19,28 @@ namespace DynamicDataHub.Views
 {
     
     public partial class DDHAuthorization : Window{
+
+        CustomMessageBoxBuilder customMessageBox = new CustomMessageBoxBuilder();
         public List<string> _test = new List<string>();
         public string selectedFilePath;
 
         public void IsNullOrWhiteSpaceTextBox(string _serverName, string _dbName){
             if (string.IsNullOrWhiteSpace(_serverName) && string.IsNullOrWhiteSpace(_dbName)){
-                MessageBox.Show("Укажите имя сервера и базы данных!");
+                customMessageBox.ShowError("Ошибка", "Укажите имя сервера и базы данных!", "Закрыть");
+                //MessageBox.Show("Укажите имя сервера и базы данных!", "");
             }
             else if (string.IsNullOrWhiteSpace(_serverName)){
-                MessageBox.Show("Укажите имя сервера!");
+                customMessageBox.ShowError("Ошибка", "Укажите имя сервера!", "Закрыть");
+                //MessageBox.Show("Укажите имя сервера!");
             }
             else if (string.IsNullOrWhiteSpace(_dbName)){
-                MessageBox.Show("Укажите имя базы данных!");
+                customMessageBox.ShowError("Ошибка", "Укажите имя базы данных!", "Закрыть");
+                //MessageBox.Show("Укажите имя базы данных!");
             }
         }
         public DDHAuthorization(){
+            //customMessageBox.customMessageBox.Show();
+            //customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
             InitializeComponent();
             ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
             _test = Test.GetDBManagementSystems();
@@ -49,7 +56,8 @@ namespace DynamicDataHub.Views
         private void DBMSComboBox_DropDownOpened(object sender, EventArgs e){
             
             if (_test.Count == 0){
-                MessageBox.Show("У вас отсутствуют соответствующие СУБД");
+                customMessageBox.ShowError("Ошибка", "У вас отсутствуют соответствующие СУБД", "Закрыть");
+                //MessageBox.Show("У вас отсутствуют соответствующие СУБД");
             }
         }
 
@@ -93,7 +101,8 @@ namespace DynamicDataHub.Views
             string _dbName;
 
             if (string.IsNullOrWhiteSpace(DBMSComboBox.Text)){
-                MessageBox.Show("Выберите СУБД");
+                customMessageBox.ShowError("Ошибка", "Выберите СУБД", "Закрыть");
+                //MessageBox.Show("Выберите СУБД");
             }
             else{
                 string _currentDBManagementSystem = DBMSComboBox.SelectedItem.ToString().Trim();
@@ -107,11 +116,13 @@ namespace DynamicDataHub.Views
                             if (test_connection.GetInfoConnection())
                                 this.Close();
                             else{
-                                MessageBox.Show("Не удалось подключится к базе данных");
+                                customMessageBox.ShowError("Ошибка", "Не удалось подключится к базе данных", "Закрыть");
+                                //MessageBox.Show("Не удалось подключится к базе данных");
                             }
                         }
                         else{
-                            MessageBox.Show("Выберите файл базы данных");
+                            customMessageBox.ShowError("Ошибка", "Выберите файл базы данных", "Закрыть");
+                            //MessageBox.Show("Выберите файл базы данных");
                         }
                         break;
                     case "SQL Server Management Studio":
@@ -123,7 +134,8 @@ namespace DynamicDataHub.Views
                             if (test_connection.GetInfoConnection())
                                 this.Close();
                             else{
-                                MessageBox.Show("Не удалось подключится к базе данных");
+                                customMessageBox.ShowError("Ошибка", "Не удалось подключится к базе данных", "Закрыть");
+                                //MessageBox.Show("Не удалось подключится к базе данных");
                             }
                         }
                         else{
@@ -136,6 +148,11 @@ namespace DynamicDataHub.Views
                 } 
             }
             
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            customMessageBox.customMessageBox.Close();
         }
         //public class ConfigurationSettings
         //{

@@ -4,7 +4,18 @@
              xmlns:local="clr-namespace:DynamicDataHub"
              StartupUri="Views/DDHManagerWindow.xaml">
     <Application.Resources>
-         
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="#121212"></Setter> <!--#FFFFFF-->
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#E0E0E0"></Setter> <!--#333333-->
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#4285F4"></Setter> <!--#007BFF-->
+        </Style>
+        <Style TargetType="{x:Type Control}">
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+        </Style>
     </Application.Resources>
     
 </Application>

@@ -1,9 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\DynamicDataHub",
-    "\\DynamicDataHub\\Modules"
+    ""
   ],
-  "SelectedNode": "\\DynamicDataHub\\Modules\\SQLIteConnector.cs",
   "PreviewInSolutionExplorer": false
 }

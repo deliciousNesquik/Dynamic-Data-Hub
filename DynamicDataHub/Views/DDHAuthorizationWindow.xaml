@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DynamicDataHub.Views"
         mc:Ignorable="d"
-        Title="Окно авторизации" Height="360" Width="480" WindowStartupLocation="CenterScreen" LocationChanged="Window_LocationChanged">
+        Title="Окно авторизации" Height="360" Width="480" WindowStartupLocation="CenterScreen" LocationChanged="Window_LocationChanged" WindowStyle="None" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -30,16 +30,16 @@
 
         <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                <TextBlock Name="NameDBServerBlock" Text="Имя сервера"></TextBlock>
-                <TextBox Name="NameDBServerBox" Width="200" Margin="30 0 0 0"></TextBox>
+                <TextBlock Name="NameDBServerBlock" Text="Имя сервера" VerticalAlignment="Center"></TextBlock>
+                <TextBox Name="NameDBServerBox" FontSize="15" Width="200" Margin="30 0 0 0"></TextBox>
                 <Button Name="OpenExplorer" Visibility="Hidden" Click="OpenExplorer_Click" Width="25" Height="19"  Margin="5 0 0 0">
                     <Image Source="../Resources/explorer.png" Width="20"></Image>
                 </Button> 
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 7 0 0">
                 <!--Артур поменяй пожалуйста тут-->
-                <TextBlock Name="NameDBBlock" Text="Имя базы данных"></TextBlock>
-                <TextBox Name="NameDBBox" Width="200" Margin="4 0 0 0"></TextBox>
+                <TextBlock Name="NameDBBlock" VerticalAlignment="Center" Text="Имя базы данных"></TextBlock>
+                <TextBox Name="NameDBBox" FontSize="15" Width="200" Margin="4 0 0 0"></TextBox>
             </StackPanel>
         </StackPanel>
 

@@ -18,10 +18,11 @@ namespace DynamicDataHub
 {
     public partial class DDHManager : Window{
 
+        public static Window ConnectionWindow = new DDHAuthorization();
+
         public DDHManager()
         {
             InitializeComponent();
-            var ConnectionWindow = new DDHAuthorization();
             ConnectionWindow.Show();
         }
         public DDHManager(string ServerName, string DBName){
@@ -41,6 +42,11 @@ namespace DynamicDataHub
         public static DDHManager Create(string ServerName, string DBName)
         {
             return new DDHManager(ServerName, DBName);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ConnectionWindow.Close();
         }
     }
 }
