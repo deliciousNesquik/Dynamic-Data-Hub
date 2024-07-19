@@ -11,42 +11,58 @@ namespace DynamicDataHub.Modules
 {
     internal class CustomMessageBoxBuilder
     {
-        public readonly Window CustomMessageBox = new Window()
-        {
-            WindowStartupLocation = WindowStartupLocation.CenterScreen,
-            ResizeMode = ResizeMode.NoResize,
-            WindowStyle = WindowStyle.None,
-            Background = new SolidColorBrush(Color.FromRgb(20, 20, 20)),
-            Width = 350,
-            Height = 150,
-        };
 
+        private Brush foreground = Brushes.White;
+        public Window customMessageBox;
+        public static bool ClosingState;
+        public CustomMessageBoxBuilder()
+        {
+            customMessageBox = new Window()
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                ResizeMode = ResizeMode.NoResize,
+                WindowStyle = WindowStyle.None,
+                Background = new SolidColorBrush(Color.FromRgb(20, 20, 20)),
+                Width = 350,
+                Height = 150,
+            };
+
+        }
+        public TextBlock CreateTextBlock(string text, Brush foreground = null, HorizontalAlignment horizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment verticalAligment = VerticalAlignment.Center, int height = 70, TextWrapping textWrapping = TextWrapping.Wrap,
+            double fontSize = 14.0)
+        {
+            if (foreground == null) { foreground = this.foreground; }
+            TextBlock messageTextBlock = new TextBlock()
+            {
+                Text = text,
+                HorizontalAlignment = horizontalAlignment,
+                VerticalAlignment = verticalAligment,
+                FontSize = fontSize,
+                Foreground = foreground,
+                TextWrapping = textWrapping,
+                Height = height,
+
+            };
+            return messageTextBlock;
+        }
         public void ShowError(string title, string message, string messageButton)
         {
-            CustomMessageBox.Title = title;
-            var messageTextBlock = new TextBlock()
+            customMessageBox.Title = title;
+            TextBlock messageTextBlock = CreateTextBlock(message);
+
+            Button closeButton = new Button()
             {
-                Text = $"Ошибка: \n{message}",
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
-                FontSize = 14.0,
-                Foreground = new SolidColorBrush(Color.FromRgb(224, 224, 224)),
-                TextWrapping = TextWrapping.Wrap,
-                Height = 70,
-
-            };
-            var closeButton = new Button()
-            {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Bottom,
                 Content = messageButton,
-                Width = 120,
-                Height = 25,
-                FontSize = 14,
+                Width = 150,
+                Height = 30,
+                FontSize = 20,
             };
-            closeButton.Click += (s, e) => CustomMessageBox.Visibility = Visibility.Hidden;
+            closeButton.Click += (s, e) => customMessageBox.Visibility = Visibility.Hidden;
 
-            var panelCenter = new StackPanel()
+            StackPanel panelCenter = new StackPanel()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -55,17 +71,44 @@ namespace DynamicDataHub.Modules
             panelCenter.Children.Add(messageTextBlock);
             panelCenter.Children.Add(closeButton);
 
-            CustomMessageBox.Content = panelCenter;
+            customMessageBox.Content = panelCenter;
 
 
-            if (CustomMessageBox.Visibility == Visibility.Hidden)
+            if (customMessageBox.Visibility == Visibility.Hidden && ClosingState)
             {
-                CustomMessageBox.Visibility = Visibility.Visible;
+                customMessageBox.Visibility = Visibility.Visible;
             }
             else
             {
-                CustomMessageBox.Show();
+                customMessageBox.Show();
             }
         }
+        #region Loading
+        public async void ShowLoading(string title, string message)
+        {
+            customMessageBox.Title = title;
+            TextBlock messageTextBlock = CreateTextBlock(message);
+            string Loading = message;
+            customMessageBox.Show();
+            string Points = ". ";
+            while (!ClosingState)
+            {
+                customMessageBox.Content = messageTextBlock;
+                messageTextBlock.Text = Loading + Points;
+
+                if (Points.Length == 6)
+                {
+                    Points = ". ";
+                }
+                else
+                {
+                    Points += ". ";
+                }
+
+                await Task.Delay(500);
+            }
+        }
+        #endregion
     }
 }
+

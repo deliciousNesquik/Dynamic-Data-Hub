@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -11,27 +12,46 @@ namespace DynamicDataHub.Modules
     {
         public string ServerName;
         public string DBName;
-        public string connectionString;
+        private IDbConnection GetConnection;
 
-        public SQLServerConnector(string ServerName, string DBName) {
+        public SQLServerConnector(string ServerName, string DBName)
+        {
             this.ServerName = ServerName;
             this.DBName = DBName;
-            connectionString = "Data Source=" + this.ServerName + ";Initial Catalog='" + this.DBName + "';Integrated Security=True;trustservercertificate=True";
-    }
-        
-        public bool GetInfoConnection(){
-            try{
-                using (SqlConnection connection = new SqlConnection(connectionString)){
-                    connection.Open();
+            this.GetConnection = new SqlConnection("Data Source=" + this.ServerName + ";Initial Catalog='" + this.DBName + "';Integrated Security=True;trustservercertificate=True");
+        }
 
-                    connection.Close(); 
-                    return true;
-                }
+        public async Task<bool> GetInfoConnection()
+        {
+            bool isConnected = false;
+            try
+            {
+                await Task.Run(() => {
+                    using (IDbConnection connection = this.GetConnection)
+                    {
+                        try
+                        {
+                            connection.Open();
+                            isConnected = true;
+                            connection.Close();
+                        }
+                        catch (SqlException sqlEx)
+                        {
+                            Console.WriteLine($"SQL Exception при подключении к базе данных: {sqlEx.Message}");
+                            isConnected = false;
+                        }
+                    }
+                });
             }
-            catch (Exception ex){
-                Console.WriteLine($"Ошибка при подключении к базе данных: {ex.Message}");
-                return false;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Общая ошибка при подключении к базе данных: {ex.Message}");
+                isConnected = false;
             }
-}
+
+            return isConnected;
+        }
     }
+
 }
+
