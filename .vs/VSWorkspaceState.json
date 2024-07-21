@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\DynamicDataHub",
-    "\\DynamicDataHub\\Modules",
-    "\\DynamicDataHub\\Views"
+    ""
   ],
-  "SelectedNode": "\\DynamicDataHub\\Views\\DDHManagerWindow.xaml.cs",
+  "SelectedNode": "\\DynamicDataHub.sln",
   "PreviewInSolutionExplorer": false
 }

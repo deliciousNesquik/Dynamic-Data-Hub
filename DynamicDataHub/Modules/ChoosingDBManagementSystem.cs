@@ -10,24 +10,29 @@ namespace DynamicDataHub.Modules
 
     internal class ChoosingDBManagementSystem
     {
-        public List<string> ManagementSystems = new List<string> { "SQL Server", "PostgreSQL 16", "DB Browser for SQLite" };
+        public Dictionary<string, string> ManagementSystems = new Dictionary<string, string>
+    {
+        {"SQL Server", "SQL Server Management Studio"},
+        {"PostgreSQL 16", "PostgreSQL 16"},
+        {"DB Browser for SQLite", "SQLite"}
+    };
+
         public ChoosingDBManagementSystem()
         {
 
         }
 
-        public List<string> GetDBManagementSystems(){
-            List<string> test = new List<string>();
+        public List<string> GetDBManagementSystems()
+        {
+            List<string> foundSystems = new List<string>();
             string registryPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
 
             try
             {
-                // Открываем подключение к ключу реестра
                 using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(registryPath))
                 {
                     if (rk != null)
                     {
-                        // Получаем список всех подключений к этому ключу
                         foreach (string skName in rk.GetSubKeyNames())
                         {
                             using (RegistryKey sk = rk.OpenSubKey(skName))
@@ -37,13 +42,14 @@ namespace DynamicDataHub.Modules
                                     string displayName = sk.GetValue("DisplayName") as string;
                                     if (!string.IsNullOrEmpty(displayName))
                                     {
-                                        Console.WriteLine($"DisplayName: {displayName}");
-                                        if (ManagementSystems.Contains(displayName.Trim()))
+                                        foreach (var ms in ManagementSystems)
                                         {
-                                            Console.WriteLine($"Contains DisplayName: {displayName}");
-                                            test.Add(displayName);
+                                            if (displayName.Contains(ms.Key) && !foundSystems.Contains(ms.Value))
+                                            {
+                                                Console.WriteLine($"Found: {ms.Value} ({displayName})");
+                                                foundSystems.Add(ms.Value);
+                                            }
                                         }
-
                                     }
                                 }
                             }
@@ -55,8 +61,8 @@ namespace DynamicDataHub.Modules
             {
                 Console.WriteLine($"Ошибка при доступе к реестру: {ex.Message}");
             }
-            test = test.Distinct().ToList();
-            return test;
+
+            return foundSystems;
         }
     }
 }

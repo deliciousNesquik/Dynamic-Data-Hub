@@ -1,31 +1,51 @@
 ﻿using DynamicDataHub.Views;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace DynamicDataHub
 {
     public partial class DDHManager : Window
     {
-
+        #region Переменные
         public static Window ConnectionWindow = new DDHAuthorization();
+        #endregion
 
+        #region Внутренние функции
+        private List<double> GetCenterPositionElement(Frame owner)
+        {
+            var mainWindowBounds = new Rect(this.Left, this.Top, this.ActualWidth, this.ActualHeight);
+
+            double absoluteX;
+            double absoluteY;
+            if (WindowState != WindowState.Maximized)
+            {
+                absoluteX = mainWindowBounds.X + ColumnObjectExplorer.Width.Value + 8 + ((owner.RenderSize.Width - ConnectionWindow.Width) / 2);
+                absoluteY = mainWindowBounds.Y + RowObjectExplorer.Height.Value + RowConnecting.Height.Value + 2 + ((owner.RenderSize.Height - ConnectionWindow.Height) / 2);
+            }
+            else
+            {
+                absoluteX = ColumnObjectExplorer.Width.Value + 8 + ((owner.RenderSize.Width - ConnectionWindow.Width) / 2);
+                absoluteY = RowObjectExplorer.Height.Value + RowConnecting.Height.Value + 2 + ((owner.RenderSize.Height - ConnectionWindow.Height) / 2);
+            }
+
+            List<double> positionElements = new List<double>();
+            positionElements.Add(absoluteX);
+            positionElements.Add(absoluteY);
+
+            return positionElements;
+        }
+        #endregion
+
+        #region Конструкторы
         public DDHManager()
         {
             InitializeComponent();
         }
-        
         public DDHManager(string ServerName, string DBName)
         {
             InitializeComponent();
@@ -34,56 +54,97 @@ namespace DynamicDataHub
         {
             InitializeComponent();
         }
+        #endregion
 
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            ConnectionWindow.Close();
-        }
-
+        #region Обработчики открытия окна соединения
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ConnectionWindow.Show();
-        }
+            List<double> positionElement = GetCenterPositionElement(FrameTableData);
 
+            ConnectionWindow = new DDHAuthorization();
+            ConnectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+
+
+            ConnectionWindow.Left = positionElement[0];
+            ConnectionWindow.Top = positionElement[1];
+
+            ConnectionWindow.ShowDialog();
+            ConnectionWindow.Focus();
+        }
+        private void Window_ContentRendered(object sender, EventArgs e)
+        {
+            ConnectionWindow.Focus();
+        }
+        private void Connect_Click(object sender, RoutedEventArgs e)
+        {
+            List<double> positionElement = GetCenterPositionElement(FrameTableData);
+
+            ConnectionWindow = new DDHAuthorization();
+            ConnectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+
+
+            ConnectionWindow.Left = positionElement[0];
+            ConnectionWindow.Top = positionElement[1];
+
+            ConnectionWindow.ShowDialog();
+            ConnectionWindow.Focus();
+        }
+        #endregion
+
+        #region Обрабочики сворачивания левой панели
         private void WrapColumn_Click(object sender, RoutedEventArgs e)
         {
+            //Создание обьекта класса ротейрТрансформ 
             RotateTransform rotateTransform = new RotateTransform(0);
+            //Получение ротейрТрансформ у кнопки для дальнейшей логики
             var WrapColumnTransform = WrapColumn.RenderTransform as RotateTransform;
 
-
-            if (WrapColumnTransform?.Angle == 0)
+            //Проверка если угол кнопки равен 0, тогда панельку можно свернуть
+            if (WrapColumnTransform?.Angle == 0 || WrapColumnTransform?.Angle == null)
             {
+                //Скрытие элементов
                 TBObjectExplorer.Visibility = Visibility.Hidden;
                 Connect.Visibility = Visibility.Hidden;
                 Disconnect.Visibility = Visibility.Hidden;
-                Refresh.Visibility = Visibility.Hidden;
-                WrapColumn.Margin = new Thickness(0);
-                SPWrap.HorizontalAlignment = HorizontalAlignment.Left;
-
+                //Сдвиг кнопки влево
+                WrapColumn.Margin = new Thickness(-142.5, 0, 0, 0);
+                Refresh.Margin = new Thickness(-145, 0, 0, 0);
+                //Создания трансформа поворота и поворот кнопки на 180
                 rotateTransform = new RotateTransform(180);
                 WrapColumn.RenderTransform = rotateTransform;
-
-
-
-                //ObjectExplorer.Width = new GridLength(0.03, GridUnitType.Star);
+                //Установление размера для колонки
+                ColumnObjectExplorer.Width = new GridLength(30);
             }
+            //Если угол не 0 тогда панельку нужно развернуть
             else
             {
+                //Отображение элементов
                 TBObjectExplorer.Visibility = Visibility.Visible;
                 Connect.Visibility = Visibility.Visible;
                 Disconnect.Visibility = Visibility.Visible;
-                Refresh.Visibility = Visibility.Visible;
-                WrapColumn.Margin = new Thickness(87, 5, 0, 5);
-                //SPWrap.HorizontalAlignment = HorizontalAlignment.Left;
-
+                //Сдвиг кнопки на прежнее место
+                WrapColumn.Margin = new Thickness(68.5, 5, 0, 5);
+                Refresh.Margin = new Thickness(5, 0, 0, 0);
+                //Создания трансформа поворота и поворот кнопки на 0
                 rotateTransform = new RotateTransform(0);
                 WrapColumn.RenderTransform = rotateTransform;
-
-
-
-                //ObjectExplorer.Width = new GridLength(0.03, GridUnitType.Star);
+                //Установление размера для колонки
+                ColumnObjectExplorer.Width = new GridLength(180);
             }
+
+        }
+        #endregion
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { ConnectionWindow.Close(); }
+
+        
+
+        private void Disconnect_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

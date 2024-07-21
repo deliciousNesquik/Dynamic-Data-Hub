@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Navigation;
-using System.Xml.Linq;
 using DynamicDataHub.Modules;
 using Microsoft.Win32;
 using static System.Net.Mime.MediaTypeNames;
@@ -14,11 +13,13 @@ namespace DynamicDataHub.Views
 {
     public partial class DDHAuthorization : Window
     {
-
+        #region Переменные
         CustomMessageBoxBuilder customMessageBox = new CustomMessageBoxBuilder();
         public List<string> _test = new List<string>();
         public string selectedFilePath;
+        #endregion
 
+        #region Внутренние функции
         public void IsNullOrWhiteSpaceTextBox(string _serverName, string _dbName)
         {
             if (string.IsNullOrWhiteSpace(_serverName) && string.IsNullOrWhiteSpace(_dbName))
@@ -34,13 +35,15 @@ namespace DynamicDataHub.Views
                 customMessageBox.ShowError("Ошибка", "Укажите имя базы данных!", "Закрыть");
             }
         }
+        #endregion
+        
         public DDHAuthorization()
         {
 
             InitializeComponent();
             ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
             _test = Test.GetDBManagementSystems();
-            DBMSComboBox.SelectedIndex = 0;
+            DBMSComboBox.Items.Add("Не выбрано");
             foreach (string test in _test)
             {
                 DBMSComboBox.Items.Add(test);
@@ -59,11 +62,7 @@ namespace DynamicDataHub.Views
             }
         }
 
-        private void Window_LocationChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        #region Методы для работы с ComboBox
         private void DBMSComboBox_DropDownOpened(object sender, EventArgs e)
         {
 
@@ -72,7 +71,6 @@ namespace DynamicDataHub.Views
                 customMessageBox.ShowError("Ошибка", "У вас отсутствуют соответствующие СУБД", "Закрыть");
             }
         }
-
         private void DBMSComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!DBMSComboBox.SelectedItem.ToString().Contains("SQLite"))
@@ -92,7 +90,9 @@ namespace DynamicDataHub.Views
                 OpenExplorer.Visibility = Visibility.Visible;
             }
         }
+        #endregion
 
+        #region Методы для соединения с базой данных
         private void OpenExplorer_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -109,8 +109,6 @@ namespace DynamicDataHub.Views
                 NameDBServerBox.Text = result;
             }
         }
-
-
         private async void ConnectionButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -184,11 +182,18 @@ namespace DynamicDataHub.Views
             }
 
         }
+        #endregion
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        #region Обработчики закрытий окна
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e){customMessageBox.customMessageBox.Close();}
+        private void CloseWindow_Click(object sender, RoutedEventArgs e){this.Close();}
+        #endregion
+
+        private void Window_LocationChanged(object sender, EventArgs e)
         {
-            customMessageBox.customMessageBox.Close();
+            //MessageBox.Show(this.Left + ";" + this.Top);
         }
+
         //public class ConfigurationSettings
         //{
         //    public string Title

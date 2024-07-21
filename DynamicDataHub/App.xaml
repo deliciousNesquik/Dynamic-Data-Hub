@@ -4,23 +4,30 @@
              xmlns:local="clr-namespace:DynamicDataHub"
              StartupUri="Views/DDHManagerWindow.xaml">
     <Application.Resources>
-        <Style TargetType="ComboBox">
-            <Setter Property="Background" Value="#121212"/>
-            <Setter Property="Foreground" Value="#121212"/>
-        </Style>
-        <Style TargetType="Grid">
-            <Setter Property="Background" Value="#121212"></Setter> <!--#FFFFFF-->
-        </Style>
-        <Style TargetType="TextBlock" >
-            <Setter Property="Foreground" Value="#E0E0E0"></Setter> <!--#333333-->
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="#4285F4"></Setter> <!--#007BFF-->
-        </Style>
+
+        <!--Шрифт для всего приложения-->
         <Style TargetType="{x:Type Control}">
             <Setter Property="FontFamily" Value="Segoe UI"/>
         </Style>
         
+        <!--Элементы управления-->
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#4285F4"></Setter>
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="#121212"></Setter>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+        </Style>
+
+        <!--Окна и рамки-->
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="#121212"></Setter> <!--#FFFFFF-->
+        </Style>
+        <Style TargetType="Frame">
+            <Setter Property="BorderBrush" Value="White"/>
+        </Style>
     </Application.Resources>
     
 </Application>

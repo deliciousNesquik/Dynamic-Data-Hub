@@ -5,26 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DynamicDataHub"
         mc:Ignorable="d"
-        Title="Менеджер базы данных" Height="450" Width="800" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Loaded="Window_Loaded">
+        Title="Менеджер базы данных" 
+        Height="450" 
+        Width="700" 
+        WindowStartupLocation="CenterScreen" 
+        Closing="Window_Closing" 
+        ContentRendered="Window_ContentRendered"
+        MinHeight="450"
+        MinWidth="700"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Name="ObjectExplorer" Width="0.25*"/>
-            <ColumnDefinition Width="0.75*"/>
+            <ColumnDefinition Name="ColumnObjectExplorer" Width="180"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.08*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Name="RowObjectExplorer" Height="35"/>
+            <RowDefinition Name="RowConnecting" Height="30"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Frame Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" BorderBrush="White" BorderThickness="1.1"/>
-        <Frame Grid.Column="0" Grid.Row="1" BorderBrush="White" BorderThickness="1.1"/>
-        <Frame Grid.Column="0" Grid.Row="2" BorderBrush="White" BorderThickness="1.1"/>
+        <Frame Name="FrameObjectExplorer" Grid.Column="0" Grid.Row="0" BorderThickness="1.1 0 1.1 1.1"/>
+        <Frame Name="FrameConnectiong" Grid.Column="0" Grid.Row="1" BorderThickness="1.1 0 1.1 1.1"/>
+        <Frame Name="FrameExplorer" Grid.Column="0" Grid.Row="2" BorderThickness="1.1 0 1.1 1.1"/>
+        <Frame Name="FrameControlElements" Grid.Column="1" Grid.Row="0" BorderThickness="0 0 1.1 1.1"/>
+        <Frame Name="FrameTableData" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0 0 1.1 1.1"/>
 
-        <StackPanel Name="SPWrap" Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
-            <TextBlock Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="1" Margin="5 5 0 0"/>
-            <Button Name="WrapColumn" Grid.Column="0" Grid.Row="1" Width="20" Height="20" Margin="87 5 0 5"
-                    Click="WrapColumn_Click" RenderTransformOrigin="0.5,0.5">
+        <StackPanel Name="SPWrap" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0">
+            <TextBlock Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="1" Margin="5 0 0 0"/>
+
+            <Button Name="WrapColumn" Grid.Column="0" Grid.Row="1" Width="20" Height="20" Margin="68.5 5 0 5" Click="WrapColumn_Click" RenderTransformOrigin="0.5,0.5">
+                <!--87-->
                 <Button.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -36,20 +47,21 @@
                 <TextBlock Text="◀️" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
         </StackPanel>
-
-
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0">
-            <Button Name="Connect" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 5 0 0">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0">
+            <Button Visibility="Visible" Name="Connect" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Connect_Click">
                 <TextBlock Text="Connect" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
-            <Button Name="Disconnect" Width="75" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 5 0 0">
+            <Button Visibility="Visible" Name="Disconnect" Width="75" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Disconnect_Click">
                 <TextBlock Text="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
-            <Button Name="Refresh" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 5 0 0">
+            <Button Name="Refresh" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Refresh_Click">
                 <TextBlock Text="⟲" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
         </StackPanel>
 
-
+        <ListView Grid.Row="2" Grid.Column="0">
+            <ListViewItem>Test Element</ListViewItem>
+        </ListView>
+        
     </Grid>
 </Window>
