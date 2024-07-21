@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using System.Xml.Linq;
 using DynamicDataHub.Modules;
 using Microsoft.Win32;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DynamicDataHub.Views
 {
@@ -39,10 +40,12 @@ namespace DynamicDataHub.Views
             InitializeComponent();
             ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
             _test = Test.GetDBManagementSystems();
+            DBMSComboBox.SelectedIndex = 0;
             foreach (string test in _test)
             {
                 DBMSComboBox.Items.Add(test);
             }
+            
 
             prodUpalLink.RequestNavigate += OnlLinkOnRequestNavigate;
             nxtvrturLink.RequestNavigate += OnlLinkOnRequestNavigate;
@@ -173,6 +176,8 @@ namespace DynamicDataHub.Views
                         }
                         break;
 
+                    case "Не выбрано":
+                        break;
                     default:
                         throw new InvalidOperationException($"Неизвестная система управления базами данных: {_currentDBManagementSystem}");
                 }

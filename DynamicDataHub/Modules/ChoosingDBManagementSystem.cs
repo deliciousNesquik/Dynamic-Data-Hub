@@ -10,7 +10,7 @@ namespace DynamicDataHub.Modules
 
     internal class ChoosingDBManagementSystem
     {
-        public List<string> ManagementSystems = new List<string> { "SQL Server Management Studio", "PostgreSQL 16", "DB Browser for SQLite" };
+        public List<string> ManagementSystems = new List<string> { "SQL Server", "PostgreSQL 16", "DB Browser for SQLite" };
         public ChoosingDBManagementSystem()
         {
 
@@ -40,6 +40,7 @@ namespace DynamicDataHub.Modules
                                         Console.WriteLine($"DisplayName: {displayName}");
                                         if (ManagementSystems.Contains(displayName.Trim()))
                                         {
+                                            Console.WriteLine($"Contains DisplayName: {displayName}");
                                             test.Add(displayName);
                                         }
 

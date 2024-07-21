@@ -45,5 +45,46 @@ namespace DynamicDataHub
         {
             ConnectionWindow.Show();
         }
+
+        private void WrapColumn_Click(object sender, RoutedEventArgs e)
+        {
+            RotateTransform rotateTransform = new RotateTransform(0);
+            var WrapColumnTransform = WrapColumn.RenderTransform as RotateTransform;
+
+
+            if (WrapColumnTransform?.Angle == 0)
+            {
+                TBObjectExplorer.Visibility = Visibility.Hidden;
+                Connect.Visibility = Visibility.Hidden;
+                Disconnect.Visibility = Visibility.Hidden;
+                Refresh.Visibility = Visibility.Hidden;
+                WrapColumn.Margin = new Thickness(0);
+                SPWrap.HorizontalAlignment = HorizontalAlignment.Left;
+
+                rotateTransform = new RotateTransform(180);
+                WrapColumn.RenderTransform = rotateTransform;
+
+
+
+                //ObjectExplorer.Width = new GridLength(0.03, GridUnitType.Star);
+            }
+            else
+            {
+                TBObjectExplorer.Visibility = Visibility.Visible;
+                Connect.Visibility = Visibility.Visible;
+                Disconnect.Visibility = Visibility.Visible;
+                Refresh.Visibility = Visibility.Visible;
+                WrapColumn.Margin = new Thickness(87, 5, 0, 5);
+                //SPWrap.HorizontalAlignment = HorizontalAlignment.Left;
+
+                rotateTransform = new RotateTransform(0);
+                WrapColumn.RenderTransform = rotateTransform;
+
+
+
+                //ObjectExplorer.Width = new GridLength(0.03, GridUnitType.Star);
+            }
+
+        }
     }
 }
