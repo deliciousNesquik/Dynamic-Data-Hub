@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\DynamicDataHub"
   ],
-  "SelectedNode": "\\DynamicDataHub.sln",
+  "SelectedNode": "\\DynamicDataHub\\DynamicDataHub.sln",
   "PreviewInSolutionExplorer": false
 }

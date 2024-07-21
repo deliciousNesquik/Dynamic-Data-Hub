@@ -16,12 +16,13 @@ namespace DynamicDataHub
         #endregion
 
         #region Внутренние функции
-        private List<double> GetCenterPositionElement(Frame owner)
+        private List<double> CallConnectionWindow(Frame owner)
         {
             var mainWindowBounds = new Rect(this.Left, this.Top, this.ActualWidth, this.ActualHeight);
 
             double absoluteX;
             double absoluteY;
+
             if (WindowState != WindowState.Maximized)
             {
                 absoluteX = mainWindowBounds.X + ColumnObjectExplorer.Width.Value + 8 + ((owner.RenderSize.Width - ConnectionWindow.Width) / 2);
@@ -59,7 +60,7 @@ namespace DynamicDataHub
         #region Обработчики открытия окна соединения
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            List<double> positionElement = GetCenterPositionElement(FrameTableData);
+            List<double> positionElement = CallConnectionWindow(FrameTableData);
 
             ConnectionWindow = new DDHAuthorization();
             ConnectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -77,7 +78,7 @@ namespace DynamicDataHub
         }
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            List<double> positionElement = GetCenterPositionElement(FrameTableData);
+            List<double> positionElement = CallConnectionWindow(FrameTableData);
 
             ConnectionWindow = new DDHAuthorization();
             ConnectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;

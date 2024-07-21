@@ -24,15 +24,15 @@ namespace DynamicDataHub.Views
         {
             if (string.IsNullOrWhiteSpace(_serverName) && string.IsNullOrWhiteSpace(_dbName))
             {
-                customMessageBox.ShowError("Ошибка", "Укажите имя сервера и базы данных!", "Закрыть");
+                customMessageBox.ShowError("Ошибка", "Укажите имя сервера и базы данных!", "Закрыть", this);
             }
             else if (string.IsNullOrWhiteSpace(_serverName))
             {
-                customMessageBox.ShowError("Ошибка", "Укажите имя сервера!", "Закрыть");
+                customMessageBox.ShowError("Ошибка", "Укажите имя сервера!", "Закрыть", this);
             }
             else if (string.IsNullOrWhiteSpace(_dbName))
             {
-                customMessageBox.ShowError("Ошибка", "Укажите имя базы данных!", "Закрыть");
+                customMessageBox.ShowError("Ошибка", "Укажите имя базы данных!", "Закрыть", this);
             }
         }
         #endregion
@@ -41,6 +41,7 @@ namespace DynamicDataHub.Views
         {
 
             InitializeComponent();
+            customMessageBox.CenterInParentWindow(this);
             ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
             _test = Test.GetDBManagementSystems();
             DBMSComboBox.Items.Add("Не выбрано");
@@ -68,7 +69,7 @@ namespace DynamicDataHub.Views
 
             if (_test.Count == 0)
             {
-                customMessageBox.ShowError("Ошибка", "У вас отсутствуют соответствующие СУБД", "Закрыть");
+                customMessageBox.ShowError("Ошибка", "У вас отсутствуют соответствующие СУБД", "Закрыть", this);
             }
         }
         private void DBMSComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -116,69 +117,63 @@ namespace DynamicDataHub.Views
             string _serverName;
             string _dbName;
 
-            if (string.IsNullOrWhiteSpace(DBMSComboBox.Text))
-            {
-                customMessageBox.ShowError("Ошибка", "Выберите СУБД", "Закрыть");
-            }
-            else
-            {
-                string _currentDBManagementSystem = DBMSComboBox.SelectedItem.ToString().Trim();
+            string _currentDBManagementSystem = DBMSComboBox.SelectedItem.ToString().Trim();
 
-                switch (_currentDBManagementSystem)
-                {
-                    case "DB Browser for SQLite":
-                        _fileName = NameDBServerBox.Text;
-                        if (!string.IsNullOrEmpty(_fileName))
+            switch (_currentDBManagementSystem)
+            {
+                case "SQLite":
+                    _fileName = NameDBServerBox.Text;
+                    if (!string.IsNullOrEmpty(_fileName))
+                    {
+                        var ManagerWindow = new DDHManager(_fileName);
+                        SQLIteConnector test_connection = new SQLIteConnector(selectedFilePath);
+                        if (test_connection.GetInfoConnection())
+                            this.Close();
+                        else
                         {
-                            var ManagerWindow = new DDHManager(_fileName);
-                            SQLIteConnector test_connection = new SQLIteConnector(selectedFilePath);
-                            if (test_connection.GetInfoConnection())
-                                this.Close();
-                            else
-                            {
-                                customMessageBox.ShowError("Ошибка", "Не удалось подключится к базе данных", "Закрыть");
-                            }
+                            customMessageBox.ShowError("Ошибка", "Не удалось подключится к базе данных", "Закрыть", this);
+                        }
+                    }
+                    else
+                    {
+                        customMessageBox.ShowError("Ошибка", "Выберите файл базы данных", "Закрыть", this);
+                    }
+                    break;
+                case "SQL Server Management Studio":
+                    _serverName = NameDBServerBox.Text;
+                    _dbName = NameDBBox.Text;
+                    if (!string.IsNullOrWhiteSpace(_serverName) && !string.IsNullOrWhiteSpace(_dbName))
+                    {
+                        customMessageBox.ShowLoading("Подключение", "Подключение", this);
+                        var ManagerWindow = new DDHManager(_serverName, _dbName);
+                        SQLServerConnector test_connection = new SQLServerConnector(_serverName, _dbName);
+                        bool isConnected;
+
+                        isConnected = await test_connection.GetInfoConnection();
+
+                        if (isConnected)
+                        {
+                            customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
+                            this.Close();
                         }
                         else
                         {
-                            customMessageBox.ShowError("Ошибка", "Выберите файл базы данных", "Закрыть");
+                            customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
+                            CustomMessageBoxBuilder.ClosingState = true;
+                            customMessageBox.ShowError("Ошибка", "Не удалось подключится к базе данных", "Закрыть", this);
                         }
-                        break;
-                    case "SQL Server Management Studio":
-                        _serverName = NameDBServerBox.Text;
-                        _dbName = NameDBBox.Text;
-                        if (!string.IsNullOrWhiteSpace(_serverName) && !string.IsNullOrWhiteSpace(_dbName))
-                        {
-                            customMessageBox.ShowLoading("Подключение", "Подключение");
-                            var ManagerWindow = new DDHManager(_serverName, _dbName);
-                            SQLServerConnector test_connection = new SQLServerConnector(_serverName, _dbName);
-                            bool isConnected;
+                    }
+                    else
+                    {
+                        IsNullOrWhiteSpaceTextBox(_serverName, _dbName);
+                    }
+                    break;
 
-                            isConnected = await test_connection.GetInfoConnection();
-
-                            if (isConnected)
-                            {
-                                customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
-                                this.Close();
-                            }
-                            else
-                            {
-                                customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
-                                CustomMessageBoxBuilder.ClosingState = true;
-                                customMessageBox.ShowError("Ошибка", "Не удалось подключится к базе данных", "Закрыть");
-                            }
-                        }
-                        else
-                        {
-                            IsNullOrWhiteSpaceTextBox(_serverName, _dbName);
-                        }
-                        break;
-
-                    case "Не выбрано":
-                        break;
-                    default:
-                        throw new InvalidOperationException($"Неизвестная система управления базами данных: {_currentDBManagementSystem}");
-                }
+                case "Не выбрано":
+                    customMessageBox.ShowError("Ошибка", "Выберите СУБД", "Закрыть", this);
+                    break;
+                default:
+                    throw new InvalidOperationException($"Неизвестная система управления базами данных: {_currentDBManagementSystem}");
             }
 
         }
