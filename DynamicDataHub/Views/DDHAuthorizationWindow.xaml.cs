@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -79,16 +80,16 @@ namespace DynamicDataHub.Views
             if (!DBMSComboBox.SelectedItem.ToString().Contains("SQLite"))
             {
                 NameDBBlock.Visibility = Visibility.Visible;
-                NameDBBox.Visibility = Visibility.Visible;
+                DBListComboBox.Visibility = Visibility.Visible;
                 NameDBServerBlock.Text = "Имя сервера";
                 NameDBServerBox.Clear();
-                NameDBBox.Clear();
+                //DBListComboBox.Clear();
                 OpenExplorer.Visibility = Visibility.Hidden;
             }
             else
             {
                 NameDBBlock.Visibility = Visibility.Hidden;
-                NameDBBox.Visibility = Visibility.Hidden;
+                DBListComboBox.Visibility = Visibility.Hidden;
                 NameDBServerBlock.Text = "Файл базы данных";
                 OpenExplorer.Visibility = Visibility.Visible;
             }
@@ -125,11 +126,19 @@ namespace DynamicDataHub.Views
             {
                 case "SQLite":
                     _fileName = NameDBServerBox.Text;
-                    if (!string.IsNullOrEmpty(_fileName))
+                    if (!string.IsNullOrWhiteSpace(_fileName))
                     {
+                       customMessageBox.ShowLoading("Подключение", "Подключение", this);
                         SQLIteConnector test_connection = new SQLIteConnector(selectedFilePath);
-                        if (test_connection.GetInfoConnection())
+                        bool isConected;
+
+                        isConected = test_connection.GetInfoConnection();
+                        if (isConected)
+                        {
+                            this.ddhManager.ConnectionSQLite(this.selectedFilePath);
+                            customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             this.Close();
+                        }
                         else
                         {
                             customMessageBox.ShowError("Ошибка", "Не удалось подключится к базе данных", "Закрыть", this);
@@ -142,7 +151,7 @@ namespace DynamicDataHub.Views
                     break;
                 case "SQL Server Management Studio":
                     _serverName = NameDBServerBox.Text;
-                    _dbName = NameDBBox.Text;
+                    _dbName = DBListComboBox.Text;
                     if (!string.IsNullOrWhiteSpace(_serverName) && !string.IsNullOrWhiteSpace(_dbName))
                     {
                         customMessageBox.ShowLoading("Подключение", "Подключение", this);
@@ -187,6 +196,46 @@ namespace DynamicDataHub.Views
         private void Window_LocationChanged(object sender, EventArgs e)
         {
             //MessageBox.Show(this.Left + ";" + this.Top);
+        }
+
+        private void DBListComboBox_DropDownOpened(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(NameDBServerBox.Text))
+            {
+                var databaseNames = new List<string>();
+                try
+                {
+                    using (SqlConnection connection = new SqlConnection($"Integrated Security=True;Persist Security Info=False;Initial Catalog=master;Data Source=" + NameDBServerBox.Text))
+                    {
+                        connection.Open();
+                        using (SqlCommand command = new SqlCommand("SELECT name FROM sys.databases WHERE state = 0", connection))
+                        {
+                            SqlDataReader reader = command.ExecuteReader();
+                            while (reader.Read())
+                            {
+                                databaseNames.Add(reader.GetString(0));
+                            }
+                            reader.Close();
+                        }
+                    }
+                    foreach (var i in databaseNames)
+                    {
+                        if (!DBListComboBox.Items.Contains(i))
+                        {
+                            DBListComboBox.Items.Add(i);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Имя сервера не найдено!", "Ошибка подключения");
+                }
+            }
+        }
+
+        private void DBListComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DBListComboBox.Text = DBListComboBox.SelectedItem.ToString();
         }
 
         //public class ConfigurationSettings

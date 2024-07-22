@@ -18,6 +18,7 @@ namespace DynamicDataHub
         #region Переменные
         private DDHAuthorization ConnectionWindow;
         private SQLServerConnector SqlServerDB;
+        private SQLIteConnector SQLiteDB;
         #endregion
 
         #region Внутренние функции
@@ -56,21 +57,22 @@ namespace DynamicDataHub
         public void ConnectionSQLServer(String ServerName, String DBName)
         {
             SqlServerDB = new SQLServerConnector(ServerName, DBName);
-
-            var databases = SqlServerDB.CreateQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'");
             try
             {
-                foreach (DataRow row in databases.Rows)
-                {
-                    if (row[0].ToString() == "sysdiagrams")
-                    {
-                        continue;
-                    }
-                    if (ListBoxTableList != null)
-                    {
-                        ListBoxTableList.Items.Add(row[0].ToString());
-                    }
-                }
+                SqlServerDB.GetDBTables(ListBoxTableList);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        public void ConnectionSQLite(string NameDBFIle)
+        {
+            SQLiteDB = new SQLIteConnector(NameDBFIle);
+            try
+            {
+                SQLiteDB.GetDBTables(ListBoxTableList);
             }
             catch (Exception ex)
             {

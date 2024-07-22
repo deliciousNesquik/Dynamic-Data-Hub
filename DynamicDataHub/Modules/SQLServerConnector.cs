@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace DynamicDataHub.Modules
 {
-    internal class SQLServerConnector
+    public class SQLServerConnector
     {
         public string ServerName;
         public string DBName;
@@ -36,7 +36,6 @@ namespace DynamicDataHub.Modules
                     connection.Open();
                     databases.Load(command.ExecuteReader(CommandBehavior.CloseConnection));
                 }
-                this.GetConnection.Close();
                 return databases;
             }
             catch (SqlException){
@@ -49,7 +48,7 @@ namespace DynamicDataHub.Modules
             }
         }
 
-        public async Task<bool> GetInfoConnection()
+        public  async Task<bool> GetInfoConnection()
         {
             bool isConnected = false;
             try
