@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace DynamicDataHub.Modules
 {
@@ -19,6 +22,31 @@ namespace DynamicDataHub.Modules
             this.ServerName = ServerName;
             this.DBName = DBName;
             this.GetConnection = new SqlConnection("Data Source=" + this.ServerName + ";Initial Catalog='" + this.DBName + "';Integrated Security=True;trustservercertificate=True");
+        }
+
+        public DataTable CreateQuery(string query){
+
+            DataTable databases = new DataTable("Databases");
+
+            try
+            {
+                using (IDbConnection connection = this.GetConnection){
+                    IDbCommand command = connection.CreateCommand();
+                    command.CommandText = query;
+                    connection.Open();
+                    databases.Load(command.ExecuteReader(CommandBehavior.CloseConnection));
+                }
+                this.GetConnection.Close();
+                return databases;
+            }
+            catch (SqlException){
+                MessageBox.Show("SqlException");
+                return null;
+            }
+            catch (Exception){
+                MessageBox.Show("Exception");
+                return null;
+            }
         }
 
         public async Task<bool> GetInfoConnection()
@@ -50,6 +78,18 @@ namespace DynamicDataHub.Modules
             }
 
             return isConnected;
+        }
+
+        public void GetDBTables(ListBox TableList) {
+
+            var databases = CreateQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'");
+
+            foreach (DataRow row in databases.Rows){
+                if (row[0].ToString() == "sysdiagrams"){
+                    continue;
+                }
+                TableList.Items.Add(row[0].ToString());
+            }
         }
     }
 

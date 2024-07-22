@@ -1,6 +1,8 @@
-﻿using DynamicDataHub.Views;
+﻿using DynamicDataHub.Modules;
+using DynamicDataHub.Views;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +15,7 @@ namespace DynamicDataHub
     {
         #region Переменные
         public static Window ConnectionWindow = new DDHAuthorization();
+        private SQLServerConnector SqlServerDB;
         #endregion
 
         #region Внутренние функции
@@ -50,6 +53,35 @@ namespace DynamicDataHub
         public DDHManager(string ServerName, string DBName)
         {
             InitializeComponent();
+            TableList.Items.Clear();
+
+            SqlServerDB = new SQLServerConnector(ServerName, DBName);
+
+            var databases = SqlServerDB.CreateQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'");
+            try
+            {
+                foreach (DataRow row in databases.Rows)
+                {
+                    if (row[0].ToString() == "sysdiagrams")
+                    {
+                        continue;
+                    }
+                    if (TableList != null)
+                    {
+                        var listItem = new ListBoxItem { Content = row[0].ToString(), Visibility = Visibility.Visible };
+                        TableList.Items.Add(listItem);
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("TableList не инициализирован");
+                    }
+                }
+            } 
+            catch (Exception ex){ 
+                MessageBox.Show(ex.Message);
+            }
+
         }
         public DDHManager(string DBFileName)
         {
@@ -147,6 +179,11 @@ namespace DynamicDataHub
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void TableList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //TableList.DataContext = SqlServerDB.GetDBTables(TableList);
         }
     }
 }

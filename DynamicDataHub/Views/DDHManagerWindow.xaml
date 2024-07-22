@@ -59,9 +59,9 @@
             </Button>
         </StackPanel>
 
-        <ListView Grid.Row="2" Grid.Column="0">
-            <ListViewItem>Test Element</ListViewItem>
+
+        <ListView Name="TableList" ScrollViewer.VerticalScrollBarVisibility="Auto"
+        ScrollViewer.HorizontalScrollBarVisibility="Disabled"  Background="#1212" Grid.Row="2" Grid.Column="0" SelectionChanged="TableList_SelectionChanged">
         </ListView>
-        
     </Grid>
 </Window>

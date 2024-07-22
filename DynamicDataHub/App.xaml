@@ -9,7 +9,10 @@
         <Style TargetType="{x:Type Control}">
             <Setter Property="FontFamily" Value="Segoe UI"/>
         </Style>
-        
+        <Style TargetType="{x:Type ListBoxItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+        </Style>
         <!--Элементы управления-->
         <Style TargetType="Button">
             <Setter Property="Background" Value="#4285F4"></Setter>
