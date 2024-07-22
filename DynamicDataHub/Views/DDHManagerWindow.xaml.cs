@@ -2,19 +2,21 @@
 using DynamicDataHub.Views;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Xml.Linq;
 
 namespace DynamicDataHub
 {
     public partial class DDHManager : Window
     {
         #region Переменные
-        public static Window ConnectionWindow = new DDHAuthorization();
+        private DDHAuthorization ConnectionWindow;
         private SQLServerConnector SqlServerDB;
         #endregion
 
@@ -49,12 +51,10 @@ namespace DynamicDataHub
         public DDHManager()
         {
             InitializeComponent();
+            ConnectionWindow = new DDHAuthorization(this);
         }
-        public DDHManager(string ServerName, string DBName)
+        public void ConnectionSQLServer(String ServerName, String DBName)
         {
-            InitializeComponent();
-            TableList.Items.Clear();
-
             SqlServerDB = new SQLServerConnector(ServerName, DBName);
 
             var databases = SqlServerDB.CreateQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'");
@@ -66,26 +66,16 @@ namespace DynamicDataHub
                     {
                         continue;
                     }
-                    if (TableList != null)
+                    if (ListBoxTableList != null)
                     {
-                        var listItem = new ListBoxItem { Content = row[0].ToString(), Visibility = Visibility.Visible };
-                        TableList.Items.Add(listItem);
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("TableList не инициализирован");
+                        ListBoxTableList.Items.Add(row[0].ToString());
                     }
                 }
-            } 
-            catch (Exception ex){ 
+            }
+            catch (Exception ex)
+            {
                 MessageBox.Show(ex.Message);
             }
-
-        }
-        public DDHManager(string DBFileName)
-        {
-            InitializeComponent();
         }
         #endregion
 
@@ -94,7 +84,6 @@ namespace DynamicDataHub
         {
             List<double> positionElement = CallConnectionWindow(FrameTableData);
 
-            ConnectionWindow = new DDHAuthorization();
             ConnectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
 
 
@@ -112,7 +101,7 @@ namespace DynamicDataHub
         {
             List<double> positionElement = CallConnectionWindow(FrameTableData);
 
-            ConnectionWindow = new DDHAuthorization();
+            ConnectionWindow = new DDHAuthorization(this);
             ConnectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
 
 
@@ -169,11 +158,9 @@ namespace DynamicDataHub
         #endregion
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { ConnectionWindow.Close(); }
 
-        
-
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
-
+            ListBoxTableList.Items.Clear();
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)

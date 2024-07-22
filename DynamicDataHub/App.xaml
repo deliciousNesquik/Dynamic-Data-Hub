@@ -17,7 +17,7 @@
         <Style TargetType="Button">
             <Setter Property="Background" Value="#4285F4"></Setter>
         </Style>
-        <Style TargetType="ListView">
+        <Style TargetType="ListBox">
             <Setter Property="Background" Value="#121212"></Setter>
         </Style>
         <Style TargetType="{x:Type TextBlock}">

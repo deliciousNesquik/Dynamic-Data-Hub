@@ -14,9 +14,10 @@ namespace DynamicDataHub.Views
     public partial class DDHAuthorization : Window
     {
         #region Переменные
-        CustomMessageBoxBuilder customMessageBox = new CustomMessageBoxBuilder();
-        public List<string> _test = new List<string>();
-        public string selectedFilePath;
+        private CustomMessageBoxBuilder customMessageBox;
+        private DDHManager ddhManager;
+        private List<string> _test;
+        private string selectedFilePath;
         #endregion
 
         #region Внутренние функции
@@ -37,10 +38,11 @@ namespace DynamicDataHub.Views
         }
         #endregion
         
-        public DDHAuthorization()
+        public DDHAuthorization(DDHManager w)
         {
-
             InitializeComponent();
+            this.ddhManager = w;
+            this.customMessageBox = new CustomMessageBoxBuilder();
             customMessageBox.CenterInParentWindow(this);
             ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
             _test = Test.GetDBManagementSystems();
@@ -125,7 +127,6 @@ namespace DynamicDataHub.Views
                     _fileName = NameDBServerBox.Text;
                     if (!string.IsNullOrEmpty(_fileName))
                     {
-                        var ManagerWindow = new DDHManager(_fileName);
                         SQLIteConnector test_connection = new SQLIteConnector(selectedFilePath);
                         if (test_connection.GetInfoConnection())
                             this.Close();
@@ -145,7 +146,6 @@ namespace DynamicDataHub.Views
                     if (!string.IsNullOrWhiteSpace(_serverName) && !string.IsNullOrWhiteSpace(_dbName))
                     {
                         customMessageBox.ShowLoading("Подключение", "Подключение", this);
-                        var ManagerWindow = new DDHManager(_serverName, _dbName);
                         SQLServerConnector test_connection = new SQLServerConnector(_serverName, _dbName);
                         bool isConnected;
 
@@ -153,6 +153,7 @@ namespace DynamicDataHub.Views
 
                         if (isConnected)
                         {
+                            this.ddhManager.ConnectionSQLServer(_serverName, _dbName);
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             this.Close();
                         }
@@ -175,7 +176,6 @@ namespace DynamicDataHub.Views
                 default:
                     throw new InvalidOperationException($"Неизвестная система управления базами данных: {_currentDBManagementSystem}");
             }
-
         }
         #endregion
 

@@ -60,8 +60,9 @@
         </StackPanel>
 
 
-        <ListView Name="TableList" ScrollViewer.VerticalScrollBarVisibility="Auto"
-        ScrollViewer.HorizontalScrollBarVisibility="Disabled"  Background="#1212" Grid.Row="2" Grid.Column="0" SelectionChanged="TableList_SelectionChanged">
-        </ListView>
+        <ListBox Name="ListBoxTableList" ItemsSource="{Binding TableListCollection}" Grid.Row="2" Grid.Column="0">
+        </ListBox>
+        
+        
     </Grid>
 </Window>
