@@ -19,6 +19,8 @@ namespace DynamicDataHub.Views
         private DDHManager ddhManager;
         private List<string> _test;
         private string selectedFilePath;
+
+        private HistoryManager _historyManager = new HistoryManager();
         #endregion
 
         #region Внутренние функции
@@ -128,14 +130,14 @@ namespace DynamicDataHub.Views
                     _fileName = NameDBServerBox.Text;
                     if (!string.IsNullOrWhiteSpace(_fileName))
                     {
-                       customMessageBox.ShowLoading("Подключение", "Подключение", this);
+                        //customMessageBox.ShowLoading("Подключение", "Подключение", this);
                         SQLIteConnector test_connection = new SQLIteConnector(selectedFilePath);
                         bool isConected;
 
                         isConected = test_connection.GetInfoConnection();
                         if (isConected)
                         {
-                            this.ddhManager.ConnectionSQLite(this.selectedFilePath);
+                            this.ddhManager.ConnectionSQLite(this.selectedFilePath, SQLIteConnector.NameDBManagementSystem);
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             this.Close();
                         }
@@ -162,7 +164,7 @@ namespace DynamicDataHub.Views
 
                         if (isConnected)
                         {
-                            this.ddhManager.ConnectionSQLServer(_serverName, _dbName);
+                            this.ddhManager.ConnectionSQLServer(_serverName, _dbName, SQLServerConnector.NameDBManagementSystem);
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             this.Close();
                         }
@@ -236,6 +238,30 @@ namespace DynamicDataHub.Views
         private void DBListComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DBListComboBox.Text = DBListComboBox.SelectedItem.ToString();
+        }
+
+        private void NameDBServerBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null && !string.IsNullOrWhiteSpace(textBox.Text))
+            {
+                _historyManager.AddToHistory(textBox.Text);
+            }
+        }
+
+        private void NameDBServerBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                historyContextMenu.Items.Clear();
+                foreach (var item in _historyManager.History)
+                {
+                    var menuItem = new MenuItem { Header = item };
+                    menuItem.Click += (s, ev) => textBox.Text = item;
+                    historyContextMenu.Items.Add(menuItem);
+                }
+            }
         }
 
         //public class ConfigurationSettings

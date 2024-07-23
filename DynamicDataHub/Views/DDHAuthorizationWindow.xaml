@@ -45,7 +45,11 @@
         <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                 <TextBlock Name="NameDBServerBlock" Text="Имя сервера" VerticalAlignment="Center"></TextBlock>
-                <TextBox Name="NameDBServerBox" Height="25" FontSize="15" Width="200" Margin="30 0 0 0"></TextBox>
+                <TextBox Name="NameDBServerBox" Height="25" LostFocus="NameDBServerBox_LostFocus" GotFocus="NameDBServerBox_GotFocus" FontSize="15" Width="200" Margin="30 0 0 0">
+                    <TextBox.ContextMenu>
+                        <ContextMenu x:Name="historyContextMenu"/>
+                    </TextBox.ContextMenu>
+                </TextBox>
                 <Button Name="OpenExplorer" Visibility="Hidden" Click="OpenExplorer_Click" Width="25" Height="19"  Margin="5 0 0 0">
                     <Image Source="../Resources/explorer.png" Width="20"></Image>
                 </Button> 

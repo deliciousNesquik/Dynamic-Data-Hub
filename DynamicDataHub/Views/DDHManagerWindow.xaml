@@ -31,6 +31,7 @@
         <Frame Name="FrameControlElements" Grid.Column="1" Grid.Row="0" BorderThickness="0 0 1.1 1.1"/>
         <Frame Name="FrameTableData" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0 0 1.1 1.1"/>
 
+
         <StackPanel Name="SPWrap" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0">
             <TextBlock Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="1" Margin="5 0 0 0"/>
 
@@ -60,9 +61,14 @@
         </StackPanel>
 
 
-        <ListBox Name="ListBoxTableList" ItemsSource="{Binding TableListCollection}" Grid.Row="2" Grid.Column="0">
-        </ListBox>
-        
-        
+        <ListBox Name="ListBoxTableList" SelectionChanged="ListBoxTableList_SelectionChanged"  Grid.Row="2" Grid.Column="0"/>
+        <DataGrid Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True"   ItemsSource="{Binding }" >
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="DeleteRow" Header="Удалить" Click="DeleteRow_Click"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+
     </Grid>
 </Window>
