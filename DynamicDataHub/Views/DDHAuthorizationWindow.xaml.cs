@@ -240,29 +240,7 @@ namespace DynamicDataHub.Views
             DBListComboBox.Text = DBListComboBox.SelectedItem.ToString();
         }
 
-        private void NameDBServerBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            if (textBox != null && !string.IsNullOrWhiteSpace(textBox.Text))
-            {
-                _historyManager.AddToHistory(textBox.Text);
-            }
-        }
-
-        private void NameDBServerBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                historyContextMenu.Items.Clear();
-                foreach (var item in _historyManager.History)
-                {
-                    var menuItem = new MenuItem { Header = item };
-                    menuItem.Click += (s, ev) => textBox.Text = item;
-                    historyContextMenu.Items.Add(menuItem);
-                }
-            }
-        }
+       
 
         //public class ConfigurationSettings
         //{

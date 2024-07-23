@@ -82,10 +82,11 @@ namespace DynamicDataHub.Modules
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 Content = messageButton,
-                Width = 150,
-                Height = 30,
-                FontSize = 20,
+                Width = 120,
+                Height = 20,
+                FontSize = 12,
             };
+            closeButton.Template = (ControlTemplate)Application.Current.Resources["MainButton"];
             closeButton.Click += (s, e) => customMessageBox.Visibility = Visibility.Hidden;
 
             StackPanel panelCenter = new StackPanel()
