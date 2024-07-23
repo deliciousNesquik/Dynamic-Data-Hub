@@ -17,12 +17,22 @@ namespace DynamicDataHub.Modules
         public string DBName;
         private IDbConnection GetConnection;
 
+        public static string NameDBManagementSystem = "SQL Server Management Studio";
+
+
         public SQLServerConnector(string ServerName, string DBName)
         {
             this.ServerName = ServerName;
             this.DBName = DBName;
             this.GetConnection = new SqlConnection("Data Source=" + this.ServerName + ";Initial Catalog='" + this.DBName + "';Integrated Security=True;trustservercertificate=True");
         }
+
+        public DataTable GetColumnTable(ListBox TableList)
+        {
+            return CreateQuery("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" + TableList.SelectedItem.ToString() + "'");
+        }
+
+        
 
         public DataTable CreateQuery(string query){
 
@@ -36,6 +46,7 @@ namespace DynamicDataHub.Modules
                     connection.Open();
                     databases.Load(command.ExecuteReader(CommandBehavior.CloseConnection));
                 }
+                this.GetConnection.Close();
                 return databases;
             }
             catch (SqlException){

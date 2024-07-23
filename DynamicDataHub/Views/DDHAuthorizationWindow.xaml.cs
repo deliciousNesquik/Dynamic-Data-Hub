@@ -19,6 +19,8 @@ namespace DynamicDataHub.Views
         private DDHManager ddhManager;
         private List<string> _test;
         private string selectedFilePath;
+
+        private HistoryManager _historyManager = new HistoryManager();
         #endregion
 
         #region Внутренние функции
@@ -128,14 +130,14 @@ namespace DynamicDataHub.Views
                     _fileName = NameDBServerBox.Text;
                     if (!string.IsNullOrWhiteSpace(_fileName))
                     {
-                       customMessageBox.ShowLoading("Подключение", "Подключение", this);
+                        //customMessageBox.ShowLoading("Подключение", "Подключение", this);
                         SQLIteConnector test_connection = new SQLIteConnector(selectedFilePath);
                         bool isConected;
 
                         isConected = test_connection.GetInfoConnection();
                         if (isConected)
                         {
-                            this.ddhManager.ConnectionSQLite(this.selectedFilePath);
+                            this.ddhManager.ConnectionSQLite(this.selectedFilePath, SQLIteConnector.NameDBManagementSystem);
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             this.Close();
                         }
@@ -162,7 +164,7 @@ namespace DynamicDataHub.Views
 
                         if (isConnected)
                         {
-                            this.ddhManager.ConnectionSQLServer(_serverName, _dbName);
+                            this.ddhManager.ConnectionSQLServer(_serverName, _dbName, SQLServerConnector.NameDBManagementSystem);
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             this.Close();
                         }
@@ -237,6 +239,8 @@ namespace DynamicDataHub.Views
         {
             DBListComboBox.Text = DBListComboBox.SelectedItem.ToString();
         }
+
+       
 
         //public class ConfigurationSettings
         //{

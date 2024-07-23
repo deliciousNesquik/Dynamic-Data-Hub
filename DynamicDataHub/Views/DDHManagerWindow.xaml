@@ -14,6 +14,33 @@
         MinHeight="450"
         MinWidth="700"
         Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="LabelButtonStyle">
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Button.BorderThickness" Value="1"></Setter>
+                    <Setter Property="Button.BorderBrush" Value="White"></Setter>
+                    <Setter Property="Button.Background" Value="Transparent"></Setter>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Button.Background" Value="Transparent"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="LabelText">
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="TextDecorations" Value="Underline"></Setter>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="TextBlock.Background" Value="Transparent"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Name="ColumnObjectExplorer" Width="180"/>
@@ -31,10 +58,11 @@
         <Frame Name="FrameControlElements" Grid.Column="1" Grid.Row="0" BorderThickness="0 0 1.1 1.1"/>
         <Frame Name="FrameTableData" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0 0 1.1 1.1"/>
 
+
         <StackPanel Name="SPWrap" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0">
             <TextBlock Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="1" Margin="5 0 0 0"/>
 
-            <Button Name="WrapColumn" Grid.Column="0" Grid.Row="1" Width="20" Height="20" Margin="68.5 5 0 5" Click="WrapColumn_Click" RenderTransformOrigin="0.5,0.5">
+            <Button Template="{StaticResource MainButton}" Name="WrapColumn" Grid.Column="0" Grid.Row="1" Width="20" Height="20" Margin="68.5 5 0 5" Click="WrapColumn_Click" RenderTransformOrigin="0.5,0.5">
                 <!--87-->
                 <Button.RenderTransform>
                     <TransformGroup>
@@ -48,21 +76,26 @@
             </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0">
-            <Button Visibility="Visible" Name="Connect" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Connect_Click">
-                <TextBlock Text="Connect" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button  Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="Connect" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Connect_Click">
+                <TextBlock Style="{StaticResource LabelText}" Text="Connect" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
-            <Button Visibility="Visible" Name="Disconnect" Width="75" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Disconnect_Click">
-                <TextBlock Text="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}"  Visibility="Visible" Name="Disconnect" Width="75" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Disconnect_Click">
+                <TextBlock Style="{StaticResource LabelText}" Text="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
-            <Button Name="Refresh" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Refresh_Click">
+            <Button Template="{StaticResource MainButton}" Name="Refresh" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Refresh_Click">
                 <TextBlock Text="⟲" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
         </StackPanel>
 
 
-        <ListBox Name="ListBoxTableList" ItemsSource="{Binding TableListCollection}" Grid.Row="2" Grid.Column="0">
-        </ListBox>
-        
-        
+        <ListBox Name="ListBoxTableList" SelectionChanged="ListBoxTableList_SelectionChanged"  Grid.Row="2" Grid.Column="0"/>
+        <DataGrid Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True"   ItemsSource="{Binding }" >
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Name="DeleteRow" Header="Удалить" Click="DeleteRow_Click"></MenuItem>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+
     </Grid>
 </Window>

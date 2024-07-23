@@ -13,10 +13,18 @@ namespace DynamicDataHub.Modules{
     public class SQLIteConnector {
         private string pathFileDB;
         private IDbConnection GetConnection;
+
+        public static string NameDBManagementSystem = "SQLite";
+
         public SQLIteConnector(string pathFileDB) 
         {
             this.pathFileDB = pathFileDB;
             this.GetConnection = new SQLiteConnection($"Data Source={this.pathFileDB};Version=3;");
+        }
+
+        public DataTable GetColumnTable(ListBox TableList)
+        {
+            return CreateQuery("pragma table_info('" + TableList.SelectedItem.ToString() + "')");
         }
 
         public DataTable CreateQuery(string query){

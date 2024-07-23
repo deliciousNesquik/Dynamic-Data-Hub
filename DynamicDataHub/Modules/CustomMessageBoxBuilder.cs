@@ -71,16 +71,22 @@ namespace DynamicDataHub.Modules
         {
             customMessageBox.Title = title;
             TextBlock messageTextBlock = CreateTextBlock(message);
+            //Style customStyle = Application.Current.FindResource("TextBlockStyle") as Style;
 
+            //if (customStyle != null)
+            //{
+            //    messageTextBlock.Style = customStyle; мб работает
+            //}
             Button closeButton = new Button()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 Content = messageButton,
-                Width = 150,
-                Height = 30,
-                FontSize = 20,
+                Width = 120,
+                Height = 20,
+                FontSize = 12,
             };
+            closeButton.Template = (ControlTemplate)Application.Current.Resources["MainButton"];
             closeButton.Click += (s, e) => customMessageBox.Visibility = Visibility.Hidden;
 
             StackPanel panelCenter = new StackPanel()
