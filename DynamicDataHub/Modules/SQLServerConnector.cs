@@ -14,17 +14,14 @@ namespace DynamicDataHub.Modules
     public class SQLServerConnector
     {
         public string ServerName;
-        public string DBName;
         private IDbConnection GetConnection;
 
         public static string NameDBManagementSystem = "SQL Server Management Studio";
 
 
-        public SQLServerConnector(string ServerName, string DBName)
+        public SQLServerConnector(string ServerName)
         {
             this.ServerName = ServerName;
-            this.DBName = DBName;
-            this.GetConnection = new SqlConnection("Data Source=" + this.ServerName + ";Initial Catalog='" + this.DBName + "';Integrated Security=True;trustservercertificate=True");
         }
 
         public DataTable GetColumnTable(ListBox TableList)
@@ -32,21 +29,32 @@ namespace DynamicDataHub.Modules
             return CreateQuery("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" + TableList.SelectedItem.ToString() + "'");
         }
 
-        
+        public List<string> GetDBNames()
+        {
+            List<string> DBNames = new List<string>();
+            var databases = CreateQuery("SELECT name FROM sys.databases");
+
+            foreach (DataRow row in databases.Rows)
+            {
+                DBNames.Add(row[0].ToString());
+                //Console.WriteLine(row[0].ToString());
+            }
+
+            return DBNames;
+        }
 
         public DataTable CreateQuery(string query){
 
             DataTable databases = new DataTable("Databases");
-
+            GetConnection = new SqlConnection("Data Source=" + this.ServerName + ";Initial Catalog='';Integrated Security=True;trustservercertificate=True");
             try
             {
-                using (IDbConnection connection = this.GetConnection){
+                using (IDbConnection connection = GetConnection){
                     IDbCommand command = connection.CreateCommand();
                     command.CommandText = query;
                     connection.Open();
                     databases.Load(command.ExecuteReader(CommandBehavior.CloseConnection));
                 }
-                this.GetConnection.Close();
                 return databases;
             }
             catch (SqlException){
@@ -62,10 +70,11 @@ namespace DynamicDataHub.Modules
         public  async Task<bool> GetInfoConnection()
         {
             bool isConnected = false;
+            GetConnection = new SqlConnection("Data Source=" + this.ServerName + ";Initial Catalog='';Integrated Security=True;trustservercertificate=True");
             try
             {
                 await Task.Run(() => {
-                    using (IDbConnection connection = this.GetConnection)
+                    using (IDbConnection connection = GetConnection)
                     {
                         try
                         {
@@ -90,16 +99,19 @@ namespace DynamicDataHub.Modules
             return isConnected;
         }
 
-        public void GetDBTables(ListBox TableList) {
+        public List<string> GetDBTables(string DBName) {
+            List<string> tables = new List<string>();
 
-            var databases = CreateQuery("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'");
+            var databases = CreateQuery($"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' AND TABLE_CATALOG='{DBName}'");
 
             foreach (DataRow row in databases.Rows){
                 if (row[0].ToString() == "sysdiagrams"){
                     continue;
                 }
-                TableList.Items.Add(row[0].ToString());
+                tables.Add(row[0].ToString());
             }
+
+            return tables;
         }
     }
 

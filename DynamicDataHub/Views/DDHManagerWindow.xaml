@@ -87,9 +87,11 @@
             </Button>
         </StackPanel>
 
+        <TreeView Name="TreeContent" Grid.Row="2" Grid.Column="0" Background="#121212">
+        </TreeView>
 
-        <ListBox Name="ListBoxTableList" SelectionChanged="ListBoxTableList_SelectionChanged"  Grid.Row="2" Grid.Column="0"/>
-        <DataGrid Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True"   ItemsSource="{Binding }" >
+
+        <DataGrid Name="DataTable" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" AutoGenerateColumns="True">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="DeleteRow" Header="Удалить" Click="DeleteRow_Click"></MenuItem>

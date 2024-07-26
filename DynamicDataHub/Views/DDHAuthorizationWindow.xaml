@@ -51,9 +51,9 @@
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 7 0 0">
-                <TextBlock Name="NameDBBlock" VerticalAlignment="Center" Text="Имя базы данных"></TextBlock>
-                <ComboBox Name="DBListComboBox" Height="25" FontSize="15" Width="200" Margin="4 0 0 0" DropDownOpened="DBListComboBox_DropDownOpened" SelectionChanged="DBListComboBox_SelectionChanged">
-                    <ComboBox.ItemTemplate>
+                <!--<TextBlock Name="NameDBBlock" VerticalAlignment="Center" Text="Имя базы данных"></TextBlock>
+                <ComboBox Name="DBListComboBox" Height="25" FontSize="15" Width="200" Margin="4 0 0 0" DropDownOpened="DBListComboBox_DropDownOpened" SelectionChanged="DBListComboBox_SelectionChanged">-->
+                    <!--<ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}">
                                 <TextBlock.Style>
@@ -65,7 +65,7 @@
                             </TextBlock>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
-                </ComboBox>
+                </ComboBox>-->
             </StackPanel>
         </StackPanel>
 

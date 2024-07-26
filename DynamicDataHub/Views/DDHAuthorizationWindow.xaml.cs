@@ -81,8 +81,8 @@ namespace DynamicDataHub.Views
         {
             if (!DBMSComboBox.SelectedItem.ToString().Contains("SQLite"))
             {
-                NameDBBlock.Visibility = Visibility.Visible;
-                DBListComboBox.Visibility = Visibility.Visible;
+                //NameDBBlock.Visibility = Visibility.Visible;
+                //DBListComboBox.Visibility = Visibility.Visible;
                 NameDBServerBlock.Text = "Имя сервера";
                 NameDBServerBox.Clear();
                 //DBListComboBox.Clear();
@@ -90,8 +90,8 @@ namespace DynamicDataHub.Views
             }
             else
             {
-                NameDBBlock.Visibility = Visibility.Hidden;
-                DBListComboBox.Visibility = Visibility.Hidden;
+                //NameDBBlock.Visibility = Visibility.Hidden;
+                //DBListComboBox.Visibility = Visibility.Hidden;
                 NameDBServerBlock.Text = "Файл базы данных";
                 OpenExplorer.Visibility = Visibility.Visible;
             }
@@ -120,7 +120,6 @@ namespace DynamicDataHub.Views
 
             string _fileName;
             string _serverName;
-            string _dbName;
 
             string _currentDBManagementSystem = DBMSComboBox.SelectedItem.ToString().Trim();
 
@@ -153,18 +152,17 @@ namespace DynamicDataHub.Views
                     break;
                 case "SQL Server Management Studio":
                     _serverName = NameDBServerBox.Text;
-                    _dbName = DBListComboBox.Text;
-                    if (!string.IsNullOrWhiteSpace(_serverName) && !string.IsNullOrWhiteSpace(_dbName))
+                    if (!string.IsNullOrWhiteSpace(_serverName))
                     {
                         customMessageBox.ShowLoading("Подключение", "Подключение", this);
-                        SQLServerConnector test_connection = new SQLServerConnector(_serverName, _dbName);
+                        SQLServerConnector test_connection = new SQLServerConnector(_serverName);
                         bool isConnected;
 
                         isConnected = await test_connection.GetInfoConnection();
 
                         if (isConnected)
                         {
-                            this.ddhManager.ConnectionSQLServer(_serverName, _dbName, SQLServerConnector.NameDBManagementSystem);
+                            this.ddhManager.ConnectionSQLServer(_serverName);
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             this.Close();
                         }
@@ -177,7 +175,7 @@ namespace DynamicDataHub.Views
                     }
                     else
                     {
-                        IsNullOrWhiteSpaceTextBox(_serverName, _dbName);
+                        IsNullOrWhiteSpaceTextBox(_serverName, null);
                     }
                     break;
 
@@ -200,45 +198,45 @@ namespace DynamicDataHub.Views
             //MessageBox.Show(this.Left + ";" + this.Top);
         }
 
-        private void DBListComboBox_DropDownOpened(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(NameDBServerBox.Text))
-            {
-                var databaseNames = new List<string>();
-                try
-                {
-                    using (SqlConnection connection = new SqlConnection($"Integrated Security=True;Persist Security Info=False;Initial Catalog=master;Data Source=" + NameDBServerBox.Text))
-                    {
-                        connection.Open();
-                        using (SqlCommand command = new SqlCommand("SELECT name FROM sys.databases WHERE state = 0", connection))
-                        {
-                            SqlDataReader reader = command.ExecuteReader();
-                            while (reader.Read())
-                            {
-                                databaseNames.Add(reader.GetString(0));
-                            }
-                            reader.Close();
-                        }
-                    }
-                    foreach (var i in databaseNames)
-                    {
-                        if (!DBListComboBox.Items.Contains(i))
-                        {
-                            DBListComboBox.Items.Add(i);
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("Имя сервера не найдено!", "Ошибка подключения");
-                }
-            }
-        }
+        //private void DBListComboBox_DropDownOpened(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(NameDBServerBox.Text))
+        //    {
+        //        var databaseNames = new List<string>();
+        //        try
+        //        {
+        //            using (SqlConnection connection = new SqlConnection($"Integrated Security=True;Persist Security Info=False;Initial Catalog=master;Data Source=" + NameDBServerBox.Text))
+        //            {
+        //                connection.Open();
+        //                using (SqlCommand command = new SqlCommand("SELECT name FROM sys.databases WHERE state = 0", connection))
+        //                {
+        //                    SqlDataReader reader = command.ExecuteReader();
+        //                    while (reader.Read())
+        //                    {
+        //                        databaseNames.Add(reader.GetString(0));
+        //                    }
+        //                    reader.Close();
+        //                }
+        //            }
+        //            foreach (var i in databaseNames)
+        //            {
+        //                if (!DBListComboBox.Items.Contains(i))
+        //                {
+        //                    DBListComboBox.Items.Add(i);
+        //                }
+        //            }
+        //        }
+        //        catch (Exception)
+        //        {
+        //            MessageBox.Show("Имя сервера не найдено!", "Ошибка подключения");
+        //        }
+        //    }
+        //}
 
-        private void DBListComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DBListComboBox.Text = DBListComboBox.SelectedItem.ToString();
-        }
+        //private void DBListComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    DBListComboBox.Text = DBListComboBox.SelectedItem.ToString();
+        //}
 
        
 

@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\DynamicDataHub",
+    "\\DynamicDataHub\\Views"
   ],
+  "SelectedNode": "\\DynamicDataHub\\Views\\DDHAuthorizationWindow.xaml.cs",
   "PreviewInSolutionExplorer": false
 }
