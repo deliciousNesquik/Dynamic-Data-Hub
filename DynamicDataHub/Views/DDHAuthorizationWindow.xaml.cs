@@ -162,7 +162,7 @@ namespace DynamicDataHub.Views
 
                         if (isConnected)
                         {
-                            this.ddhManager.ConnectionSQLServer(_serverName);
+                            this.ddhManager.ConnectionSQLServer(_serverName, SQLServerConnector.NameDBManagementSystem);
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             this.Close();
                         }

@@ -91,7 +91,7 @@
         </TreeView>
 
 
-        <DataGrid Name="DataTable" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" AutoGenerateColumns="True">
+        <DataGrid Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True" ItemsSource="{Binding}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="DeleteRow" Header="Удалить" Click="DeleteRow_Click"></MenuItem>

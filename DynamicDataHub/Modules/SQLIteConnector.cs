@@ -22,9 +22,9 @@ namespace DynamicDataHub.Modules{
             this.GetConnection = new SQLiteConnection($"Data Source={this.pathFileDB};Version=3;");
         }
 
-        public DataTable GetColumnTable(ListBox TableList)
+        public DataTable GetColumnTable(string TableName)
         {
-            return CreateQuery("pragma table_info('" + TableList.SelectedItem.ToString() + "')");
+            return CreateQuery($"pragma table_info('{TableName}')");
         }
 
         public DataTable CreateQuery(string query){
@@ -73,15 +73,17 @@ namespace DynamicDataHub.Modules{
             }
         }
 
-        public void GetDBTables(ListBox TableList)
+        public List<string> GetDBTables()
         {
-
+            List<string> tables = new List<string>();
             var databases = CreateQuery("SELECT name FROM sqlite_schema WHERE type='table';");
 
             foreach (DataRow row in databases.Rows)
             {
-                TableList.Items.Add(row[0].ToString());
+                tables.Add(row[0].ToString());
             }
+
+            return tables;
         }
     }
 }

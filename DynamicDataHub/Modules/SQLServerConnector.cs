@@ -24,9 +24,9 @@ namespace DynamicDataHub.Modules
             this.ServerName = ServerName;
         }
 
-        public DataTable GetColumnTable(ListBox TableList)
+        public DataTable GetColumnTable(string TableName, string DBName)
         {
-            return CreateQuery("SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'" + TableList.SelectedItem.ToString() + "'");
+            return CreateQuery($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'{TableName}'", DBName);
         }
 
         public List<string> GetDBNames()
@@ -43,10 +43,10 @@ namespace DynamicDataHub.Modules
             return DBNames;
         }
 
-        public DataTable CreateQuery(string query){
+        public DataTable CreateQuery(string query, string DBName=""){
 
             DataTable databases = new DataTable("Databases");
-            GetConnection = new SqlConnection("Data Source=" + this.ServerName + ";Initial Catalog='';Integrated Security=True;trustservercertificate=True");
+            GetConnection = new SqlConnection($"Data Source={this.ServerName};Initial Catalog='{DBName}';Integrated Security=True;trustservercertificate=True");
             try
             {
                 using (IDbConnection connection = GetConnection){
@@ -102,7 +102,7 @@ namespace DynamicDataHub.Modules
         public List<string> GetDBTables(string DBName) {
             List<string> tables = new List<string>();
 
-            var databases = CreateQuery($"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE' AND TABLE_CATALOG='{DBName}'");
+            var databases = CreateQuery($"SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE='BASE TABLE'", DBName);
 
             foreach (DataRow row in databases.Rows){
                 if (row[0].ToString() == "sysdiagrams"){

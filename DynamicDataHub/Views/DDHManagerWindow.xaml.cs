@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlTypes;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Xml.Linq;
 
 namespace DynamicDataHub
@@ -22,7 +24,6 @@ namespace DynamicDataHub
         private SQLIteConnector SQLiteDB;
         private CustomMessageBoxBuilder customMessageBoxBuilder;
 
-        private string DBName;
         private string ServerName;
         private string NameDBFile;
 
@@ -61,192 +62,204 @@ namespace DynamicDataHub
 
         #region Конструкторы
 
-        //public DataTable GetDataTableSQLServer(ListBox TableList)
-        //{
-        //    if (TableList.SelectedItem == null) {
-        //        DataTable.Visibility = Visibility.Hidden;
-        //        return null;
-        //    }
-        //    else {
-        //        DataTable.Visibility = Visibility.Visible;
-        //        SqlServerDB = new SQLServerConnector(ServerName, DBName);
-        //        DataTable table = new DataTable(TableList.SelectedItem.ToString());
-        //        DataTable databases = null;
+        public DataTable GetDataTableSQLServer(string TableName, string DBName)
+        {
+            DataTable.Visibility = Visibility.Visible;
+            SqlServerDB = new SQLServerConnector(ServerName);
+            DataTable table = new DataTable(TableName);
+            DataTable databases = null;
 
 
-        //        databases = SqlServerDB.GetColumnTable(ListBoxTableList);
+            databases = SqlServerDB.GetColumnTable(TableName, DBName);
 
 
-        //        IndexOfColumn = 0;
-        //        IndexOfDataType = 1;
+            IndexOfColumn = 0;
+            IndexOfDataType = 1;
 
-        //        int rows_columns = databases.Rows.Count;
+            int rows_columns = databases.Rows.Count;
 
-        //        foreach (DataRow _row in databases.Rows)
-        //        {
-        //            switch (_row[IndexOfDataType].ToString())
-        //            {
-        //                case "int":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(Int32));
-        //                    break;
-        //                case "nvarchar":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
-        //                    break;
-        //                case "date":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(DateTime));
-        //                    break;
-        //                case "bit":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(Boolean));
-        //                    break;
-        //                case "nchar":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
-        //                    break;
-        //                case "char":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
-        //                    break;
-        //                case "varchar":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
-        //                    break;
-        //                case "float":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(float));
-        //                    break;
-        //                case "decimal":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(decimal));
-        //                    break;
-        //                case "datetime":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(DateTime));
-        //                    break;
-        //                default:
-        //                    break;
-        //            }
-        //        }
+            foreach (DataRow _row in databases.Rows)
+            {
+                Console.WriteLine(_row[IndexOfColumn].ToString());
+                switch (_row[IndexOfDataType].ToString())
+                {
+                    case "int":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(Int32));
+                        break;
+                    case "nvarchar":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
+                        break;
+                    case "date":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(DateTime));
+                        break;
+                    case "bit":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(Boolean));
+                        break;
+                    case "nchar":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
+                        break;
+                    case "char":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
+                        break;
+                    case "varchar":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
+                        break;
+                    case "float":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(float));
+                        break;
+                    case "decimal":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(decimal));
+                        break;
+                    case "datetime":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(DateTime));
+                        break;
+                    case "image":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(string));
+                        break;
+                    case "uniqueidentifier":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(string));
+                        break;
+                    case "sysname":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(string));
+                        break;
+                    case "varbinary":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(string));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            databases = SqlServerDB.CreateQuery($"SELECT * FROM [{TableName}]", DBName);
+            int count_columns = databases.Columns.Count;
 
-        //        SqlServerDB = null;
-        //        databases = null;
+            List<object> row_values = new List<object>();
+            foreach (DataRow _row in databases.Rows)
+            {
+                for (int i = 0; i < count_columns; i++)
+                {
+                    row_values.Add(_row[i]);
+                    Console.WriteLine(_row[i]);
+                }
 
-        //        SqlServerDB = new SQLServerConnector(ServerName, DBName);
-        //        databases = SqlServerDB.CreateQuery("SELECT * FROM [" + TableList.SelectedItem.ToString() + "]");
+                table.Rows.Add(row_values.ToArray());
 
-        //        int count_columns = databases.Columns.Count;
+                row_values.Clear();
+            }
 
-        //        List<object> row_values = new List<object>();
-        //        foreach (DataRow _row in databases.Rows)
-        //        {
-        //            for (int i = 0; i < count_columns; i++)
-        //            {
-        //                row_values.Add(_row[i]);
-        //                Console.WriteLine(_row[i]);
-        //            }
+            return table;
+        }
 
-        //            table.Rows.Add(row_values.ToArray());
+        public DataTable GetDataTableSQLite(string TableName)
+        {
+            DataTable.Visibility = Visibility.Visible;
+            SQLiteDB = new SQLIteConnector(NameDBFile);
+            DataTable table = new DataTable(TableName);
+            DataTable databases = null;
+            databases = SQLiteDB.GetColumnTable(TableName);
+            IndexOfColumn = 1;
+            IndexOfDataType = 2;
 
-        //            row_values.Clear();
-        //        }
+            int rows_columns = databases.Rows.Count;
 
-        //        return table;
-        //    }
-        //}
+            foreach (DataRow _row in databases.Rows)
+            {
+                switch (_row[IndexOfDataType].ToString())
+                {
+                    case "INTEGER":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(Int32));
+                        break;
+                    case "TEXT":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
+                        break;
+                    case "BLOB":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(byte));
+                        break;
+                    case "REAL":
+                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(float));
+                        break;
+                }
+            }
 
-        //public DataTable GetDataTableSQLite(ListBox TableList)
-        //{
-        //    if (TableList.SelectedItem == null)
-        //    {
-        //        DataTable.Visibility = Visibility.Hidden;
-        //        return null;
-        //    }
-        //    else
-        //    {
-        //        DataTable.Visibility = Visibility.Visible;
-        //        SQLiteDB = new SQLIteConnector(NameDBFile);
-        //        DataTable table = new DataTable(TableList.SelectedItem.ToString());
-        //        DataTable databases = null;
-        //        databases = SQLiteDB.GetColumnTable(ListBoxTableList);
-        //        IndexOfColumn = 1;
-        //        IndexOfDataType = 2;
+            SQLiteDB = null;
+            databases = null;
 
-        //        int rows_columns = databases.Rows.Count;
+            SQLiteDB = new SQLIteConnector(NameDBFile);
+            databases = SQLiteDB.CreateQuery($"SELECT * FROM [{TableName}]");
 
-        //        foreach (DataRow _row in databases.Rows)
-        //        {
-        //            switch (_row[IndexOfDataType].ToString())
-        //            {
-        //                case "INTEGER":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(Int32));
-        //                    break;
-        //                case "TEXT":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
-        //                    break;
-        //                case "BLOB":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(byte));
-        //                    break;
-        //                case "REAL":
-        //                    table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(float));
-        //                    break;
-        //            }
-        //        }
+            int count_columns = databases.Columns.Count;
 
-        //        SQLiteDB = null;
-        //        databases = null;
+            List<object> row_values = new List<object>();
+            foreach (DataRow _row in databases.Rows)
+            {
+                for (int i = 0; i < count_columns; i++)
+                {
+                    row_values.Add(_row[i]);
+                }
+                try
+                {
+                    table.Rows.Add(row_values.ToArray());
+                }
+                catch (ArgumentException)
+                {
+                    customMessageBoxBuilder = new CustomMessageBoxBuilder();
+                    customMessageBoxBuilder.ShowError("Ошибка", "У столбца в таблице отсутствует тип данных", "Ok", this);
+                }
 
-        //        SQLiteDB = new SQLIteConnector(NameDBFile);
-        //        databases = SQLiteDB.CreateQuery("SELECT * FROM [" + TableList.SelectedItem.ToString() + "]");
+                row_values.Clear();
+            }
 
-        //        int count_columns = databases.Columns.Count;
-
-        //        List<object> row_values = new List<object>();
-        //        foreach (DataRow _row in databases.Rows)
-        //        {
-        //            for (int i = 0; i < count_columns; i++)
-        //            {
-        //                row_values.Add(_row[i]);
-        //            }
-        //            try
-        //            {
-        //                table.Rows.Add(row_values.ToArray());
-        //            }
-        //            catch(ArgumentException ex) {
-        //                customMessageBoxBuilder = new CustomMessageBoxBuilder();
-        //                customMessageBoxBuilder.ShowError("Ошибка", "У столбца в таблице отсутствует тип данных", "Ok", this);
-        //            }
-
-        //            row_values.Clear();
-        //        }
-
-        //        return table;
-        //    }
-        //}
+            return table;
+        }
         public DDHManager()
         {
             InitializeComponent();
             ConnectionWindow = new DDHAuthorization(this);
         }
-        public void ConnectionSQLServer(String ServerName)
+        public void ConnectionSQLServer(String ServerName, String NameDBManagementSystem)
         {
+            DataTable.DataContext = null;
+            TreeContent.Items.Clear();
             this.ServerName = ServerName;
+            this.NameDBManagementSystem = NameDBManagementSystem;
             SqlServerDB = new SQLServerConnector(ServerName);
             try
             {
                 TreeViewItem Databases = new TreeViewItem(){Header = "Базы данных"};
+                TreeContent.Items.Add(Databases);
                 if (SqlServerDB.GetDBNames().Count > 0)
                 {
                     foreach (var i in SqlServerDB.GetDBNames())
                     {
+                        Console.WriteLine($"База данных: {i}");
                         TreeViewItem Database = new TreeViewItem() { Header = i };
+                        Databases.Items.Add(Database);
 
                         TreeViewItem Tables = new TreeViewItem() { Header = "Таблицы" };
-                        if(SqlServerDB.GetDBTables(i).Count > 0)
+                        Database.Items.Add(Tables);
+                        if (SqlServerDB.GetDBTables(i).Count > 0)
                         {
                             foreach (var j in SqlServerDB.GetDBTables(i))
                             {
-                                TreeViewItem Table = new TreeViewItem() { Header = i };
+                                Console.WriteLine($"База данных: {i} Таблица: {j}");
+                                TreeViewItem Table = new TreeViewItem() {Header = j};
+                                Table.Selected += TableSelected;
                                 Tables.Items.Add(Table);
+                                
                             }
-                            Database.Items.Add(Tables);
-                            Databases.Items.Add(Database);
+                            //Database.Items.Add(Tables);
+                            //Databases.Items.Add(Database);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"База данных: {i} не содержит таблиц");
                         }
                         
                     }
-                    TreeContent.Items.Add(Databases);
+                    //TreeContent.Items.Add(Databases);
+                }
+                else
+                {
+                    Console.WriteLine("нет баз данных");
                 }
             }
             catch (Exception ex)
@@ -257,17 +270,59 @@ namespace DynamicDataHub
 
         public void ConnectionSQLite(string NameDBFIle_, string NameDBManagementSystem)
         {
+            DataTable.DataContext = null;
+            TreeContent.Items.Clear();
             this.NameDBManagementSystem = NameDBManagementSystem;
             this.NameDBFile = NameDBFIle_;
             SQLiteDB = new SQLIteConnector(NameDBFIle_);
-            try
+
+            TreeViewItem Tables = new TreeViewItem() { Header = "Таблицы" };
+            TreeContent.Items.Add(Tables);
+
+
+            foreach(var i in SQLiteDB.GetDBTables())
             {
-                //SQLiteDB.GetDBTables(ListBoxTableList);
+                Console.WriteLine($"Таблица: {i}");
+                TreeViewItem Table = new TreeViewItem() { Header=i };
+                Table.Selected += TableSelected;
+                Tables.Items.Add(Table);
             }
-            catch (Exception ex)
+            
+        }
+        
+        private void TableSelected(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem tableName = (TreeViewItem)sender;
+            if (this.NameDBManagementSystem == "SQLite")
             {
-                MessageBox.Show(ex.Message);
+                DataTable.DataContext = GetDataTableSQLite(tableName.Header.ToString());
             }
+            else if (this.NameDBManagementSystem == "SQL Server Management Studio")
+            {
+                if (tableName.Parent.GetType() == typeof(TreeViewItem)) // verify that parent is TreeViewItem
+                {
+                    TreeViewItem Tables = (TreeViewItem)tableName.Parent;
+                    //string text = parent.Header.ToString();
+
+                    if (Tables.Parent.GetType() == typeof(TreeViewItem))
+                    {
+                        TreeViewItem DB = (TreeViewItem)Tables.Parent;
+                        if (GetDataTableSQLServer(tableName.Header.ToString(), DB.Header.ToString()).Columns.Count > 0)
+                        {
+                            DataTable.DataContext = GetDataTableSQLServer(tableName.Header.ToString(), DB.Header.ToString());
+                        }
+                        else
+                        {
+                            MessageBox.Show("Нет столбцов");
+                        }
+                    }
+                }
+            }
+            
+
+
+            
+            
         }
         #endregion
 
@@ -289,20 +344,7 @@ namespace DynamicDataHub
         {
             ConnectionWindow.Focus();
         }
-        private void Connect_Click(object sender, RoutedEventArgs e)
-        {
-            List<double> positionElement = CallConnectionWindow(FrameTableData);
-
-            ConnectionWindow = new DDHAuthorization(this);
-            ConnectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
-
-
-            ConnectionWindow.Left = positionElement[0];
-            ConnectionWindow.Top = positionElement[1];
-
-            ConnectionWindow.ShowDialog();
-            ConnectionWindow.Focus();
-        }
+        
         #endregion
 
         #region Обрабочики сворачивания левой панели
@@ -350,8 +392,24 @@ namespace DynamicDataHub
         #endregion
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { ConnectionWindow.Close(); }
 
+        private void Connect_Click(object sender, RoutedEventArgs e)
+        {
+            List<double> positionElement = CallConnectionWindow(FrameTableData);
+
+            ConnectionWindow = new DDHAuthorization(this);
+            ConnectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+
+
+            ConnectionWindow.Left = positionElement[0];
+            ConnectionWindow.Top = positionElement[1];
+
+            ConnectionWindow.ShowDialog();
+            ConnectionWindow.Focus();
+        }
+
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
+            DataTable.DataContext = null;
             TreeContent.Items.Clear();
         }
 
