@@ -37,7 +37,6 @@ namespace DynamicDataHub.Modules
             foreach (DataRow row in databases.Rows)
             {
                 DBNames.Add(row[0].ToString());
-                //Console.WriteLine(row[0].ToString());
             }
 
             return DBNames;

@@ -61,16 +61,21 @@ namespace DynamicDataHub
         #endregion
 
         #region Конструкторы
+        public DDHManager()
+        {
+            InitializeComponent();
+            ConnectionWindow = new DDHAuthorization(this);
+        }
+        #endregion
 
+        #region Методы отображения данных
         public DataTable GetDataTableSQLServer(string TableName, string DBName)
         {
             DataTable.Visibility = Visibility.Visible;
             SqlServerDB = new SQLServerConnector(ServerName);
+
             DataTable table = new DataTable(TableName);
-            DataTable databases = null;
-
-
-            databases = SqlServerDB.GetColumnTable(TableName, DBName);
+            DataTable databases = SqlServerDB.GetColumnTable(TableName, DBName);
 
 
             IndexOfColumn = 0;
@@ -80,7 +85,6 @@ namespace DynamicDataHub
 
             foreach (DataRow _row in databases.Rows)
             {
-                Console.WriteLine(_row[IndexOfColumn].ToString());
                 switch (_row[IndexOfDataType].ToString())
                 {
                     case "int":
@@ -129,6 +133,7 @@ namespace DynamicDataHub
                         break;
                 }
             }
+
             databases = SqlServerDB.CreateQuery($"SELECT * FROM [{TableName}]", DBName);
             int count_columns = databases.Columns.Count;
 
@@ -138,7 +143,6 @@ namespace DynamicDataHub
                 for (int i = 0; i < count_columns; i++)
                 {
                     row_values.Add(_row[i]);
-                    Console.WriteLine(_row[i]);
                 }
 
                 table.Rows.Add(row_values.ToArray());
@@ -153,9 +157,10 @@ namespace DynamicDataHub
         {
             DataTable.Visibility = Visibility.Visible;
             SQLiteDB = new SQLIteConnector(NameDBFile);
+
             DataTable table = new DataTable(TableName);
-            DataTable databases = null;
-            databases = SQLiteDB.GetColumnTable(TableName);
+            DataTable databases = SQLiteDB.GetColumnTable(TableName);
+
             IndexOfColumn = 1;
             IndexOfDataType = 2;
 
@@ -180,10 +185,7 @@ namespace DynamicDataHub
                 }
             }
 
-            SQLiteDB = null;
-            databases = null;
 
-            SQLiteDB = new SQLIteConnector(NameDBFile);
             databases = SQLiteDB.CreateQuery($"SELECT * FROM [{TableName}]");
 
             int count_columns = databases.Columns.Count;
@@ -210,44 +212,44 @@ namespace DynamicDataHub
 
             return table;
         }
-        public DDHManager()
-        {
-            InitializeComponent();
-            ConnectionWindow = new DDHAuthorization(this);
-        }
+        #endregion
+
+        #region Методы подключения к базам данных
         public void ConnectionSQLServer(String ServerName, String NameDBManagementSystem)
         {
             DataTable.DataContext = null;
             TreeContent.Items.Clear();
+
             this.ServerName = ServerName;
             this.NameDBManagementSystem = NameDBManagementSystem;
+
             SqlServerDB = new SQLServerConnector(ServerName);
             try
             {
                 TreeViewItem Databases = new TreeViewItem(){Header = "Базы данных"};
                 TreeContent.Items.Add(Databases);
+
                 if (SqlServerDB.GetDBNames().Count > 0)
                 {
                     foreach (var i in SqlServerDB.GetDBNames())
                     {
-                        Console.WriteLine($"База данных: {i}");
+
                         TreeViewItem Database = new TreeViewItem() { Header = i };
                         Databases.Items.Add(Database);
 
                         TreeViewItem Tables = new TreeViewItem() { Header = "Таблицы" };
                         Database.Items.Add(Tables);
+
                         if (SqlServerDB.GetDBTables(i).Count > 0)
                         {
                             foreach (var j in SqlServerDB.GetDBTables(i))
                             {
-                                Console.WriteLine($"База данных: {i} Таблица: {j}");
                                 TreeViewItem Table = new TreeViewItem() {Header = j};
+
                                 Table.Selected += TableSelected;
                                 Tables.Items.Add(Table);
                                 
                             }
-                            //Database.Items.Add(Tables);
-                            //Databases.Items.Add(Database);
                         }
                         else
                         {
@@ -255,7 +257,6 @@ namespace DynamicDataHub
                         }
                         
                     }
-                    //TreeContent.Items.Add(Databases);
                 }
                 else
                 {
@@ -272,8 +273,10 @@ namespace DynamicDataHub
         {
             DataTable.DataContext = null;
             TreeContent.Items.Clear();
+
             this.NameDBManagementSystem = NameDBManagementSystem;
             this.NameDBFile = NameDBFIle_;
+
             SQLiteDB = new SQLIteConnector(NameDBFIle_);
 
             TreeViewItem Tables = new TreeViewItem() { Header = "Таблицы" };
@@ -282,14 +285,16 @@ namespace DynamicDataHub
 
             foreach(var i in SQLiteDB.GetDBTables())
             {
-                Console.WriteLine($"Таблица: {i}");
                 TreeViewItem Table = new TreeViewItem() { Header=i };
+
                 Table.Selected += TableSelected;
                 Tables.Items.Add(Table);
             }
             
         }
-        
+        #endregion
+
+        #region Обработчики взаимодействия с UI элементами
         private void TableSelected(object sender, RoutedEventArgs e)
         {
             TreeViewItem tableName = (TreeViewItem)sender;
@@ -324,6 +329,8 @@ namespace DynamicDataHub
             
             
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { ConnectionWindow.Close(); }
         #endregion
 
         #region Обработчики открытия окна соединения
@@ -390,8 +397,9 @@ namespace DynamicDataHub
 
         }
         #endregion
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { ConnectionWindow.Close(); }
 
+
+        #region Обработчики нажатий на кнопки
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
             List<double> positionElement = CallConnectionWindow(FrameTableData);
@@ -417,19 +425,13 @@ namespace DynamicDataHub
         {
 
         }
+        #endregion
 
-
-        //private void ListBoxTableList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    if(NameDBManagementSystem == "SQL Server Management Studio")
-        //        DataTable.DataContext = GetDataTableSQLServer(ListBoxTableList);
-        //    else
-        //        DataTable.DataContext = GetDataTableSQLite(ListBoxTableList);
-        //}
-
+        #region Обработчик взаимодействия с ContextMenu
         private void DeleteRow_Click(object sender, RoutedEventArgs e)
         {
 
         }
+        #endregion
     }
 }

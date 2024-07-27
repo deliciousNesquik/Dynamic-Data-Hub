@@ -11,11 +11,11 @@ namespace DynamicDataHub.Modules
     internal class ChoosingDBManagementSystem
     {
         public Dictionary<string, string> ManagementSystems = new Dictionary<string, string>
-    {
-        {"SQL Server", "SQL Server Management Studio"},
-        {"PostgreSQL 16", "PostgreSQL 16"},
-        {"DB Browser for SQLite", "SQLite"}
-    };
+        {
+            {"SQL Server", "SQL Server Management Studio"},
+            {"PostgreSQL 16", "PostgreSQL 16"},
+            {"DB Browser for SQLite", "SQLite"}
+        };
 
         public ChoosingDBManagementSystem()
         {

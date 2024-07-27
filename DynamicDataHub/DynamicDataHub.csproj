@@ -113,7 +113,6 @@
     <Compile Include="Modules\CustomMessageBoxBuilder.cs" />
     <Compile Include="Modules\DBManagementSystem.cs" />
     <Compile Include="Modules\DDHLoader.cs" />
-    <Compile Include="Modules\HistoryManager.cs" />
     <Compile Include="Modules\PostgreSQLConnector.cs" />
     <Compile Include="Modules\SQLIteConnector.cs" />
     <Compile Include="Modules\SQLServerConnector.cs" />

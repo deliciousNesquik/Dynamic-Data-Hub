@@ -20,36 +20,29 @@ namespace DynamicDataHub.Views
         private List<string> _test;
         private string selectedFilePath;
 
-        private HistoryManager _historyManager = new HistoryManager();
         #endregion
 
         #region Внутренние функции
-        public void IsNullOrWhiteSpaceTextBox(string _serverName, string _dbName)
+        private void Window_LocationChanged(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(_serverName) && string.IsNullOrWhiteSpace(_dbName))
-            {
-                customMessageBox.ShowError("Ошибка", "Укажите имя сервера и базы данных!", "Закрыть", this);
-            }
-            else if (string.IsNullOrWhiteSpace(_serverName))
-            {
-                customMessageBox.ShowError("Ошибка", "Укажите имя сервера!", "Закрыть", this);
-            }
-            else if (string.IsNullOrWhiteSpace(_dbName))
-            {
-                customMessageBox.ShowError("Ошибка", "Укажите имя базы данных!", "Закрыть", this);
-            }
+            //MessageBox.Show(this.Left + ";" + this.Top);
         }
         #endregion
-        
+
+        #region Конструкторы
         public DDHAuthorization(DDHManager w)
         {
             InitializeComponent();
+
             this.ddhManager = w;
             this.customMessageBox = new CustomMessageBoxBuilder();
-            customMessageBox.CenterInParentWindow(this);
             ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
+
+            customMessageBox.CenterInParentWindow(this);
+            
             _test = Test.GetDBManagementSystems();
             DBMSComboBox.Items.Add("Не выбрано");
+
             foreach (string test in _test)
             {
                 DBMSComboBox.Items.Add(test);
@@ -67,6 +60,7 @@ namespace DynamicDataHub.Views
                 e.Handled = true;
             }
         }
+        #endregion
 
         #region Методы для работы с ComboBox
         private void DBMSComboBox_DropDownOpened(object sender, EventArgs e)
@@ -81,18 +75,14 @@ namespace DynamicDataHub.Views
         {
             if (!DBMSComboBox.SelectedItem.ToString().Contains("SQLite"))
             {
-                //NameDBBlock.Visibility = Visibility.Visible;
-                //DBListComboBox.Visibility = Visibility.Visible;
                 NameDBServerBlock.Text = "Имя сервера";
                 NameDBServerBox.Clear();
-                //DBListComboBox.Clear();
                 OpenExplorer.Visibility = Visibility.Hidden;
             }
             else
             {
-                //NameDBBlock.Visibility = Visibility.Hidden;
-                //DBListComboBox.Visibility = Visibility.Hidden;
                 NameDBServerBlock.Text = "Файл базы данных";
+                NameDBServerBox.Clear();
                 OpenExplorer.Visibility = Visibility.Visible;
             }
         }
@@ -129,7 +119,6 @@ namespace DynamicDataHub.Views
                     _fileName = NameDBServerBox.Text;
                     if (!string.IsNullOrWhiteSpace(_fileName))
                     {
-                        //customMessageBox.ShowLoading("Подключение", "Подключение", this);
                         SQLIteConnector test_connection = new SQLIteConnector(selectedFilePath);
                         bool isConected;
 
@@ -151,7 +140,9 @@ namespace DynamicDataHub.Views
                     }
                     break;
                 case "SQL Server Management Studio":
+
                     _serverName = NameDBServerBox.Text;
+
                     if (!string.IsNullOrWhiteSpace(_serverName))
                     {
                         customMessageBox.ShowLoading("Подключение", "Подключение", this);
@@ -175,7 +166,7 @@ namespace DynamicDataHub.Views
                     }
                     else
                     {
-                        IsNullOrWhiteSpaceTextBox(_serverName, null);
+                        customMessageBox.ShowError("Ошибка", "Укажите имя сервера!", "Закрыть", this);
                     }
                     break;
 
@@ -193,60 +184,5 @@ namespace DynamicDataHub.Views
         private void CloseWindow_Click(object sender, RoutedEventArgs e){this.Close();}
         #endregion
 
-        private void Window_LocationChanged(object sender, EventArgs e)
-        {
-            //MessageBox.Show(this.Left + ";" + this.Top);
-        }
-
-        //private void DBListComboBox_DropDownOpened(object sender, EventArgs e)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(NameDBServerBox.Text))
-        //    {
-        //        var databaseNames = new List<string>();
-        //        try
-        //        {
-        //            using (SqlConnection connection = new SqlConnection($"Integrated Security=True;Persist Security Info=False;Initial Catalog=master;Data Source=" + NameDBServerBox.Text))
-        //            {
-        //                connection.Open();
-        //                using (SqlCommand command = new SqlCommand("SELECT name FROM sys.databases WHERE state = 0", connection))
-        //                {
-        //                    SqlDataReader reader = command.ExecuteReader();
-        //                    while (reader.Read())
-        //                    {
-        //                        databaseNames.Add(reader.GetString(0));
-        //                    }
-        //                    reader.Close();
-        //                }
-        //            }
-        //            foreach (var i in databaseNames)
-        //            {
-        //                if (!DBListComboBox.Items.Contains(i))
-        //                {
-        //                    DBListComboBox.Items.Add(i);
-        //                }
-        //            }
-        //        }
-        //        catch (Exception)
-        //        {
-        //            MessageBox.Show("Имя сервера не найдено!", "Ошибка подключения");
-        //        }
-        //    }
-        //}
-
-        //private void DBListComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    DBListComboBox.Text = DBListComboBox.SelectedItem.ToString();
-        //}
-
-       
-
-        //public class ConfigurationSettings
-        //{
-        //    public string Title
-        //    {
-        //        get { return ConfigurationManager.AppSettings["Title"] as String; }
-        //    }
-        //}
     }
-
 }

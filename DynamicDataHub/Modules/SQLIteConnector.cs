@@ -11,6 +11,7 @@ using System.Windows.Controls;
 
 namespace DynamicDataHub.Modules{
     public class SQLIteConnector {
+
         private string pathFileDB;
         private IDbConnection GetConnection;
 
@@ -19,7 +20,7 @@ namespace DynamicDataHub.Modules{
         public SQLIteConnector(string pathFileDB) 
         {
             this.pathFileDB = pathFileDB;
-            this.GetConnection = new SQLiteConnection($"Data Source={this.pathFileDB};Version=3;");
+
         }
 
         public DataTable GetColumnTable(string TableName)
@@ -28,6 +29,8 @@ namespace DynamicDataHub.Modules{
         }
 
         public DataTable CreateQuery(string query){
+
+            GetConnection = new SQLiteConnection($"Data Source={this.pathFileDB};Version=3;");
             DataTable databases = new DataTable("Databases");
 
             try
@@ -56,7 +59,10 @@ namespace DynamicDataHub.Modules{
         }
 
         public bool GetInfoConnection() {
-            try{
+
+            GetConnection = new SQLiteConnection($"Data Source={this.pathFileDB};Version=3;");
+            try
+            {
                 using (IDbConnection connection = this.GetConnection)
                 {
                     connection.Open();

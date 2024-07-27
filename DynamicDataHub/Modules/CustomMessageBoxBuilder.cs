@@ -71,12 +71,7 @@ namespace DynamicDataHub.Modules
         {
             customMessageBox.Title = title;
             TextBlock messageTextBlock = CreateTextBlock(message);
-            //Style customStyle = Application.Current.FindResource("TextBlockStyle") as Style;
 
-            //if (customStyle != null)
-            //{
-            //    messageTextBlock.Style = customStyle; мб работает
-            //}
             Button closeButton = new Button()
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -109,7 +104,7 @@ namespace DynamicDataHub.Modules
             else
             {
                 CenterInParentWindow(parent);
-                customMessageBox.Show();
+                customMessageBox.ShowDialog();
             }
         }
         #region Loading
