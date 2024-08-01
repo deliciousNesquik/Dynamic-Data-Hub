@@ -120,10 +120,10 @@ namespace DynamicDataHub.Views
                     if (!string.IsNullOrWhiteSpace(_fileName))
                     {
                         SQLIteConnector test_connection = new SQLIteConnector(selectedFilePath);
-                        bool isConected;
+                        bool isConnected;
 
-                        isConected = test_connection.GetInfoConnection();
-                        if (isConected)
+                        isConnected = await test_connection.GetInfoConnection();
+                        if (isConnected)
                         {
                             this.ddhManager.ConnectionSQLite(this.selectedFilePath, SQLIteConnector.NameDBManagementSystem);
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;

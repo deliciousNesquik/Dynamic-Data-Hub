@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace DynamicDataHub.Modules{
     public class SQLIteConnector {
@@ -22,10 +23,15 @@ namespace DynamicDataHub.Modules{
             this.pathFileDB = pathFileDB;
 
         }
-
         public DataTable GetColumnTable(string TableName)
         {
             return CreateQuery($"pragma table_info('{TableName}')");
+        }
+
+
+        public DataTable DeleteRow(string TableName, string NameColumnTable, string ColumnValue)
+        {
+            return CreateQuery($"delete from {TableName} where {NameColumnTable} = {ColumnValue}");
         }
 
         public DataTable CreateQuery(string query){
@@ -37,12 +43,12 @@ namespace DynamicDataHub.Modules{
             {
                 using (IDbConnection connection = this.GetConnection)
                 {
+                    connection.Open();
                     IDbCommand command = connection.CreateCommand();
                     command.CommandText = query;
-                    connection.Open();
                     databases.Load(command.ExecuteReader(CommandBehavior.CloseConnection));
+                    connection.Close();
                 }
-                
                 return databases;
             }
             catch (SqlException)
@@ -58,25 +64,41 @@ namespace DynamicDataHub.Modules{
  
         }
 
-        public bool GetInfoConnection() {
+        public DataTable UpdateRow(string tableName, string editingColumn, string editingElement, string basedColumn, string valueBasedColumn)
+        {
+            return CreateQuery($"update [{tableName}] set [{editingColumn}] = '{editingElement}' where [{basedColumn}] = '{valueBasedColumn}'");
+        }
 
+        public async Task<bool> GetInfoConnection()
+        {
+            bool isConnected = false;
             GetConnection = new SQLiteConnection($"Data Source={this.pathFileDB};Version=3;");
             try
             {
-                using (IDbConnection connection = this.GetConnection)
-                {
-                    connection.Open();
-
-                    Console.WriteLine("Подключено к базе данных SQLite");
-
-                    connection.Close();
-                    return true;
-                }
+                await Task.Run(() => {
+                    using (IDbConnection connection = GetConnection)
+                    {
+                        try
+                        {
+                            connection.Open();
+                            isConnected = true;
+                            connection.Close();
+                        }
+                        catch (SqlException sqlEx)
+                        {
+                            Console.WriteLine($"SQL Exception при подключении к базе данных: {sqlEx.Message}");
+                            isConnected = false;
+                        }
+                    }
+                });
             }
-            catch (Exception ex){
-                Console.WriteLine($"Ошибка при подключении к базе данных: {ex.Message}");
-                return false;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Общая ошибка при подключении к базе данных: {ex.Message}");
+                isConnected = false;
             }
+
+            return isConnected;
         }
 
         public List<string> GetDBTables()

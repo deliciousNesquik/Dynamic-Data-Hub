@@ -63,7 +63,6 @@
             <TextBlock Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="1" Margin="5 0 0 0"/>
 
             <Button Template="{StaticResource MainButton}" Name="WrapColumn" Grid.Column="0" Grid.Row="1" Width="20" Height="20" Margin="68.5 5 0 5" Click="WrapColumn_Click" RenderTransformOrigin="0.5,0.5">
-                <!--87-->
                 <Button.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -91,8 +90,8 @@
         </TreeView>
 
 
-        <DataGrid Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True" ItemsSource="{Binding}">
-            <DataGrid.ContextMenu>
+        <DataGrid Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True" ItemsSource="{Binding}" CellEditEnding="DataTable_CellEditEnding" PreparingCellForEdit="DataTable_PreparingCellForEdit">
+            <DataGrid.ContextMenu> 
                 <ContextMenu>
                     <MenuItem Name="DeleteRow" Header="Удалить" Click="DeleteRow_Click"></MenuItem>
                 </ContextMenu>

@@ -7,8 +7,10 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.SqlTypes;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -25,12 +27,17 @@ namespace DynamicDataHub
         private CustomMessageBoxBuilder customMessageBoxBuilder;
 
         private string ServerName;
-        private string NameDBFile;
+        private string NameDbFile;
 
         private string NameDBManagementSystem;
 
         private int IndexOfColumn;
         private int IndexOfDataType;
+
+        private string tableName;
+        private string dbName;
+
+        private string preparingCellForEditId;
         #endregion
 
         #region Внутренние функции
@@ -134,6 +141,23 @@ namespace DynamicDataHub
                 }
             }
 
+            databases = SqlServerDB.IsIdentityColumn(tableName, dbName);
+
+            foreach (DataColumn column in table.Columns)
+            {
+                string columnName = column.ColumnName.ToString();
+
+                foreach (DataRow row in databases.Rows)
+                {
+                    if (row["name"].ToString() == columnName)
+                    {
+                        column.ReadOnly = true;
+                    }
+                }
+
+            }
+
+
             databases = SqlServerDB.CreateQuery($"SELECT * FROM [{TableName}]", DBName);
             int count_columns = databases.Columns.Count;
 
@@ -156,7 +180,7 @@ namespace DynamicDataHub
         public DataTable GetDataTableSQLite(string TableName)
         {
             DataTable.Visibility = Visibility.Visible;
-            SQLiteDB = new SQLIteConnector(NameDBFile);
+            SQLiteDB = new SQLIteConnector(NameDbFile);
 
             DataTable table = new DataTable(TableName);
             DataTable databases = SQLiteDB.GetColumnTable(TableName);
@@ -275,7 +299,7 @@ namespace DynamicDataHub
             TreeContent.Items.Clear();
 
             this.NameDBManagementSystem = NameDBManagementSystem;
-            this.NameDBFile = NameDBFIle_;
+            this.NameDbFile = NameDBFIle_;
 
             SQLiteDB = new SQLIteConnector(NameDBFIle_);
 
@@ -298,6 +322,7 @@ namespace DynamicDataHub
         private void TableSelected(object sender, RoutedEventArgs e)
         {
             TreeViewItem tableName = (TreeViewItem)sender;
+            this.tableName = tableName.Header.ToString();
             if (this.NameDBManagementSystem == "SQLite")
             {
                 DataTable.DataContext = GetDataTableSQLite(tableName.Header.ToString());
@@ -307,11 +332,13 @@ namespace DynamicDataHub
                 if (tableName.Parent.GetType() == typeof(TreeViewItem)) // verify that parent is TreeViewItem
                 {
                     TreeViewItem Tables = (TreeViewItem)tableName.Parent;
-                    //string text = parent.Header.ToString();
 
                     if (Tables.Parent.GetType() == typeof(TreeViewItem))
                     {
                         TreeViewItem DB = (TreeViewItem)Tables.Parent;
+                        this.tableName = tableName.Header.ToString();
+                        this.dbName = DB.Header.ToString();
+
                         if (GetDataTableSQLServer(tableName.Header.ToString(), DB.Header.ToString()).Columns.Count > 0)
                         {
                             DataTable.DataContext = GetDataTableSQLServer(tableName.Header.ToString(), DB.Header.ToString());
@@ -322,12 +349,7 @@ namespace DynamicDataHub
                         }
                     }
                 }
-            }
-            
-
-
-            
-            
+            }                  
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { ConnectionWindow.Close(); }
@@ -430,6 +452,53 @@ namespace DynamicDataHub
         #region Обработчик взаимодействия с ContextMenu
         private void DeleteRow_Click(object sender, RoutedEventArgs e)
         {
+            var _selectedCell = DataTable.SelectedCells[0];
+            var nameColumnIndefication = DataTable.SelectedCells[0].Column.Header.ToString();
+            var _cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
+            var indefication = (_cellContent as TextBlock)?.Text;
+            if(NameDBManagementSystem == "SQL Server Management Studio")
+            {
+                SqlServerDB = new SQLServerConnector(ServerName);
+                SqlServerDB.DeleteRow(tableName, nameColumnIndefication, indefication, dbName);
+                DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
+            }
+            else if (NameDBManagementSystem == "SQLite")
+            {
+                SQLiteDB.DeleteRow(tableName, nameColumnIndefication, indefication);
+                DataTable.DataContext = GetDataTableSQLite(tableName);
+            }
+        }
+        #endregion
+
+        #region Обработчик взаимодействия с данными таблиц
+        private async void DataTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            var editedValue = ((TextBox)e.EditingElement).Text;
+
+            var editedColumn = e.Column.Header.ToString();
+            var basedColumn = DataTable.Columns[0].Header.ToString();
+
+            if (NameDBManagementSystem == "SQL Server Management Studio")
+            {
+                SqlServerDB.UpdateRow(dbName, tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
+                await Task.Delay(100);
+                DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
+            }
+            else if(NameDBManagementSystem == "SQLite")
+            {
+                SQLiteDB.UpdateRow(tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
+                await Task.Delay(100);
+                DataTable.DataContext = GetDataTableSQLite(tableName);
+            }
+
+        }
+
+        private void DataTable_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        {
+            var _selectedCell = DataTable.SelectedCells[0];
+            var _cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
+
+            preparingCellForEditId = (_cellContent as TextBlock)?.Text;
 
         }
         #endregion
