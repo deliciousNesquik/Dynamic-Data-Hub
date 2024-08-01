@@ -6,45 +6,58 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using DynamicDataHub.Modules;
 using Microsoft.Win32;
+using System.IO;
+using System.Text.Json;
 
 namespace DynamicDataHub.Views
 {
+    struct DataBasesListJson
+    {
+        public string dbServerName { get; set; }
+    }
+
     public partial class DDHAuthorization : Window
     {
         #region Переменные
+
+        //Переменная для вызова модального окна с информацией
         private CustomMessageBoxBuilder customMessageBox;
+        //Переменная для хранения обьекта ConnectionWindow
         private DDHManager ddhManager;
-        private List<string> _test;
+        //Переменная для хранения путя к файлу
         private string selectedFilePath;
 
         #endregion
 
         #region Внутренние функции
-        private void Window_LocationChanged(object sender, EventArgs e)
+        private List<string> GetDataBasesList()
         {
-            //MessageBox.Show(this.Left + ";" + this.Top);
+            List<string> dataBasesList = new List<string>();
+
+            string json = File.ReadAllText("./Data/DataBasesList.json");
+            var person = JsonSerializer.Deserialize<DataBasesListJson>(json);
+
+            Console.WriteLine($"JSON: {person.dbServerName}");
+
+            return dataBasesList;
         }
         #endregion
 
         #region Конструкторы
-        public DDHAuthorization(DDHManager w)
+        public DDHAuthorization(DDHManager connectionWindow)
         {
+            this.ddhManager       = connectionWindow;
+            this.customMessageBox = new CustomMessageBoxBuilder();
+
             InitializeComponent();
 
-            this.ddhManager = w;
-            this.customMessageBox = new CustomMessageBoxBuilder();
-            ChoosingDBManagementSystem Test = new ChoosingDBManagementSystem();
-
-            customMessageBox.CenterInParentWindow(this);
+            this.customMessageBox.CenterInParentWindow(this);
             
-            _test = Test.GetDBManagementSystems();
             DBMSComboBox.Items.Add("Не выбрано");
-
-            foreach (string test in _test)
+            foreach (string _ in GetDataBasesList())
             {
-                DBMSComboBox.Items.Add(test);
+                DBMSComboBox.Items.Add(_);
             }
-            
 
             prodUpalLink.RequestNavigate += OnlLinkOnRequestNavigate;
             nxtvrturLink.RequestNavigate += OnlLinkOnRequestNavigate;
@@ -60,14 +73,6 @@ namespace DynamicDataHub.Views
         #endregion
 
         #region Методы для работы с ComboBox
-        private void DBMSComboBox_DropDownOpened(object sender, EventArgs e)
-        {
-
-            if (_test.Count == 0)
-            {
-                customMessageBox.ShowError("Ошибка", "У вас отсутствуют соответствующие СУБД", "Закрыть", this);
-            }
-        }
         private void DBMSComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!DBMSComboBox.SelectedItem.ToString().Contains("SQLite"))

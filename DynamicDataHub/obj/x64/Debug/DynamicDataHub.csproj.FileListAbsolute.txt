@@ -247,3 +247,22 @@ C:\Users\prod_upal\Desktop\30 07\DynamicDataHub\obj\x64\Debug\DynamicDataHub.csp
 C:\Users\prod_upal\Desktop\30 07\DynamicDataHub\obj\x64\Debug\DynamicDataHub.csproj.CopyComplete
 C:\Users\prod_upal\Desktop\30 07\DynamicDataHub\obj\x64\Debug\DynamicDataHub.exe
 C:\Users\prod_upal\Desktop\30 07\DynamicDataHub\obj\x64\Debug\DynamicDataHub.pdb
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Buffers.dll
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Memory.dll
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Numerics.Vectors.dll
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Text.Encodings.Web.dll
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Text.Json.dll
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.ValueTuple.dll
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Buffers.xml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Memory.xml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Numerics.Vectors.xml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Text.Encodings.Web.xml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Text.Json.xml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\System.ValueTuple.xml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\Data\DataBasesList.json
