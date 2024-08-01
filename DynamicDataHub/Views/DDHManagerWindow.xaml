@@ -47,22 +47,30 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Name="RowObjectExplorer" Height="35"/>
+            <RowDefinition Name="RowObjectExplorer" Height="40"/>
             <RowDefinition Name="RowConnecting" Height="30"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1">
+            <Button Margin="10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="NewQuery" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource LabelText}" Text="New Query" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Button>
+            <Button Margin="10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="Settings" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource LabelText}" Text="Settings" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Button>
+        </StackPanel>
+        <Frame Name="FrameObjectExplorer" Grid.Column="0" Grid.Row="0" BorderThickness="1.1 0 1 1"/>
+        <Frame Name="FrameConnectiong" Grid.Column="0" Grid.Row="1" BorderThickness="1.1 0 1 1"/>
+        <Frame Name="FrameExplorer" Grid.Column="0" Grid.Row="2" BorderThickness="1.1 0 1 1"/>
+        <Frame Name="FrameControlElements" Grid.Column="1" Grid.Row="0" />
+        <Frame Name="FrameTableData" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" />
+        <Frame Name="QueryFrame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" />
+        <Border CornerRadius="0 0 40 0" Grid.Row="0" Grid.Column="1" BorderBrush="White" BorderThickness="0 0 1 1"></Border>
+        <StackPanel Name="SPWrap" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0">
+            <TextBlock Margin="10" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="1" />
 
-        <Frame Name="FrameObjectExplorer" Grid.Column="0" Grid.Row="0" BorderThickness="1.1 0 1.1 1.1"/>
-        <Frame Name="FrameConnectiong" Grid.Column="0" Grid.Row="1" BorderThickness="1.1 0 1.1 1.1"/>
-        <Frame Name="FrameExplorer" Grid.Column="0" Grid.Row="2" BorderThickness="1.1 0 1.1 1.1"/>
-        <Frame Name="FrameControlElements" Grid.Column="1" Grid.Row="0" BorderThickness="0 0 1.1 1.1"/>
-        <Frame Name="FrameTableData" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" BorderThickness="0 0 1.1 1.1"/>
-
-
-        <StackPanel Name="SPWrap" Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0">
-            <TextBlock Visibility="Visible" HorizontalAlignment="Left" VerticalAlignment="Center" Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="1" Margin="5 0 0 0"/>
-
-            <Button Template="{StaticResource MainButton}" Name="WrapColumn" Grid.Column="0" Grid.Row="1" Width="20" Height="20" Margin="68.5 5 0 5" Click="WrapColumn_Click" RenderTransformOrigin="0.5,0.5">
+            <Button Template="{StaticResource MainButton}" Name="WrapColumn" Grid.Column="0" Grid.Row="1" Width="20" Height="20" Margin="48.5 5 0 5" Click="WrapColumn_Click" RenderTransformOrigin="0.5,0.5">
+                <!--87-->
                 <Button.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -86,12 +94,11 @@
             </Button>
         </StackPanel>
 
+
         <TreeView Name="TreeContent" Grid.Row="2" Grid.Column="0" Background="#121212">
         </TreeView>
-
-
-        <DataGrid Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True" ItemsSource="{Binding}" CellEditEnding="DataTable_CellEditEnding" PreparingCellForEdit="DataTable_PreparingCellForEdit">
-            <DataGrid.ContextMenu> 
+        <DataGrid Style="{StaticResource DatagridStyle}" Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True"   ItemsSource="{Binding }" >
+            <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="DeleteRow" Header="Удалить" Click="DeleteRow_Click"></MenuItem>
                 </ContextMenu>

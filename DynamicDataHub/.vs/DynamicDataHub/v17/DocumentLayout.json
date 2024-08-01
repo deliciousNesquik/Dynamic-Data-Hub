@@ -3,23 +3,23 @@
   "WorkspaceRootPath": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\views\\ddhauthorizationwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhauthorizationwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\views\\ddhmanagerwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhmanagerwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\modules\\sqliteconnector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:modules\\sqliteconnector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\views\\ddhmanagerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhmanagerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\modules\\sqlserverconnector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:modules\\sqlserverconnector.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\views\\ddhauthorizationwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhauthorizationwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,28 +38,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
               "Title": "DDHAuthorizationWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHAuthorizationWindow.xaml.cs",
               "RelativeDocumentMoniker": "Views\\DDHAuthorizationWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHAuthorizationWindow.xaml.cs",
-              "RelativeToolTip": "Views\\DDHAuthorizationWindow.xaml.cs",
-              "ViewState": "AQIAAH4AAAAAAAAAAAAcwKQAAAB4AAAA",
+              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHAuthorizationWindow.xaml.cs*",
+              "RelativeToolTip": "Views\\DDHAuthorizationWindow.xaml.cs*",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-26T12:55:21.37Z",
+              "WhenOpened": "2024-08-01T18:58:54.568Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "SQLServerConnector.cs",
-              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Modules\\SQLServerConnector.cs",
-              "RelativeDocumentMoniker": "Modules\\SQLServerConnector.cs",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Modules\\SQLServerConnector.cs",
-              "RelativeToolTip": "Modules\\SQLServerConnector.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "SQLIteConnector.cs",
+              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Modules\\SQLIteConnector.cs",
+              "RelativeDocumentMoniker": "Modules\\SQLIteConnector.cs",
+              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Modules\\SQLIteConnector.cs",
+              "RelativeToolTip": "Modules\\SQLIteConnector.cs",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAIwB8AAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-26T12:09:30.718Z",
+              "WhenOpened": "2024-08-01T18:53:54.665Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DDHManagerWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\DDHManagerWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml.cs",
+              "RelativeToolTip": "Views\\DDHManagerWindow.xaml.cs",
+              "ViewState": "AQIAADIBAAAAAAAAAAAQwOYBAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-01T18:53:34.456Z",
               "EditorCaption": ""
             },
             {
@@ -71,12 +84,12 @@
               "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\App.xaml",
               "RelativeToolTip": "App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-07-25T17:37:20.96Z",
+              "WhenOpened": "2024-08-01T18:51:52.495Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "DDHManagerWindow.xaml",
               "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml",
               "RelativeDocumentMoniker": "Views\\DDHManagerWindow.xaml",
@@ -84,19 +97,6 @@
               "RelativeToolTip": "Views\\DDHManagerWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2024-07-21T11:22:06.556Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DDHManagerWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\DDHManagerWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml.cs",
-              "RelativeToolTip": "Views\\DDHManagerWindow.xaml.cs",
-              "ViewState": "AQIAANUAAAAAAAAAAAAqwN0AAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-21T11:21:02.729Z",
               "EditorCaption": ""
             }
           ]

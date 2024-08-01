@@ -120,6 +120,80 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+        <Style x:Key="DatagridStyle" TargetType="DataGrid">
+            <!-- Make the border and grid lines a little less imposing -->
+            <Setter Property="BorderBrush" Value="#383838" />
+            <Setter Property="HorizontalGridLinesBrush" Value="#383838" />
+            <Setter Property="VerticalGridLinesBrush" Value="#383838" />
+            <Setter Property="ColumnHeaderStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Foreground" Value="White"></Setter>
+                        <Setter Property="Background" Value="#121212"></Setter>
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="Height" Value="35" />
+                        <Setter Property="SeparatorBrush" Value="White" />
+                        <Setter Property="FontWeight" Value="Black" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RowStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="#121212"></Setter>
+                        <Setter Property="Foreground" Value="White"></Setter>
+                        <Style.Triggers>
+                            <!-- Highlight a grid row as the mouse passes over -->
+
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="CellStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <!-- Highlight selected rows -->
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#ff66ccff" />
+                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="Background" Value="#ff66ccff" />
+                                <Setter Property="BorderBrush" Value="Black" />
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </Style.Triggers>
+                        <!-- Add some padding around the contents of a cell -->
+                        <Setter Property="Padding" Value="4,3,4,3" />
+                        <Setter Property="BorderBrush" Value="Transparent"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DataGridCell">
+                                    <Border Padding="{TemplateBinding Padding}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            Background="{TemplateBinding Background}">
+                                        <ContentPresenter />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="FocusVisualStyle">
+                            <Setter.Value>
+                                <Style TargetType="Control">
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 
 </Application>

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Navigation;
 using DynamicDataHub.Modules;
 using Microsoft.Win32;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace DynamicDataHub.Views
 {
