@@ -7,13 +7,13 @@ using System.Windows.Navigation;
 using DynamicDataHub.Modules;
 using Microsoft.Win32;
 using System.IO;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace DynamicDataHub.Views
 {
-    struct DataBasesListJson
+     class DataBasesListJson
     {
-        public string dbServerName { get; set; }
+        public List<string> DataBasesList { get; private set; } = new List<string>();
     }
 
     public partial class DDHAuthorization : Window
@@ -34,10 +34,15 @@ namespace DynamicDataHub.Views
         {
             List<string> dataBasesList = new List<string>();
 
-            string json = File.ReadAllText("./Data/DataBasesList.json");
-            var person = JsonSerializer.Deserialize<DataBasesListJson>(json);
+            var json = File.ReadAllText("./Data/DataBasesList.json");
+            Console.WriteLine(json);
+            var wrapper = JsonConvert.DeserializeObject<DataBasesListJson>(json);
 
-            Console.WriteLine($"JSON: {person.dbServerName}");
+            List<string> databases = wrapper.DataBasesList;
+            foreach (var database in databases)
+            {
+                dataBasesList.Add(database);
+            }
 
             return dataBasesList;
         }
