@@ -18,6 +18,8 @@ namespace DynamicDataHub.Modules
         private string serverName;
         private IDbConnection GetConnection;
 
+        private CustomMessageBoxBuilder customMessageBoxBuilder = new CustomMessageBoxBuilder();
+
         public static string NameDBManagementSystem { get; private set;} = "SQL Server Management Studio";
 
 
@@ -59,8 +61,58 @@ namespace DynamicDataHub.Modules
                 }
                 return databases;
             }
-            catch (SqlException){
-                MessageBox.Show("SqlException");
+            catch (SqlException ex){
+                switch (ex.Number)
+                {
+                    case 18456:
+                        MessageBox.Show("Неверный логин или пароль");
+                        break;
+                    case 102:
+                        MessageBox.Show("Некорректный синтаксис запроса");
+                        break;
+                    case 18451:
+                        MessageBox.Show("Не удалось установить соединение с сервером");
+                        break;
+                    case 156:
+                        MessageBox.Show("Недопустимый параметр в функции или процедуре");
+                        break;
+                    case 229:
+                        MessageBox.Show("Недостаточно прав для выполнения операции");
+                        break;
+                    case 2601:
+                        MessageBox.Show("Запись в таблицу запрещена");
+                        break;
+                    case 262:
+                        MessageBox.Show("Недостаточно прав для выполнения операции");
+                        break;
+                    case 2627:
+                        MessageBox.Show("Конфликт конкуренции (два процесса пытаются изменить одну и ту же строку)");
+                        break;
+                    case 2629:
+                        MessageBox.Show("Попытка вставить дублирующуюся запись в столбец, ограниченный UNIQUE");
+                        break;
+                    case 266:
+                        MessageBox.Show("Попытка вставить дубликат ключевого значения в столбце, ограниченном PRIMARY KEY или UNIQUE");
+                        break;
+                    case 2720:
+                        MessageBox.Show("Попытка вставить значение, которое превышает максимально допустимый размер для столбца");
+                        break;
+                    case 2746:
+                        MessageBox.Show("Попытка вставить значение NULL в столбец, который не позволяет NULL");
+                        break;
+                    case 245:
+                        MessageBox.Show("Ошибка преобразования типов");
+                        break;
+                    case 547:
+                        MessageBox.Show("Конфликт инструкции DELETE с ограничением REFERENCE в базе данных");
+                        break;
+                    default:
+                        MessageBox.Show($"Неизвестная ошибка {ex.Message} - {ex.Message}");
+                        Clipboard.SetText(ex.Message);
+                        break;
+
+                }
+
                 return null;
             }
             catch (Exception){
@@ -98,10 +150,17 @@ namespace DynamicDataHub.Modules
 
             foreach (var value in keyValuePairs.Values)
             {
-                query += $"'{value}',";
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    query += $"'{null}',";
+                }
+                else
+                {
+                    query += $"'{value}',";
+                }
             }
 
-            int lastIndexValues = query.LastIndexOf(',');
+                int lastIndexValues = query.LastIndexOf(',');
             if (lastIndexValues != -1)
             {
                 query = query.Remove(lastIndexValues, 1);

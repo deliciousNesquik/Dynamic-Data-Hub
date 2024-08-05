@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -497,7 +498,7 @@ namespace DynamicDataHub
             var editedColumn = e.Column.Header.ToString();
             var basedColumn = DataTable.Columns[0].Header.ToString();
             int countInsertColumns;
-            
+        
             countInsertColumns = DataTable.Columns.Count;
             foreach (var i in DataTable.Columns)
             {
@@ -524,6 +525,10 @@ namespace DynamicDataHub
             {
                 if (nullableColumns.Count == 0)
                 {
+                    if (columnValuePairs.ContainsKey(editedColumn))
+                    {
+                        return;
+                    }
                     columnValuePairs.Add(editedColumn, editedValue);
 
                     if (columnValuePairs.Count == countInsertColumns)
