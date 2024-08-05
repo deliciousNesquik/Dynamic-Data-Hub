@@ -21,23 +21,27 @@ namespace DynamicDataHub
     public partial class DDHManager : Window
     {
         #region Переменные
-        private DDHAuthorization ConnectionWindow;
-        private SQLServerConnector SqlServerDB;
-        private SQLIteConnector SQLiteDB;
+        private DDHAuthorization connectionWindow;
+        private SQLServerConnector sqlServerDB;
+        private SQLIteConnector sqliteDB;
         private CustomMessageBoxBuilder customMessageBoxBuilder;
 
-        private string ServerName;
-        private string NameDbFile;
+        private string serverName;
+        private string nameDbFile;
 
-        private string NameDBManagementSystem;
+        private string nameDBManagementSystem;
 
-        private int IndexOfColumn;
-        private int IndexOfDataType;
+        private int indexOfColumn;
+        private int indexOfDataType;
+        private int indexOfIsNullable;
 
         private string tableName;
         private string dbName;
 
         private string preparingCellForEditId;
+
+        private List<string> nullableColumns = new List<string>();
+        private Dictionary<string, string> columnValuePairs = new Dictionary<string, string>();
         #endregion
 
         #region Внутренние функции
@@ -50,13 +54,13 @@ namespace DynamicDataHub
 
             if (WindowState != WindowState.Maximized)
             {
-                absoluteX = mainWindowBounds.X + ColumnObjectExplorer.Width.Value + 8 + ((owner.RenderSize.Width - ConnectionWindow.Width) / 2);
-                absoluteY = mainWindowBounds.Y + RowObjectExplorer.Height.Value + RowConnecting.Height.Value + 2 + ((owner.RenderSize.Height - ConnectionWindow.Height) / 2);
+                absoluteX = mainWindowBounds.X + ColumnObjectExplorer.Width.Value + 8 + ((owner.RenderSize.Width - connectionWindow.Width) / 2);
+                absoluteY = mainWindowBounds.Y + RowObjectExplorer.Height.Value + RowConnecting.Height.Value + 2 + ((owner.RenderSize.Height - connectionWindow.Height) / 2);
             }
             else
             {
-                absoluteX = ColumnObjectExplorer.Width.Value + 8 + ((owner.RenderSize.Width - ConnectionWindow.Width) / 2);
-                absoluteY = RowObjectExplorer.Height.Value + RowConnecting.Height.Value + 2 + ((owner.RenderSize.Height - ConnectionWindow.Height) / 2);
+                absoluteX = ColumnObjectExplorer.Width.Value + 8 + ((owner.RenderSize.Width - connectionWindow.Width) / 2);
+                absoluteY = RowObjectExplorer.Height.Value + RowConnecting.Height.Value + 2 + ((owner.RenderSize.Height - connectionWindow.Height) / 2);
             }
 
             List<double> positionElements = new List<double>();
@@ -71,77 +75,83 @@ namespace DynamicDataHub
         public DDHManager()
         {
             InitializeComponent();
-            ConnectionWindow = new DDHAuthorization(this);
+            connectionWindow = new DDHAuthorization(this);
         }
         #endregion
 
         #region Методы отображения данных
         public DataTable GetDataTableSQLServer(string TableName, string DBName)
         {
+            nullableColumns.Clear();
             DataTable.Visibility = Visibility.Visible;
-            SqlServerDB = new SQLServerConnector(ServerName);
+            sqlServerDB = new SQLServerConnector(serverName);
 
             DataTable table = new DataTable(TableName);
-            DataTable databases = SqlServerDB.GetColumnTable(TableName, DBName);
+            DataTable databases = sqlServerDB.GetColumnTable(TableName, DBName);
 
 
-            IndexOfColumn = 0;
-            IndexOfDataType = 1;
+            indexOfColumn = 0;
+            indexOfDataType = 1;
+            indexOfIsNullable = 2;
 
             int rows_columns = databases.Rows.Count;
 
             foreach (DataRow _row in databases.Rows)
             {
-                switch (_row[IndexOfDataType].ToString())
+                if (_row[indexOfIsNullable].ToString() == "YES")
+                {
+                    nullableColumns.Add(_row[indexOfColumn].ToString());
+                }
+                switch (_row[indexOfDataType].ToString())
                 {
                     case "int":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(Int32));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(Int32));
                         break;
                     case "nvarchar":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(String));
                         break;
                     case "date":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(DateTime));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(DateTime));
                         break;
                     case "bit":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(Boolean));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(Boolean));
                         break;
                     case "nchar":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(String));
                         break;
                     case "char":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(String));
                         break;
                     case "varchar":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(String));
                         break;
                     case "float":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(float));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(float));
                         break;
                     case "decimal":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(decimal));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(decimal));
                         break;
                     case "datetime":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(DateTime));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(DateTime));
                         break;
                     case "image":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(string));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(string));
                         break;
                     case "uniqueidentifier":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(string));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(string));
                         break;
                     case "sysname":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(string));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(string));
                         break;
                     case "varbinary":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(string));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(string));
                         break;
                     default:
                         break;
                 }
             }
 
-            databases = SqlServerDB.IsIdentityColumn(tableName, dbName);
+            databases = sqlServerDB.IsIdentityColumn(tableName, dbName);
 
             foreach (DataColumn column in table.Columns)
             {
@@ -158,7 +168,7 @@ namespace DynamicDataHub
             }
 
 
-            databases = SqlServerDB.CreateQuery($"SELECT * FROM [{TableName}]", DBName);
+            databases = sqlServerDB.CreateQuery($"SELECT * FROM [{TableName}]", DBName);
             int count_columns = databases.Columns.Count;
 
             List<object> row_values = new List<object>();
@@ -179,38 +189,46 @@ namespace DynamicDataHub
 
         public DataTable GetDataTableSQLite(string TableName)
         {
+            nullableColumns.Clear();
+
             DataTable.Visibility = Visibility.Visible;
-            SQLiteDB = new SQLIteConnector(NameDbFile);
+            sqliteDB = new SQLIteConnector(nameDbFile);
 
             DataTable table = new DataTable(TableName);
-            DataTable databases = SQLiteDB.GetColumnTable(TableName);
+            DataTable databases = sqliteDB.GetColumnTable(TableName);
 
-            IndexOfColumn = 1;
-            IndexOfDataType = 2;
-
+            indexOfColumn = 1;
+            indexOfDataType = 2;
+            indexOfIsNullable = 3;
+            
             int rows_columns = databases.Rows.Count;
 
             foreach (DataRow _row in databases.Rows)
             {
-                switch (_row[IndexOfDataType].ToString())
+                if (Int32.Parse(_row[indexOfIsNullable].ToString()) == 0)
+                {
+                    nullableColumns.Add(_row[indexOfColumn].ToString());
+                }
+
+                switch (_row[indexOfDataType].ToString())
                 {
                     case "INTEGER":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(Int32));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(Int32));
                         break;
                     case "TEXT":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(String));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(String));
                         break;
                     case "BLOB":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(byte));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(byte));
                         break;
                     case "REAL":
-                        table.Columns.Add(_row[IndexOfColumn].ToString(), typeof(float));
+                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(float));
                         break;
                 }
             }
 
 
-            databases = SQLiteDB.CreateQuery($"SELECT * FROM [{TableName}]");
+            databases = sqliteDB.CreateQuery($"SELECT * FROM [{TableName}]");
 
             int count_columns = databases.Columns.Count;
 
@@ -244,18 +262,18 @@ namespace DynamicDataHub
             DataTable.DataContext = null;
             TreeContent.Items.Clear();
 
-            this.ServerName = ServerName;
-            this.NameDBManagementSystem = NameDBManagementSystem;
+            this.serverName = ServerName;
+            this.nameDBManagementSystem = NameDBManagementSystem;
 
-            SqlServerDB = new SQLServerConnector(ServerName);
+            sqlServerDB = new SQLServerConnector(ServerName);
             try
             {
                 TreeViewItem Databases = new TreeViewItem(){Header = "Базы данных"};
                 TreeContent.Items.Add(Databases);
 
-                if (SqlServerDB.GetDBNames().Count > 0)
+                if (sqlServerDB.GetDBNames().Count > 0)
                 {
-                    foreach (var i in SqlServerDB.GetDBNames())
+                    foreach (var i in sqlServerDB.GetDBNames())
                     {
 
                         TreeViewItem Database = new TreeViewItem() { Header = i };
@@ -264,9 +282,9 @@ namespace DynamicDataHub
                         TreeViewItem Tables = new TreeViewItem() { Header = "Таблицы" };
                         Database.Items.Add(Tables);
 
-                        if (SqlServerDB.GetDBTables(i).Count > 0)
+                        if (sqlServerDB.GetDBTables(i).Count > 0)
                         {
-                            foreach (var j in SqlServerDB.GetDBTables(i))
+                            foreach (var j in sqlServerDB.GetDBTables(i))
                             {
                                 TreeViewItem Table = new TreeViewItem() {Header = j};
 
@@ -298,16 +316,16 @@ namespace DynamicDataHub
             DataTable.DataContext = null;
             TreeContent.Items.Clear();
 
-            this.NameDBManagementSystem = NameDBManagementSystem;
-            this.NameDbFile = NameDBFIle_;
+            this.nameDBManagementSystem = NameDBManagementSystem;
+            this.nameDbFile = NameDBFIle_;
 
-            SQLiteDB = new SQLIteConnector(NameDBFIle_);
+            sqliteDB = new SQLIteConnector(NameDBFIle_);
 
             TreeViewItem Tables = new TreeViewItem() { Header = "Таблицы" };
             TreeContent.Items.Add(Tables);
 
 
-            foreach(var i in SQLiteDB.GetDBTables())
+            foreach(var i in sqliteDB.GetDBTables())
             {
                 TreeViewItem Table = new TreeViewItem() { Header=i };
 
@@ -323,11 +341,11 @@ namespace DynamicDataHub
         {
             TreeViewItem tableName = (TreeViewItem)sender;
             this.tableName = tableName.Header.ToString();
-            if (this.NameDBManagementSystem == "SQLite")
+            if (this.nameDBManagementSystem == "SQLite")
             {
                 DataTable.DataContext = GetDataTableSQLite(tableName.Header.ToString());
             }
-            else if (this.NameDBManagementSystem == "SQL Server Management Studio")
+            else if (this.nameDBManagementSystem == "SQL Server Management Studio")
             {
                 if (tableName.Parent.GetType() == typeof(TreeViewItem)) // verify that parent is TreeViewItem
                 {
@@ -352,7 +370,7 @@ namespace DynamicDataHub
             }                  
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { ConnectionWindow.Close(); }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { connectionWindow.Close(); }
         #endregion
 
         #region Обработчики открытия окна соединения
@@ -360,18 +378,18 @@ namespace DynamicDataHub
         {
             List<double> positionElement = CallConnectionWindow(FrameTableData);
 
-            ConnectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            connectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
 
 
-            ConnectionWindow.Left = positionElement[0];
-            ConnectionWindow.Top = positionElement[1];
+            connectionWindow.Left = positionElement[0];
+            connectionWindow.Top = positionElement[1];
 
-            ConnectionWindow.ShowDialog();
-            ConnectionWindow.Focus();
+            connectionWindow.ShowDialog();
+            connectionWindow.Focus();
         }
         private void Window_ContentRendered(object sender, EventArgs e)
         {
-            ConnectionWindow.Focus();
+            connectionWindow.Focus();
         }
         
         #endregion
@@ -426,15 +444,15 @@ namespace DynamicDataHub
         {
             List<double> positionElement = CallConnectionWindow(FrameTableData);
 
-            ConnectionWindow = new DDHAuthorization(this);
-            ConnectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            connectionWindow = new DDHAuthorization(this);
+            connectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
 
 
-            ConnectionWindow.Left = positionElement[0];
-            ConnectionWindow.Top = positionElement[1];
+            connectionWindow.Left = positionElement[0];
+            connectionWindow.Top = positionElement[1];
 
-            ConnectionWindow.ShowDialog();
-            ConnectionWindow.Focus();
+            connectionWindow.ShowDialog();
+            connectionWindow.Focus();
         }
 
         private void Disconnect_Click(object sender, RoutedEventArgs e)
@@ -456,15 +474,16 @@ namespace DynamicDataHub
             var nameColumnIndefication = DataTable.SelectedCells[0].Column.Header.ToString();
             var _cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
             var indefication = (_cellContent as TextBlock)?.Text;
-            if(NameDBManagementSystem == "SQL Server Management Studio")
+
+            if(nameDBManagementSystem == "SQL Server Management Studio")
             {
-                SqlServerDB = new SQLServerConnector(ServerName);
-                SqlServerDB.DeleteRow(tableName, nameColumnIndefication, indefication, dbName);
+                sqlServerDB = new SQLServerConnector(serverName);
+                sqlServerDB.DeleteRow(tableName, nameColumnIndefication, indefication, dbName);
                 DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
             }
-            else if (NameDBManagementSystem == "SQLite")
+            else if (nameDBManagementSystem == "SQLite")
             {
-                SQLiteDB.DeleteRow(tableName, nameColumnIndefication, indefication);
+                sqliteDB.DeleteRow(tableName, nameColumnIndefication, indefication);
                 DataTable.DataContext = GetDataTableSQLite(tableName);
             }
         }
@@ -474,23 +493,81 @@ namespace DynamicDataHub
         private async void DataTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             var editedValue = ((TextBox)e.EditingElement).Text;
-
+            Console.WriteLine($"событие изменения - добавление ");
             var editedColumn = e.Column.Header.ToString();
             var basedColumn = DataTable.Columns[0].Header.ToString();
-
-            if (NameDBManagementSystem == "SQL Server Management Studio")
+            int countInsertColumns;
+            
+            countInsertColumns = DataTable.Columns.Count;
+            foreach (var i in DataTable.Columns)
             {
-                SqlServerDB.UpdateRow(dbName, tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
-                await Task.Delay(100);
-                DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
+                if (i.IsReadOnly) countInsertColumns--;
             }
-            else if(NameDBManagementSystem == "SQLite")
+            if (!string.IsNullOrWhiteSpace(preparingCellForEditId))
             {
-                SQLiteDB.UpdateRow(tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
-                await Task.Delay(100);
-                DataTable.DataContext = GetDataTableSQLite(tableName);
-            }
+                if (nameDBManagementSystem == "SQL Server Management Studio")
+                {
+                    sqlServerDB.UpdateRow(dbName, tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
+                    await Task.Delay(100);
 
+                    DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
+                }
+                else if (nameDBManagementSystem == "SQLite")
+                {
+                    sqliteDB.UpdateRow(tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
+                    await Task.Delay(100);
+
+                    DataTable.DataContext = GetDataTableSQLite(tableName);
+                }
+            }
+            else
+            {
+                if (nullableColumns.Count == 0)
+                {
+                    columnValuePairs.Add(editedColumn, editedValue);
+
+                    if (columnValuePairs.Count == countInsertColumns)
+                    {
+                        if (nameDBManagementSystem == "SQL Server Management Studio")
+                        {
+                            sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
+                            await Task.Delay(100);
+
+                            DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
+                            return;
+                        }
+                        else if (nameDBManagementSystem == "SQLite")
+                        {
+                            sqliteDB.AddRow(tableName, columnValuePairs); await Task.Delay(100);
+
+                            DataTable.DataContext = GetDataTableSQLite(tableName);
+                            return;
+                        }
+                    }
+                }
+                else if (nullableColumns.Count > 0)
+                {
+                    countInsertColumns -= nullableColumns.Count;
+                    columnValuePairs.Add(editedColumn, editedValue);
+                    if (columnValuePairs.Count >= countInsertColumns)
+                    {
+                        if (nameDBManagementSystem == "SQL Server Management Studio")
+                        {
+                            sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
+                            await Task.Delay(100);
+
+                            DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
+                        }
+                        else if (nameDBManagementSystem == "SQLite")
+                        {
+                            sqliteDB.AddRow(tableName, columnValuePairs);
+                            await Task.Delay(100);
+
+                            DataTable.DataContext = GetDataTableSQLite(tableName);
+                        }
+                    }
+                }
+            }
         }
 
         private void DataTable_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
@@ -502,5 +579,10 @@ namespace DynamicDataHub
 
         }
         #endregion
+
+        private void DataTable_AddingNewItem(object sender, AddingNewItemEventArgs e)
+        {
+            MessageBox.Show("add");
+        }
     }
 }

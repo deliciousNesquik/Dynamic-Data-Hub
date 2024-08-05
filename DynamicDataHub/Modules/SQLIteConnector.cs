@@ -16,7 +16,7 @@ namespace DynamicDataHub.Modules{
         private string pathFileDB;
         private IDbConnection GetConnection;
 
-        public static string NameDBManagementSystem = "SQLite";
+        public static string NameDBManagementSystem { get; private set; } = "SQLite";
 
         public SQLIteConnector(string pathFileDB) 
         {
@@ -67,6 +67,39 @@ namespace DynamicDataHub.Modules{
         public DataTable UpdateRow(string tableName, string editingColumn, string editingElement, string basedColumn, string valueBasedColumn)
         {
             return CreateQuery($"update [{tableName}] set [{editingColumn}] = '{editingElement}' where [{basedColumn}] = '{valueBasedColumn}'");
+        }
+
+        public DataTable AddRow(string TableName, Dictionary<string, string> keyValuePairs)
+        {
+            string query = $"INSERT INTO {TableName}(";
+
+            foreach (var key in keyValuePairs.Keys)
+            {
+                query += $"{key},";
+            }
+
+            int lastIndexColumns = query.LastIndexOf(',');
+            if (lastIndexColumns != -1)
+            {
+                query = query.Remove(lastIndexColumns, 1);
+            }
+
+            query += ") VALUES (";
+
+            foreach (var value in keyValuePairs.Values)
+            {
+                query += $"'{value}',";
+            }
+
+            int lastIndexValues = query.LastIndexOf(',');
+            if (lastIndexValues != -1)
+            {
+                query = query.Remove(lastIndexValues, 1);
+            }
+
+            query += ")";
+
+            return CreateQuery(query);
         }
 
         public async Task<bool> GetInfoConnection()

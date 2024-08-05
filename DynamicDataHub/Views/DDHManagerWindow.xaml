@@ -97,7 +97,7 @@
 
         <TreeView Name="TreeContent" Grid.Row="2" Grid.Column="0" Background="#121212">
         </TreeView>
-        <DataGrid Style="{StaticResource DatagridStyle}" Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True"   ItemsSource="{Binding }" >
+        <DataGrid Style="{StaticResource DatagridStyle}" Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True" CellEditEnding="DataTable_CellEditEnding" PreparingCellForEdit="DataTable_PreparingCellForEdit"  ItemsSource="{Binding }" AddingNewItem="DataTable_AddingNewItem" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="DeleteRow" Header="Удалить" Click="DeleteRow_Click"></MenuItem>

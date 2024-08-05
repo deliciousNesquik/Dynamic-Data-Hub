@@ -146,7 +146,7 @@ namespace DynamicDataHub.Views
                         customMessageBox.ShowError("Ошибка", "Выберите файл базы данных", "Закрыть", this);
                     }
                     break;
-                case "SQL Server Management Studio":
+                case "MS SQL Server":
 
                     _serverName = NameDBServerBox.Text;
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Xml.Linq;
 
 namespace DynamicDataHub.Modules
@@ -17,7 +18,7 @@ namespace DynamicDataHub.Modules
         private string serverName;
         private IDbConnection GetConnection;
 
-        public static string NameDBManagementSystem = "SQL Server Management Studio";
+        public static string NameDBManagementSystem { get; private set;} = "SQL Server Management Studio";
 
 
         public SQLServerConnector(string serverName)
@@ -27,7 +28,7 @@ namespace DynamicDataHub.Modules
 
         public DataTable GetColumnTable(string TableName, string DBName)
         {
-            return CreateQuery($"SELECT COLUMN_NAME, DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'{TableName}'", DBName);
+            return CreateQuery($"SELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'{TableName}'", DBName);
         }
 
         public List<string> GetDBNames()
@@ -46,6 +47,7 @@ namespace DynamicDataHub.Modules
         public DataTable CreateQuery(string query, string DBName=""){
 
             DataTable databases = new DataTable("Databases");
+
             GetConnection = new SqlConnection($"Data Source={this.serverName};Initial Catalog='{DBName}';Integrated Security=True;trustservercertificate=True");
             try
             {
@@ -75,6 +77,39 @@ namespace DynamicDataHub.Modules
         public DataTable UpdateRow(string dbName, string tableName, string editingColumn, string editingElement, string basedColumn, string valueBasedColumn)
         {
             return CreateQuery($"update [{tableName}] set [{editingColumn}] = '{editingElement}' where [{basedColumn}] = '{valueBasedColumn}'", dbName);
+        }
+
+        public DataTable AddRow(string TableName, Dictionary<string, string> keyValuePairs ,string DBName)
+        {
+            string query = $"INSERT INTO {TableName}(";
+
+            foreach (var key in keyValuePairs.Keys)
+            {
+                query += $"{key},";
+            }
+
+            int lastIndexColumns = query.LastIndexOf(',');
+            if (lastIndexColumns != -1)
+            {
+                query = query.Remove(lastIndexColumns, 1);
+            }
+
+            query += ") VALUES (";
+
+            foreach (var value in keyValuePairs.Values)
+            {
+                query += $"'{value}',";
+            }
+
+            int lastIndexValues = query.LastIndexOf(',');
+            if (lastIndexValues != -1)
+            {
+                query = query.Remove(lastIndexValues, 1);
+            }
+
+            query += ")";
+
+            return CreateQuery(query, DBName);
         }
 
         public DataTable IsIdentityColumn(string tableName, string dbName)
