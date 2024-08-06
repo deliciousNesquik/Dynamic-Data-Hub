@@ -49,23 +49,6 @@
                     <Image Source="../Resources/explorer.png" Width="20"></Image>
                 </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0 7 0 0">
-                <!--<TextBlock Name="NameDBBlock" VerticalAlignment="Center" Text="Имя базы данных"></TextBlock>
-                <ComboBox Name="DBListComboBox" Height="25" FontSize="15" Width="200" Margin="4 0 0 0" DropDownOpened="DBListComboBox_DropDownOpened" SelectionChanged="DBListComboBox_SelectionChanged">-->
-                    <!--<ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="#121212"/>
-                                        <Setter Property="FontFamily" Value="Segoe UI"/>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>-->
-            </StackPanel>
         </StackPanel>
 
         <Button Template="{StaticResource MainButton}" Name="ConnectionButton" Content="Соединить" Click="ConnectionButton_Click" Grid.Column="1" Grid.Row="2" Width="120" Height="20"></Button>

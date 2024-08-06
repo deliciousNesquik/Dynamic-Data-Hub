@@ -18,7 +18,7 @@ namespace DynamicDataHub.Views
 
     public partial class DDHAuthorization : Window
     {
-        #region Переменные
+        #region vars
 
         //Переменная для вызова модального окна с информацией
         private CustomMessageBoxBuilder customMessageBox;
@@ -29,7 +29,7 @@ namespace DynamicDataHub.Views
 
         #endregion
 
-        #region Внутренние функции
+        #region internal function
         private List<string> GetDataBasesList()
         {
             List<string> dataBasesList = new List<string>();
@@ -48,7 +48,7 @@ namespace DynamicDataHub.Views
         }
         #endregion
 
-        #region Конструкторы
+        #region builders
         public DDHAuthorization(DDHManager connectionWindow)
         {
             this.ddhManager       = connectionWindow;
@@ -77,7 +77,7 @@ namespace DynamicDataHub.Views
         }
         #endregion
 
-        #region Методы для работы с ComboBox
+        #region functions for combo box
         private void DBMSComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!DBMSComboBox.SelectedItem.ToString().Contains("SQLite"))
@@ -95,26 +95,24 @@ namespace DynamicDataHub.Views
         }
         #endregion
 
-        #region Методы для соединения с базой данных
+        #region functions for connection data base
         private void OpenExplorer_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.Filter = "Database Files (*.db)|*.db";
+            openFileDialog.Filter         = "Database Files (*.db)|*.db";
 
             if (openFileDialog.ShowDialog() == true)
             {
                 string selectedFilePath = openFileDialog.FileName;
-                this.selectedFilePath = selectedFilePath;
-                int lastSlashIndex = selectedFilePath.LastIndexOf('\\');
-                int lastIndex = selectedFilePath.Length - 1;
-                string result = selectedFilePath.Substring(lastSlashIndex + 1, lastIndex - lastSlashIndex);
+                this.selectedFilePath   = selectedFilePath;
+                int lastSlashIndex      = selectedFilePath.LastIndexOf('\\');
+                int lastIndex           = selectedFilePath.Length - 1;
+                string result           = selectedFilePath.Substring(lastSlashIndex + 1, lastIndex - lastSlashIndex);
                 NameDBServerBox.Text = result;
             }
         }
         private async void ConnectionButton_Click(object sender, RoutedEventArgs e)
         {
-
             string _fileName;
             string _serverName;
 
@@ -186,10 +184,9 @@ namespace DynamicDataHub.Views
         }
         #endregion
 
-        #region Обработчики закрытий окна
+        #region closing window event handler
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e){customMessageBox.customMessageBox.Close();}
         private void CloseWindow_Click(object sender, RoutedEventArgs e){this.Close();}
         #endregion
-
     }
 }

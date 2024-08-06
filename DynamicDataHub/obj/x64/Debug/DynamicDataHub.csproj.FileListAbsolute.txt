@@ -315,3 +315,5 @@ C:\Users\prod_upal\Desktop\02 08\DynamicDataHub\obj\x64\Debug\DynamicDataHub.exe
 C:\Users\prod_upal\Desktop\02 08\DynamicDataHub\obj\x64\Debug\DynamicDataHub.pdb
 C:\Users\prod_upal\Desktop\02 08\DynamicDataHub\bin\x64\Debug\Newtonsoft.Json.dll
 C:\Users\prod_upal\Desktop\02 08\DynamicDataHub\bin\x64\Debug\Newtonsoft.Json.xml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\Newtonsoft.Json.dll
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\bin\x64\Debug\Newtonsoft.Json.xml

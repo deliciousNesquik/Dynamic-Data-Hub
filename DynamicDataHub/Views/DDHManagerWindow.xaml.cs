@@ -2,26 +2,18 @@
 using DynamicDataHub.Views;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data;
-using System.Data.Entity;
-using System.Data.SqlClient;
-using System.Data.SqlTypes;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Xml.Linq;
 
 namespace DynamicDataHub
 {
     public partial class DDHManager : Window
     {
-        #region Переменные
+        #region vars
         private DDHAuthorization connectionWindow;
         private SQLServerConnector sqlServerDB;
         private SQLIteConnector sqliteDB;
@@ -45,7 +37,7 @@ namespace DynamicDataHub
         private Dictionary<string, string> columnValuePairs = new Dictionary<string, string>();
         #endregion
 
-        #region Внутренние функции
+        #region internal functions
         private List<double> CallConnectionWindow(Frame owner)
         {
             var mainWindowBounds = new Rect(this.Left, this.Top, this.ActualWidth, this.ActualHeight);
@@ -70,9 +62,29 @@ namespace DynamicDataHub
 
             return positionElements;
         }
+
+        public void ShowNotification(string notificationMessage)
+        {
+            double beginState = 0;
+            double endState = 1;
+            double animationSeconds = 3;
+
+            DoubleAnimation notificationMessageAnim = new DoubleAnimation();
+            notificationMessageAnim.From = beginState;
+            notificationMessageAnim.To = endState;
+            notificationMessageAnim.Duration = TimeSpan.FromSeconds(animationSeconds);
+
+            InfoMessageTextBlock.Text = notificationMessage;
+            InfoMessageStackPanel.BeginAnimation(StackPanel.OpacityProperty, notificationMessageAnim);
+
+            notificationMessageAnim.From = endState;
+            notificationMessageAnim.To = beginState;
+            notificationMessageAnim.Duration = TimeSpan.FromSeconds(animationSeconds);
+            InfoMessageStackPanel.BeginAnimation(StackPanel.OpacityProperty, notificationMessageAnim);
+        }
         #endregion
 
-        #region Конструкторы
+        #region builders
         public DDHManager()
         {
             InitializeComponent();
@@ -80,7 +92,7 @@ namespace DynamicDataHub
         }
         #endregion
 
-        #region Методы отображения данных
+        #region functions for displaying data
         public DataTable GetDataTableSQLServer(string TableName, string DBName)
         {
             nullableColumns.Clear();
@@ -196,15 +208,15 @@ namespace DynamicDataHub
             sqliteDB = new SQLIteConnector(nameDbFile);
 
             DataTable table = new DataTable(TableName);
-            DataTable databases = sqliteDB.GetColumnTable(TableName);
+            DataTable dataBases = sqliteDB.GetColumnTable(TableName);
 
             indexOfColumn = 1;
             indexOfDataType = 2;
             indexOfIsNullable = 3;
             
-            int rows_columns = databases.Rows.Count;
+            int rows_columns = dataBases.Rows.Count;
 
-            foreach (DataRow _row in databases.Rows)
+            foreach (DataRow _row in dataBases.Rows)
             {
                 if (Int32.Parse(_row[indexOfIsNullable].ToString()) == 0)
                 {
@@ -229,20 +241,20 @@ namespace DynamicDataHub
             }
 
 
-            databases = sqliteDB.CreateQuery($"SELECT * FROM [{TableName}]");
+            dataBases = sqliteDB.CreateQuery($"SELECT * FROM [{TableName}]");
 
-            int count_columns = databases.Columns.Count;
+            int countСolumns = dataBases.Columns.Count;
 
-            List<object> row_values = new List<object>();
-            foreach (DataRow _row in databases.Rows)
+            List<object> rowValues = new List<object>();
+            foreach (DataRow _row in dataBases.Rows)
             {
-                for (int i = 0; i < count_columns; i++)
+                for (int i = 0; i < countСolumns; i++)
                 {
-                    row_values.Add(_row[i]);
+                    rowValues.Add(_row[i]);
                 }
                 try
                 {
-                    table.Rows.Add(row_values.ToArray());
+                    table.Rows.Add(rowValues.ToArray());
                 }
                 catch (ArgumentException)
                 {
@@ -250,14 +262,14 @@ namespace DynamicDataHub
                     customMessageBoxBuilder.ShowError("Ошибка", "У столбца в таблице отсутствует тип данных", "Ok", this);
                 }
 
-                row_values.Clear();
+                rowValues.Clear();
             }
 
             return table;
         }
         #endregion
 
-        #region Методы подключения к базам данных
+        #region functions of connecting to databases
         public void ConnectionSQLServer(String ServerName, String NameDBManagementSystem)
         {
             DataTable.DataContext = null;
@@ -276,7 +288,6 @@ namespace DynamicDataHub
                 {
                     foreach (var i in sqlServerDB.GetDBNames())
                     {
-
                         TreeViewItem Database = new TreeViewItem() { Header = i };
                         Databases.Items.Add(Database);
 
@@ -296,19 +307,19 @@ namespace DynamicDataHub
                         }
                         else
                         {
-                            Console.WriteLine($"База данных: {i} не содержит таблиц");
+                            ShowNotification("База данных не содержит таблиц");
                         }
                         
                     }
                 }
                 else
                 {
-                    Console.WriteLine("нет баз данных");
+                    ShowNotification("Отсутствуют базы данных");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                customMessageBoxBuilder.ShowError("Внутренняя ошибка", ex.Message, "Назад", this);
             }
         }
 
@@ -337,16 +348,17 @@ namespace DynamicDataHub
         }
         #endregion
 
-        #region Обработчики взаимодействия с UI элементами
+        #region handlers for interaction with UI elements
         private void TableSelected(object sender, RoutedEventArgs e)
         {
             TreeViewItem tableName = (TreeViewItem)sender;
             this.tableName = tableName.Header.ToString();
-            if (this.nameDBManagementSystem == "SQLite")
+
+            if (this.nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
             {
                 DataTable.DataContext = GetDataTableSQLite(tableName.Header.ToString());
             }
-            else if (this.nameDBManagementSystem == "SQL Server Management Studio")
+            else if (this.nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
             {
                 if (tableName.Parent.GetType() == typeof(TreeViewItem)) // verify that parent is TreeViewItem
                 {
@@ -364,7 +376,7 @@ namespace DynamicDataHub
                         }
                         else
                         {
-                            MessageBox.Show("Нет столбцов");
+                            customMessageBoxBuilder.ShowError("Ошибка в таблице", "В данной таблице отсутствуют столбцы", "Назад", this);
                         }
                     }
                 }
@@ -372,13 +384,12 @@ namespace DynamicDataHub
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { connectionWindow.Close(); }
-        #endregion
 
-        #region Обработчики открытия окна соединения
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Connect_Click(object sender, RoutedEventArgs e)
         {
             List<double> positionElement = CallConnectionWindow(FrameTableData);
 
+            connectionWindow = new DDHAuthorization(this);
             connectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
 
 
@@ -388,14 +399,18 @@ namespace DynamicDataHub
             connectionWindow.ShowDialog();
             connectionWindow.Focus();
         }
-        private void Window_ContentRendered(object sender, EventArgs e)
-        {
-            connectionWindow.Focus();
-        }
-        
-        #endregion
 
-        #region Обрабочики сворачивания левой панели
+        private void Disconnect_Click(object sender, RoutedEventArgs e)
+        {
+            DataTable.DataContext = null;
+            TreeContent.Items.Clear();
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void WrapColumn_Click(object sender, RoutedEventArgs e)
         {
             //Создание обьекта класса ротейрТрансформ 
@@ -439,15 +454,12 @@ namespace DynamicDataHub
         }
         #endregion
 
-
-        #region Обработчики нажатий на кнопки
-        private void Connect_Click(object sender, RoutedEventArgs e)
+        #region handlers for opening the connection window
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             List<double> positionElement = CallConnectionWindow(FrameTableData);
 
-            connectionWindow = new DDHAuthorization(this);
             connectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
-
 
             connectionWindow.Left = positionElement[0];
             connectionWindow.Top = positionElement[1];
@@ -455,20 +467,10 @@ namespace DynamicDataHub
             connectionWindow.ShowDialog();
             connectionWindow.Focus();
         }
-
-        private void Disconnect_Click(object sender, RoutedEventArgs e)
-        {
-            DataTable.DataContext = null;
-            TreeContent.Items.Clear();
-        }
-
-        private void Refresh_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        private void Window_ContentRendered(object sender, EventArgs e){connectionWindow.Focus();}
         #endregion
 
-        #region Обработчик взаимодействия с ContextMenu
+        #region handler for interaction with ContextMenu
         private void DeleteRow_Click(object sender, RoutedEventArgs e)
         {
             var _selectedCell = DataTable.SelectedCells[0];
@@ -476,25 +478,27 @@ namespace DynamicDataHub
             var _cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
             var indefication = (_cellContent as TextBlock)?.Text;
 
-            if(nameDBManagementSystem == "SQL Server Management Studio")
+            if(nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
             {
                 sqlServerDB = new SQLServerConnector(serverName);
                 sqlServerDB.DeleteRow(tableName, nameColumnIndefication, indefication, dbName);
                 DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
+                ShowNotification("Успешное удаление в таблице!");
             }
-            else if (nameDBManagementSystem == "SQLite")
+            else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
             {
                 sqliteDB.DeleteRow(tableName, nameColumnIndefication, indefication);
                 DataTable.DataContext = GetDataTableSQLite(tableName);
+                ShowNotification("Успешное удаление в таблице!");
             }
         }
         #endregion
 
-        #region Обработчик взаимодействия с данными таблиц
+        #region handler for interaction with table data
         private async void DataTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             var editedValue = ((TextBox)e.EditingElement).Text;
-            Console.WriteLine($"событие изменения - добавление ");
+
             var editedColumn = e.Column.Header.ToString();
             var basedColumn = DataTable.Columns[0].Header.ToString();
             int countInsertColumns;
@@ -506,19 +510,21 @@ namespace DynamicDataHub
             }
             if (!string.IsNullOrWhiteSpace(preparingCellForEditId))
             {
-                if (nameDBManagementSystem == "SQL Server Management Studio")
+                if (nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
                 {
                     sqlServerDB.UpdateRow(dbName, tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
                     await Task.Delay(100);
 
                     DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
+                    ShowNotification("Успешное изменение в таблице!");
                 }
-                else if (nameDBManagementSystem == "SQLite")
+                else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
                 {
                     sqliteDB.UpdateRow(tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
                     await Task.Delay(100);
 
                     DataTable.DataContext = GetDataTableSQLite(tableName);
+                    ShowNotification("Успешное изменение в таблице!");
                 }
             }
             else
@@ -533,7 +539,7 @@ namespace DynamicDataHub
 
                     if (columnValuePairs.Count == countInsertColumns)
                     {
-                        if (nameDBManagementSystem == "SQL Server Management Studio")
+                        if (nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
                         {
                             sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
                             await Task.Delay(100);
@@ -541,7 +547,7 @@ namespace DynamicDataHub
                             DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
                             return;
                         }
-                        else if (nameDBManagementSystem == "SQLite")
+                        else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
                         {
                             sqliteDB.AddRow(tableName, columnValuePairs); await Task.Delay(100);
 
@@ -556,14 +562,14 @@ namespace DynamicDataHub
                     columnValuePairs.Add(editedColumn, editedValue);
                     if (columnValuePairs.Count >= countInsertColumns)
                     {
-                        if (nameDBManagementSystem == "SQL Server Management Studio")
+                        if (nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
                         {
                             sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
                             await Task.Delay(100);
 
                             DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
                         }
-                        else if (nameDBManagementSystem == "SQLite")
+                        else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
                         {
                             sqliteDB.AddRow(tableName, columnValuePairs);
                             await Task.Delay(100);
@@ -585,9 +591,6 @@ namespace DynamicDataHub
         }
         #endregion
 
-        private void DataTable_AddingNewItem(object sender, AddingNewItemEventArgs e)
-        {
-            MessageBox.Show("add");
-        }
+        private void DataTable_AddingNewItem(object sender, AddingNewItemEventArgs e) => ShowNotification("Успешное добавление в таблицу");
     }
 }
