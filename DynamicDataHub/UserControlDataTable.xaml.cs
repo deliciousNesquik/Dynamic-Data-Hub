@@ -61,7 +61,9 @@ namespace DynamicDataHub
             this.serverName = serverName;
             this.nameDbFile = nameDbFile;
 
-            switch(this.nameDBManagementSystem)
+            CustomNotificationBuilder.CreateNotification(MainGrid);
+
+            switch (this.nameDBManagementSystem)
             {
                 case "SQL Server Management Studio":
                     sqlServerDB = new SQLServerConnector(this.serverName);
@@ -295,7 +297,7 @@ namespace DynamicDataHub
                     DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
 
 
-                    //ShowNotification("Успешное изменение в таблице!");
+                    CustomNotificationBuilder.ShowNotificationOpacity("Успешное изменение в таблице!");
                 }
                 else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
                 {
@@ -304,7 +306,7 @@ namespace DynamicDataHub
 
                     DataTable.DataContext = GetDataTableSQLite(tableName);
 
-                    //ShowNotification("Успешное изменение в таблице!");
+                    CustomNotificationBuilder.ShowNotificationOpacity("Успешное изменение в таблице!");
                 }
             }
             else
@@ -387,13 +389,13 @@ namespace DynamicDataHub
                 sqlServerDB = new SQLServerConnector(serverName);
                 sqlServerDB.DeleteRow(tableName, nameColumnIndefication, indefication, dbName);
                 DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
-                //ShowNotification("Успешное удаление в таблице!");
+                CustomNotificationBuilder.ShowNotificationOpacity("Успешное удаление в таблице!");
             }
             else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
             {
                 sqliteDB.DeleteRow(tableName, nameColumnIndefication, indefication);
                 DataTable.DataContext = GetDataTableSQLite(tableName);
-                //ShowNotification("Успешное удаление в таблице!");
+                CustomNotificationBuilder.ShowNotificationOpacity("Успешное удаление в таблице!");
             }
         }
         #endregion

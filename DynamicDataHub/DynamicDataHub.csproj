@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="Interfaces\IDataTableControl.cs" />
     <Compile Include="Modules\CustomMessageBoxBuilder.cs" />
+    <Compile Include="Modules\CustomNotificationBuilder.cs" />
     <Compile Include="Modules\DBManagementSystem.cs" />
     <Compile Include="Modules\DDHLoader.cs" />
     <Compile Include="Modules\PostgreSQLConnector.cs" />

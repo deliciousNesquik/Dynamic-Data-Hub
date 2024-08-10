@@ -29,6 +29,10 @@ namespace DynamicDataHub
 
 
         private UserControlDataTable dataTableControl = new UserControlDataTable(null, null, null, null, null);
+
+
+        StackPanel InfoMessageStackPanel;
+        TextBlock InfoMessageTextBlock;
         #endregion
 
         #region internal functions
@@ -57,25 +61,7 @@ namespace DynamicDataHub
             return positionElements;
         }
 
-        public void ShowNotification(string notificationMessage)
-        {
-            double beginState = 0;
-            double endState = 1;
-            double animationSeconds = 3;
-
-            DoubleAnimation notificationMessageAnim = new DoubleAnimation();
-            notificationMessageAnim.From = beginState;
-            notificationMessageAnim.To = endState;
-            notificationMessageAnim.Duration = TimeSpan.FromSeconds(animationSeconds);
-
-            InfoMessageTextBlock.Text = notificationMessage;
-            InfoMessageStackPanel.BeginAnimation(StackPanel.OpacityProperty, notificationMessageAnim);
-
-            notificationMessageAnim.From = endState;
-            notificationMessageAnim.To = beginState;
-            notificationMessageAnim.Duration = TimeSpan.FromSeconds(animationSeconds);
-            InfoMessageStackPanel.BeginAnimation(StackPanel.OpacityProperty, notificationMessageAnim);
-        }
+        
         #endregion
 
         #region builders
@@ -84,9 +70,10 @@ namespace DynamicDataHub
             InitializeComponent();
             connectionWindow = new DDHAuthorization(this);
             dataTableControl.GetLinkWindow(this);
+            CustomNotificationBuilder.CreateNotification(MainGrid);
+
         }
         #endregion
-
 
         #region functions of connecting to databases
         public void ConnectionSQLServer(String ServerName, String NameDBManagementSystem)
@@ -124,14 +111,14 @@ namespace DynamicDataHub
                         }
                         else
                         {
-                            ShowNotification("База данных не содержит таблиц");
+                            CustomNotificationBuilder.ShowNotificationOpacity("База данных не содержит таблиц");
                         }
 
                     }
                 }
                 else
                 {
-                    ShowNotification("Отсутствуют базы данных");
+                    CustomNotificationBuilder.ShowNotificationOpacity("Отсутствуют базы данных");
                 }
             }
             catch (Exception ex)
