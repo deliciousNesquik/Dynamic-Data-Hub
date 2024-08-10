@@ -17,24 +17,18 @@ namespace DynamicDataHub
         private DDHAuthorization connectionWindow;
         private SQLServerConnector sqlServerDB;
         private SQLIteConnector sqliteDB;
-        private CustomMessageBoxBuilder customMessageBoxBuilder;
+        private CustomMessageBoxBuilder customMessageBoxBuilder = new CustomMessageBoxBuilder();
 
-        private string serverName;
-        private string nameDbFile;
+        public string serverName { get; private set; }
+        public string nameDbFile { get; private set; }
 
         private string nameDBManagementSystem;
 
-        private int indexOfColumn;
-        private int indexOfDataType;
-        private int indexOfIsNullable;
+        public string tableName { get; private set; }
+        public string dbName { get; private set; }
 
-        private string tableName;
-        private string dbName;
 
-        private string preparingCellForEditId;
-
-        private List<string> nullableColumns = new List<string>();
-        private Dictionary<string, string> columnValuePairs = new Dictionary<string, string>();
+        private UserControlDataTable dataTableControl = new UserControlDataTable(null, null, null, null, null);
         #endregion
 
         #region internal functions
@@ -89,199 +83,22 @@ namespace DynamicDataHub
         {
             InitializeComponent();
             connectionWindow = new DDHAuthorization(this);
+            dataTableControl.GetLinkWindow(this);
         }
         #endregion
 
-        #region functions for displaying data
-        public DataTable GetDataTableSQLServer(string TableName, string DBName)
-        {
-            nullableColumns.Clear();
-            DataTable.Visibility = Visibility.Visible;
-            sqlServerDB = new SQLServerConnector(serverName);
-
-            DataTable table = new DataTable(TableName);
-            DataTable databases = sqlServerDB.GetColumnTable(TableName, DBName);
-
-
-            indexOfColumn = 0;
-            indexOfDataType = 1;
-            indexOfIsNullable = 2;
-
-            int rows_columns = databases.Rows.Count;
-
-            foreach (DataRow _row in databases.Rows)
-            {
-                if (_row[indexOfIsNullable].ToString() == "YES")
-                {
-                    nullableColumns.Add(_row[indexOfColumn].ToString());
-                }
-                switch (_row[indexOfDataType].ToString())
-                {
-                    case "int":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(Int32));
-                        break;
-                    case "nvarchar":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(String));
-                        break;
-                    case "date":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(DateTime));
-                        break;
-                    case "bit":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(Boolean));
-                        break;
-                    case "nchar":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(String));
-                        break;
-                    case "char":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(String));
-                        break;
-                    case "varchar":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(String));
-                        break;
-                    case "float":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(float));
-                        break;
-                    case "decimal":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(decimal));
-                        break;
-                    case "datetime":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(DateTime));
-                        break;
-                    case "image":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(string));
-                        break;
-                    case "uniqueidentifier":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(string));
-                        break;
-                    case "sysname":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(string));
-                        break;
-                    case "varbinary":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(string));
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            databases = sqlServerDB.IsIdentityColumn(tableName, dbName);
-
-            foreach (DataColumn column in table.Columns)
-            {
-                string columnName = column.ColumnName.ToString();
-
-                foreach (DataRow row in databases.Rows)
-                {
-                    if (row["name"].ToString() == columnName)
-                    {
-                        column.ReadOnly = true;
-                    }
-                }
-
-            }
-
-
-            databases = sqlServerDB.CreateQuery($"SELECT * FROM [{TableName}]", DBName);
-            int count_columns = databases.Columns.Count;
-
-            List<object> row_values = new List<object>();
-            foreach (DataRow _row in databases.Rows)
-            {
-                for (int i = 0; i < count_columns; i++)
-                {
-                    row_values.Add(_row[i]);
-                }
-
-                table.Rows.Add(row_values.ToArray());
-
-                row_values.Clear();
-            }
-
-            return table;
-        }
-
-        public DataTable GetDataTableSQLite(string TableName)
-        {
-            nullableColumns.Clear();
-
-            DataTable.Visibility = Visibility.Visible;
-            sqliteDB = new SQLIteConnector(nameDbFile);
-
-            DataTable table = new DataTable(TableName);
-            DataTable dataBases = sqliteDB.GetColumnTable(TableName);
-
-            indexOfColumn = 1;
-            indexOfDataType = 2;
-            indexOfIsNullable = 3;
-            
-            int rows_columns = dataBases.Rows.Count;
-
-            foreach (DataRow _row in dataBases.Rows)
-            {
-                if (Int32.Parse(_row[indexOfIsNullable].ToString()) == 0)
-                {
-                    nullableColumns.Add(_row[indexOfColumn].ToString());
-                }
-
-                switch (_row[indexOfDataType].ToString())
-                {
-                    case "INTEGER":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(Int32));
-                        break;
-                    case "TEXT":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(String));
-                        break;
-                    case "BLOB":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(byte));
-                        break;
-                    case "REAL":
-                        table.Columns.Add(_row[indexOfColumn].ToString(), typeof(float));
-                        break;
-                }
-            }
-
-
-            dataBases = sqliteDB.CreateQuery($"SELECT * FROM [{TableName}]");
-
-            int countСolumns = dataBases.Columns.Count;
-
-            List<object> rowValues = new List<object>();
-            foreach (DataRow _row in dataBases.Rows)
-            {
-                for (int i = 0; i < countСolumns; i++)
-                {
-                    rowValues.Add(_row[i]);
-                }
-                try
-                {
-                    table.Rows.Add(rowValues.ToArray());
-                }
-                catch (ArgumentException)
-                {
-                    customMessageBoxBuilder = new CustomMessageBoxBuilder();
-                    customMessageBoxBuilder.ShowError("Ошибка", "У столбца в таблице отсутствует тип данных", "Ok", this);
-                }
-
-                rowValues.Clear();
-            }
-
-            return table;
-        }
-        #endregion
 
         #region functions of connecting to databases
         public void ConnectionSQLServer(String ServerName, String NameDBManagementSystem)
         {
-            DataTable.DataContext = null;
             TreeContent.Items.Clear();
-
             this.serverName = ServerName;
             this.nameDBManagementSystem = NameDBManagementSystem;
 
             sqlServerDB = new SQLServerConnector(ServerName);
             try
             {
-                TreeViewItem Databases = new TreeViewItem(){Header = "Базы данных"};
+                TreeViewItem Databases = new TreeViewItem() { Header = "Базы данных" };
                 TreeContent.Items.Add(Databases);
 
                 if (sqlServerDB.GetDBNames().Count > 0)
@@ -298,18 +115,18 @@ namespace DynamicDataHub
                         {
                             foreach (var j in sqlServerDB.GetDBTables(i))
                             {
-                                TreeViewItem Table = new TreeViewItem() {Header = j};
+                                TreeViewItem Table = new TreeViewItem() { Header = j };
 
                                 Table.Selected += TableSelected;
                                 Tables.Items.Add(Table);
-                                
+
                             }
                         }
                         else
                         {
                             ShowNotification("База данных не содержит таблиц");
                         }
-                        
+
                     }
                 }
                 else
@@ -325,7 +142,6 @@ namespace DynamicDataHub
 
         public void ConnectionSQLite(string NameDBFIle_, string NameDBManagementSystem)
         {
-            DataTable.DataContext = null;
             TreeContent.Items.Clear();
 
             this.nameDBManagementSystem = NameDBManagementSystem;
@@ -337,14 +153,14 @@ namespace DynamicDataHub
             TreeContent.Items.Add(Tables);
 
 
-            foreach(var i in sqliteDB.GetDBTables())
+            foreach (var i in sqliteDB.GetDBTables())
             {
-                TreeViewItem Table = new TreeViewItem() { Header=i };
+                TreeViewItem Table = new TreeViewItem() { Header = i };
 
                 Table.Selected += TableSelected;
                 Tables.Items.Add(Table);
             }
-            
+
         }
         #endregion
 
@@ -356,7 +172,8 @@ namespace DynamicDataHub
 
             if (this.nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
             {
-                DataTable.DataContext = GetDataTableSQLite(tableName.Header.ToString());
+                dataTableControl = new UserControlDataTable(this.tableName, null, this.nameDBManagementSystem, null, this.nameDbFile);
+                FrameTableData.Navigate(dataTableControl);
             }
             else if (this.nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
             {
@@ -370,17 +187,12 @@ namespace DynamicDataHub
                         this.tableName = tableName.Header.ToString();
                         this.dbName = DB.Header.ToString();
 
-                        if (GetDataTableSQLServer(tableName.Header.ToString(), DB.Header.ToString()).Columns.Count > 0)
-                        {
-                            DataTable.DataContext = GetDataTableSQLServer(tableName.Header.ToString(), DB.Header.ToString());
-                        }
-                        else
-                        {
-                            customMessageBoxBuilder.ShowError("Ошибка в таблице", "В данной таблице отсутствуют столбцы", "Назад", this);
-                        }
+                        dataTableControl = new UserControlDataTable(this.tableName, this.dbName, this.nameDBManagementSystem, this.serverName, null);
+                        FrameTableData.Navigate(dataTableControl);
+
                     }
                 }
-            }                  
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) { connectionWindow.Close(); }
@@ -402,7 +214,7 @@ namespace DynamicDataHub
 
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
-            DataTable.DataContext = null;
+            FrameTableData.Navigate(null);
             TreeContent.Items.Clear();
         }
 
@@ -467,130 +279,8 @@ namespace DynamicDataHub
             connectionWindow.ShowDialog();
             connectionWindow.Focus();
         }
-        private void Window_ContentRendered(object sender, EventArgs e){connectionWindow.Focus();}
+        private void Window_ContentRendered(object sender, EventArgs e) { connectionWindow.Focus(); }
         #endregion
 
-        #region handler for interaction with ContextMenu
-        private void DeleteRow_Click(object sender, RoutedEventArgs e)
-        {
-            var _selectedCell = DataTable.SelectedCells[0];
-            var nameColumnIndefication = DataTable.SelectedCells[0].Column.Header.ToString();
-            var _cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
-            var indefication = (_cellContent as TextBlock)?.Text;
-
-            if(nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
-            {
-                sqlServerDB = new SQLServerConnector(serverName);
-                sqlServerDB.DeleteRow(tableName, nameColumnIndefication, indefication, dbName);
-                DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
-                ShowNotification("Успешное удаление в таблице!");
-            }
-            else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
-            {
-                sqliteDB.DeleteRow(tableName, nameColumnIndefication, indefication);
-                DataTable.DataContext = GetDataTableSQLite(tableName);
-                ShowNotification("Успешное удаление в таблице!");
-            }
-        }
-        #endregion
-
-        #region handler for interaction with table data
-        private async void DataTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            var editedValue = ((TextBox)e.EditingElement).Text;
-
-            var editedColumn = e.Column.Header.ToString();
-            var basedColumn = DataTable.Columns[0].Header.ToString();
-            int countInsertColumns;
-        
-            countInsertColumns = DataTable.Columns.Count;
-            foreach (var i in DataTable.Columns)
-            {
-                if (i.IsReadOnly) countInsertColumns--;
-            }
-            if (!string.IsNullOrWhiteSpace(preparingCellForEditId))
-            {
-                if (nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
-                {
-                    sqlServerDB.UpdateRow(dbName, tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
-                    await Task.Delay(100);
-
-                    DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
-                    ShowNotification("Успешное изменение в таблице!");
-                }
-                else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
-                {
-                    sqliteDB.UpdateRow(tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
-                    await Task.Delay(100);
-
-                    DataTable.DataContext = GetDataTableSQLite(tableName);
-                    ShowNotification("Успешное изменение в таблице!");
-                }
-            }
-            else
-            {
-                if (nullableColumns.Count == 0)
-                {
-                    if (columnValuePairs.ContainsKey(editedColumn))
-                    {
-                        return;
-                    }
-                    columnValuePairs.Add(editedColumn, editedValue);
-
-                    if (columnValuePairs.Count == countInsertColumns)
-                    {
-                        if (nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
-                        {
-                            sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
-                            await Task.Delay(100);
-
-                            DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
-                            return;
-                        }
-                        else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
-                        {
-                            sqliteDB.AddRow(tableName, columnValuePairs); await Task.Delay(100);
-
-                            DataTable.DataContext = GetDataTableSQLite(tableName);
-                            return;
-                        }
-                    }
-                }
-                else if (nullableColumns.Count > 0)
-                {
-                    countInsertColumns -= nullableColumns.Count;
-                    columnValuePairs.Add(editedColumn, editedValue);
-                    if (columnValuePairs.Count >= countInsertColumns)
-                    {
-                        if (nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
-                        {
-                            sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
-                            await Task.Delay(100);
-
-                            DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
-                        }
-                        else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
-                        {
-                            sqliteDB.AddRow(tableName, columnValuePairs);
-                            await Task.Delay(100);
-
-                            DataTable.DataContext = GetDataTableSQLite(tableName);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void DataTable_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
-        {
-            var _selectedCell = DataTable.SelectedCells[0];
-            var _cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
-
-            preparingCellForEditId = (_cellContent as TextBlock)?.Text;
-
-        }
-        #endregion
-
-        private void DataTable_AddingNewItem(object sender, AddingNewItemEventArgs e) => ShowNotification("Успешное добавление в таблицу");
     }
 }

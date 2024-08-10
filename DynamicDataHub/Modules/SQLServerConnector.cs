@@ -133,7 +133,7 @@ namespace DynamicDataHub.Modules
 
         public DataTable AddRow(string TableName, Dictionary<string, string> keyValuePairs ,string DBName)
         {
-            string query = $"INSERT INTO {TableName}(";
+            string query = $"INSERT INTO [{TableName}](";
 
             foreach (var key in keyValuePairs.Keys)
             {

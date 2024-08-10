@@ -97,13 +97,13 @@
 
         <TreeView Name="TreeContent" Grid.Row="2" Grid.Column="0" Background="#121212">
         </TreeView>
-        <DataGrid Style="{StaticResource DatagridStyle}" Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True" CellEditEnding="DataTable_CellEditEnding" PreparingCellForEdit="DataTable_PreparingCellForEdit"  ItemsSource="{Binding }" AddingNewItem="DataTable_AddingNewItem" >
+        <!--<DataGrid Style="{StaticResource DatagridStyle}" Name="DataTable" Grid.Column="1" Grid.Row="2" AutoGenerateColumns="True" CellEditEnding="DataTable_CellEditEnding" PreparingCellForEdit="DataTable_PreparingCellForEdit"  ItemsSource="{Binding }" AddingNewItem="DataTable_AddingNewItem" >
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Name="DeleteRow" Header="Удалить" Click="DeleteRow_Click"></MenuItem>
                 </ContextMenu>
             </DataGrid.ContextMenu>
-        </DataGrid>
+        </DataGrid>-->
         
         <!-- Информационное сообщение о успешных действиях -->
         <StackPanel Opacity="0" Name="InfoMessageStackPanel" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 20 20">
