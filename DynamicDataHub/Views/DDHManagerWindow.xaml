@@ -52,18 +52,21 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1">
-            <Button Margin="10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="NewQuery" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Button Margin="10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="NewQuery" Click="NewQuery_Click" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Style="{StaticResource LabelText}" Text="New Query" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
             <Button Margin="10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="Settings" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock Style="{StaticResource LabelText}" Text="Settings" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Button>
+            <Button Margin="10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="ExecutionRequest" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock Style="{StaticResource LabelText}" Text="Execution" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
         </StackPanel>
         <Frame Name="FrameObjectExplorer" Grid.Column="0" Grid.Row="0" BorderThickness="1.1 0 1 1"/>
         <Frame Name="FrameConnectiong" Grid.Column="0" Grid.Row="1" BorderThickness="1.1 0 1 1"/>
         <Frame Name="FrameExplorer" Grid.Column="0" Grid.Row="2" BorderThickness="1.1 0 1 1"/>
         <Frame Name="FrameControlElements" Grid.Column="1" Grid.Row="0" />
-        <Frame Name="FrameTableData" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" />
+        <Frame Name="FrameTableData" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" NavigationUIVisibility="Hidden"/>
         <Frame Name="QueryFrame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" />
         <Border CornerRadius="0 0 40 0" Grid.Row="0" Grid.Column="1" BorderBrush="White" BorderThickness="0 0 1 1"></Border>
         <StackPanel Name="SPWrap" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0">
@@ -97,18 +100,6 @@
 
         <TreeView Name="TreeContent" Grid.Row="2" Grid.Column="0" Background="#121212">
         </TreeView>
-
-        <!-- Информационное сообщение о успешных действиях -->
-        <!--<StackPanel Opacity="0" Name="InfoMessageStackPanel" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 20 20">
-            <Border Width="250" Height="40" CornerRadius="10" BorderBrush="White" BorderThickness="1 1 1 1">
-                <Grid Clip="{Binding ElementName=rect, Path=RenderedGeometry}">
-                    <Rectangle x:Name="rect" RadiusX="10" RadiusY="10" Visibility="Hidden"/>
-                    <Grid>
-                        <TextBlock Name="InfoMessageTextBlock" Text="Успешное выполнение ..." Foreground="White" Margin="10"/>
-                    </Grid>
-                </Grid>
-            </Border>
-        </StackPanel>-->
 
     </Grid>
 </Window>

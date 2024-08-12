@@ -128,7 +128,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="UserControlDataTable.xaml">
+    <Page Include="Views\QueryExecutionEnvironment.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControlDataTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -147,12 +151,16 @@
     <Compile Include="Interfaces\IDataTableControl.cs" />
     <Compile Include="Modules\CustomMessageBoxBuilder.cs" />
     <Compile Include="Modules\CustomNotificationBuilder.cs" />
+    <Compile Include="Modules\DatabaseConfiguration.cs" />
     <Compile Include="Modules\DBManagementSystem.cs" />
     <Compile Include="Modules\DDHLoader.cs" />
     <Compile Include="Modules\PostgreSQLConnector.cs" />
     <Compile Include="Modules\SQLIteConnector.cs" />
     <Compile Include="Modules\SQLServerConnector.cs" />
-    <Compile Include="UserControlDataTable.xaml.cs">
+    <Compile Include="Views\QueryExecutionEnvironment.xaml.cs">
+      <DependentUpon>QueryExecutionEnvironment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControlDataTable.xaml.cs">
       <DependentUpon>UserControlDataTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DDHAuthorizationWindow.xaml.cs">

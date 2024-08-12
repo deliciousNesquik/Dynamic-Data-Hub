@@ -51,21 +51,21 @@ namespace DynamicDataHub
         private Window window;
 
 
-        public UserControlDataTable(string tableName, string dbName, string nameDBManagementSystem, string serverName, string nameDbFile)
+        public UserControlDataTable()
         {
             InitializeComponent();
 
-            this.tableName = tableName;
-            this.dbName = dbName;
-            this.nameDBManagementSystem = nameDBManagementSystem;
-            this.serverName = serverName;
-            this.nameDbFile = nameDbFile;
+            this.tableName = DatabaseConfiguration.tableName;
+            this.dbName = DatabaseConfiguration.dbName;
+            this.nameDBManagementSystem = DatabaseConfiguration.nameDbManagementSystem;
+            this.serverName = DatabaseConfiguration.serverName;
+            this.nameDbFile = DatabaseConfiguration.filePathDb;
 
             CustomNotificationBuilder.CreateNotification(MainGrid);
 
             switch (this.nameDBManagementSystem)
             {
-                case "SQL Server Management Studio":
+                case "MS SQL Server":
                     sqlServerDB = new SQLServerConnector(this.serverName);
                     break;
                 case "SQLite":
@@ -262,7 +262,7 @@ namespace DynamicDataHub
         {
             switch (this.nameDBManagementSystem)
             {
-                case "SQL Server Management Studio":
+                case "MS SQL Server":
                     DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
                     break;
                 case "SQLite":

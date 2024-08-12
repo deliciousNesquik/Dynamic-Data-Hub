@@ -28,7 +28,7 @@ namespace DynamicDataHub
         public string dbName { get; private set; }
 
 
-        private UserControlDataTable dataTableControl = new UserControlDataTable(null, null, null, null, null);
+        private UserControlDataTable dataTableControl = new UserControlDataTable();
 
 
         StackPanel InfoMessageStackPanel;
@@ -159,7 +159,8 @@ namespace DynamicDataHub
 
             if (this.nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
             {
-                dataTableControl = new UserControlDataTable(this.tableName, null, this.nameDBManagementSystem, null, this.nameDbFile);
+                DatabaseConfiguration.tableName = this.tableName;
+                dataTableControl = new UserControlDataTable();
                 FrameTableData.Navigate(dataTableControl);
             }
             else if (this.nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
@@ -174,9 +175,11 @@ namespace DynamicDataHub
                         this.tableName = tableName.Header.ToString();
                         this.dbName = DB.Header.ToString();
 
-                        dataTableControl = new UserControlDataTable(this.tableName, this.dbName, this.nameDBManagementSystem, this.serverName, null);
-                        FrameTableData.Navigate(dataTableControl);
+                        DatabaseConfiguration.tableName = this.tableName;
+                        DatabaseConfiguration.dbName = this.dbName;
 
+                        dataTableControl = new UserControlDataTable();
+                        FrameTableData.Navigate(dataTableControl);
                     }
                 }
             }
@@ -269,5 +272,10 @@ namespace DynamicDataHub
         private void Window_ContentRendered(object sender, EventArgs e) { connectionWindow.Focus(); }
         #endregion
 
+        private void NewQuery_Click(object sender, RoutedEventArgs e)
+        {
+            var queryEnvironment = new QueryExecutionEnvironment();
+            FrameTableData.Navigate(queryEnvironment);
+        }
     }
 }

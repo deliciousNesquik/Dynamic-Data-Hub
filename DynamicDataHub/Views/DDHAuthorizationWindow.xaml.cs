@@ -130,7 +130,9 @@ namespace DynamicDataHub.Views
                         isConnected = await test_connection.GetInfoConnection();
                         if (isConnected)
                         {
-                            this.ddhManager.ConnectionSQLite(this.selectedFilePath, SQLIteConnector.NameDBManagementSystem);
+                            DatabaseConfiguration.nameDbManagementSystem = _currentDBManagementSystem;
+                            DatabaseConfiguration.filePathDb = this.selectedFilePath;
+                            this.ddhManager.ConnectionSQLite(DatabaseConfiguration.filePathDb, DatabaseConfiguration.nameDbManagementSystem);
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             this.Close();
                         }
@@ -158,7 +160,9 @@ namespace DynamicDataHub.Views
 
                         if (isConnected)
                         {
-                            this.ddhManager.ConnectionSQLServer(_serverName, SQLServerConnector.NameDBManagementSystem);
+                            DatabaseConfiguration.nameDbManagementSystem = _currentDBManagementSystem;
+                            DatabaseConfiguration.serverName = _serverName;
+                            this.ddhManager.ConnectionSQLServer(DatabaseConfiguration.serverName, DatabaseConfiguration.nameDbManagementSystem);
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             this.Close();
                         }

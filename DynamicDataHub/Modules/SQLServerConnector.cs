@@ -20,7 +20,7 @@ namespace DynamicDataHub.Modules
 
         private CustomMessageBoxBuilder customMessageBoxBuilder = new CustomMessageBoxBuilder();
 
-        public static string NameDBManagementSystem { get; private set;} = "SQL Server Management Studio";
+        public static string NameDBManagementSystem { get; private set;} = "MS SQL Server";
 
 
         public SQLServerConnector(string serverName)
@@ -107,7 +107,7 @@ namespace DynamicDataHub.Modules
                         MessageBox.Show("Конфликт инструкции DELETE с ограничением REFERENCE в базе данных");
                         break;
                     default:
-                        MessageBox.Show($"Неизвестная ошибка {ex.Message} - {ex.Message}");
+                        MessageBox.Show($"Неизвестная ошибка {ex.Number} - {ex.Message}");
                         Clipboard.SetText(ex.Message);
                         break;
 
