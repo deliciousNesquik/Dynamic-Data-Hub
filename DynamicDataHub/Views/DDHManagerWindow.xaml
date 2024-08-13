@@ -67,7 +67,7 @@
         <Frame Name="FrameExplorer" Grid.Column="0" Grid.Row="2" BorderThickness="1.1 0 1 1"/>
         <Frame Name="FrameControlElements" Grid.Column="1" Grid.Row="0" />
         <Frame Name="FrameTableData" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" NavigationUIVisibility="Hidden"/>
-        <Frame Name="QueryFrame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" />
+        <Frame Name="QueryFrame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" NavigationUIVisibility="Hidden" />
         <Border CornerRadius="0 0 40 0" Grid.Row="0" Grid.Column="1" BorderBrush="White" BorderThickness="0 0 1 1"></Border>
         <StackPanel Name="SPWrap" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0">
             <TextBlock Margin="10" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="1" />

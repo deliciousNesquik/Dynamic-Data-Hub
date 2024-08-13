@@ -368,8 +368,6 @@ C:\Users\prod_upal\Desktop\08 08\DynamicDataHub\obj\x64\Debug\DynamicDataHub.exe
 C:\Users\prod_upal\Desktop\08 08\DynamicDataHub\obj\x64\Debug\DynamicDataHub.pdb
 C:\Users\prod_upal\Desktop\08 08\DynamicDataHub\obj\x64\Debug\UserControlDataTable.g.cs
 C:\Users\prod_upal\Desktop\08 08\DynamicDataHub\obj\x64\Debug\UserControlDataTable.baml
-C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\obj\x64\Debug\UserControlDataTable.g.cs
-C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\obj\x64\Debug\UserControlDataTable.baml
 C:\Users\prod_upal\Desktop\12 08\DynamicDataHub\bin\x64\Debug\Data\DataBasesList.json
 C:\Users\prod_upal\Desktop\12 08\DynamicDataHub\bin\x64\Debug\DynamicDataHub.exe.config
 C:\Users\prod_upal\Desktop\12 08\DynamicDataHub\bin\x64\Debug\DynamicDataHub.exe
@@ -423,3 +421,7 @@ C:\Users\prod_upal\Desktop\12 08\DynamicDataHub\obj\x64\Debug\DynamicDataHub.csp
 C:\Users\prod_upal\Desktop\12 08\DynamicDataHub\obj\x64\Debug\DynamicDataHub.csproj.CopyComplete
 C:\Users\prod_upal\Desktop\12 08\DynamicDataHub\obj\x64\Debug\DynamicDataHub.exe
 C:\Users\prod_upal\Desktop\12 08\DynamicDataHub\obj\x64\Debug\DynamicDataHub.pdb
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\obj\x64\Debug\Views\QueryExecutionEnvironment.g.cs
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\obj\x64\Debug\Views\UserControlDataTable.g.cs
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\obj\x64\Debug\Views\QueryExecutionEnvironment.baml
+C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\obj\x64\Debug\Views\UserControlDataTable.baml

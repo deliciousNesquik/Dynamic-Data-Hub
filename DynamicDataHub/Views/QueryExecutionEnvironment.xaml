@@ -7,7 +7,19 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBox Name="queryTextBox" Background="#121212" BorderBrush="Transparent" BorderThickness="0" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
+        <Button Name="FileOpen" Click="FileOpen_Click" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 5 5 5">
+            <Image Source="../Resources/file_open_white.png"/>
+        </Button>
+
+        <Button Name="FileSave" Click="FileSave_Click" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30 5 5 5">
+            <Image Source="../Resources/file_save_white.png"/>
+        </Button>
+
+        <Button Name="QueryRun" Click="ExecuteQuery_Click" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55 5 5 5">
+            <Image Source="../Resources/query_run_white.png"/>
+        </Button>
+
+        <TextBox Name="QueryTextBox" TextWrapping="WrapWithOverflow" AcceptsReturn="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="#121212" BorderBrush="Transparent" BorderThickness="0" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,35,0,0"/>
         <Grid.ContextMenu>
             <ContextMenu>
                 <MenuItem Name="ExecuteQuery"  Header="Execute Query" Click="ExecuteQuery_Click"/>

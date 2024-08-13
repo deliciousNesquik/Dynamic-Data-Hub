@@ -1,7 +1,9 @@
 ﻿using DynamicDataHub.Modules;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +41,7 @@ namespace DynamicDataHub.Views
         public QueryExecutionEnvironment()
         {
             InitializeComponent();
-            queryTextBox.Focus();
+            QueryTextBox.Focus();
 
             this.tableName = DatabaseConfiguration.tableName;
             this.dbName = DatabaseConfiguration.dbName;
@@ -53,7 +55,7 @@ namespace DynamicDataHub.Views
         private void ExecuteQuery_Click(object sender, RoutedEventArgs e)
         {
             sqlServer = new SQLServerConnector(this.serverName);
-            query = queryTextBox.Text;
+            query = QueryTextBox.Text;
             DataTable dataTable = sqlServer.CreateQuery(query, dbName);
             foreach(DataRow row in dataTable.Rows)
             {
@@ -61,5 +63,37 @@ namespace DynamicDataHub.Views
             }
         }
         #endregion
+
+        private void FileOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Все файлы (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
+                StreamReader reader = new StreamReader(fileInfo.Open(FileMode.Open, FileAccess.Read), Encoding.GetEncoding(1251));
+
+                QueryTextBox.Text = reader.ReadToEnd();
+
+                reader.Close();
+                return;
+            }
+        }
+
+        private void FileSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "query (*.DDHQuery)|*.DDHQuery";
+
+            if (saveFileDialog1.ShowDialog() == true)
+            {
+                using (StreamWriter sw = new StreamWriter(saveFileDialog1.OpenFile(), System.Text.Encoding.Default))
+                {
+                    sw.Write(QueryTextBox.Text);
+                    sw.Close();
+                }
+            }
+        }
     }
 }

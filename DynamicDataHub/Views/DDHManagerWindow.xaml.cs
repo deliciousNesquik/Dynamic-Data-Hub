@@ -233,7 +233,7 @@ namespace DynamicDataHub
                 Connect.Visibility = Visibility.Hidden;
                 Disconnect.Visibility = Visibility.Hidden;
                 //Сдвиг кнопки влево
-                WrapColumn.Margin = new Thickness(-142.5, 0, 0, 0);
+                WrapColumn.Margin = new Thickness(-100.5, 0, 0, 0);
                 Refresh.Margin = new Thickness(-145, 0, 0, 0);
                 //Создания трансформа поворота и поворот кнопки на 180
                 rotateTransform = new RotateTransform(180);
@@ -249,7 +249,7 @@ namespace DynamicDataHub
                 Connect.Visibility = Visibility.Visible;
                 Disconnect.Visibility = Visibility.Visible;
                 //Сдвиг кнопки на прежнее место
-                WrapColumn.Margin = new Thickness(68.5, 5, 0, 5);
+                WrapColumn.Margin = new Thickness(48.5, 5, 0, 5);
                 Refresh.Margin = new Thickness(5, 0, 0, 0);
                 //Создания трансформа поворота и поворот кнопки на 0
                 rotateTransform = new RotateTransform(0);
@@ -281,7 +281,7 @@ namespace DynamicDataHub
         private void NewQuery_Click(object sender, RoutedEventArgs e)
         {
             var queryEnvironment = new QueryExecutionEnvironment();
-            FrameTableData.Navigate(queryEnvironment);
+            QueryFrame.Navigate(queryEnvironment);
         }
         #endregion
     }

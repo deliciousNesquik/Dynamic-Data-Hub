@@ -210,6 +210,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Resource Include="Resources\query_run_white.png" />
+    <Resource Include="Resources\file_save_white.png" />
+    <Resource Include="Resources\file_open_white.png" />
+    <Resource Include="Resources\file_open.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
