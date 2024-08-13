@@ -20,7 +20,7 @@ namespace DynamicDataHub.Modules
 
         private CustomMessageBoxBuilder customMessageBoxBuilder = new CustomMessageBoxBuilder();
 
-        public static string NameDBManagementSystem { get; private set;} = "MS SQL Server";
+        public static string nameDBManagementSystem { get; private set;} = "MS SQL Server";
 
 
         public SQLServerConnector(string serverName)

@@ -22,6 +22,7 @@ namespace DynamicDataHub.Views
     /// </summary>
     public partial class QueryExecutionEnvironment : UserControl
     {
+        #region vars
         private string query;
 
         private string tableName;
@@ -31,8 +32,10 @@ namespace DynamicDataHub.Views
         private string nameDbFile;
         private string nameDBManagementSystem;
 
-
         private SQLServerConnector sqlServer;
+        #endregion
+
+        #region builder
         public QueryExecutionEnvironment()
         {
             InitializeComponent();
@@ -44,7 +47,9 @@ namespace DynamicDataHub.Views
             this.serverName = DatabaseConfiguration.serverName;
             this.nameDbFile = DatabaseConfiguration.serverName;
         }
+        #endregion
 
+        #region button click execution query 
         private void ExecuteQuery_Click(object sender, RoutedEventArgs e)
         {
             sqlServer = new SQLServerConnector(this.serverName);
@@ -55,5 +60,6 @@ namespace DynamicDataHub.Views
                 Console.WriteLine(row[0].ToString());
             }
         }
+        #endregion
     }
 }

@@ -25,7 +25,8 @@ namespace DynamicDataHub
     /// </summary>
     public partial class UserControlDataTable : UserControl 
     {
-        private CustomMessageBoxBuilder customMessageBoxBuilder = new CustomMessageBoxBuilder();
+        #region vars
+        //private CustomMessageBoxBuilder customMessageBoxBuilder = new CustomMessageBoxBuilder();
 
         private int indexOfColumn;
         private int indexOfDataType;
@@ -49,8 +50,9 @@ namespace DynamicDataHub
         private List<string> nullableColumns = new List<string>();
 
         private Window window;
+        #endregion
 
-
+        #region builder
         public UserControlDataTable()
         {
             InitializeComponent();
@@ -75,11 +77,14 @@ namespace DynamicDataHub
                     return;
             }
         }
+        #endregion
 
+        #region get link parent window
         public void GetLinkWindow(Window w)
         {
             this.window = w;
         }
+        #endregion
 
         #region functions for displaying data
         public DataTable GetDataTableSQLServer(string tableName, string dbName)
@@ -258,6 +263,7 @@ namespace DynamicDataHub
         }
         #endregion
 
+        #region loaded datagrid for user control
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             switch (this.nameDBManagementSystem)
@@ -272,6 +278,7 @@ namespace DynamicDataHub
                     return;
             }
         }
+        #endregion
 
         #region handler for interaction with table data
         private async void DataTable_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -289,7 +296,7 @@ namespace DynamicDataHub
             }
             if (!string.IsNullOrWhiteSpace(preparingCellForEditId))
             {
-                if (nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
+                if (nameDBManagementSystem == SQLServerConnector.nameDBManagementSystem)
                 {
                     sqlServerDB.UpdateRow(dbName, tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
                     await Task.Delay(100);
@@ -299,7 +306,7 @@ namespace DynamicDataHub
 
                     CustomNotificationBuilder.ShowNotificationOpacity("Успешное изменение в таблице!");
                 }
-                else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
+                else if (nameDBManagementSystem == SQLIteConnector.nameDBManagementSystem)
                 {
                     sqliteDB.UpdateRow(tableName, editedColumn, editedValue, basedColumn, preparingCellForEditId);
                     await Task.Delay(100);
@@ -321,7 +328,7 @@ namespace DynamicDataHub
 
                     if (columnValuePairs.Count == countInsertColumns)
                     {
-                        if (nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
+                        if (nameDBManagementSystem == SQLServerConnector.nameDBManagementSystem)
                         {
                             sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
                             await Task.Delay(100);
@@ -330,7 +337,7 @@ namespace DynamicDataHub
 
                             return;
                         }
-                        else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
+                        else if (nameDBManagementSystem == SQLIteConnector.nameDBManagementSystem)
                         {
                             sqliteDB.AddRow(tableName, columnValuePairs); await Task.Delay(100);
 
@@ -347,14 +354,14 @@ namespace DynamicDataHub
 
                     if (columnValuePairs.Count >= countInsertColumns)
                     {
-                        if (nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
+                        if (nameDBManagementSystem == SQLServerConnector.nameDBManagementSystem)
                         {
                             sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
                             await Task.Delay(100);
 
                             DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
                         }
-                        else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
+                        else if (nameDBManagementSystem == SQLIteConnector.nameDBManagementSystem)
                         {
                             sqliteDB.AddRow(tableName, columnValuePairs);
                             await Task.Delay(100);
@@ -384,14 +391,14 @@ namespace DynamicDataHub
             var _cellContent = _selectedCell.Column.GetCellContent(_selectedCell.Item);
             var indefication = (_cellContent as TextBlock)?.Text;
 
-            if (nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
+            if (nameDBManagementSystem == SQLServerConnector.nameDBManagementSystem)
             {
                 sqlServerDB = new SQLServerConnector(serverName);
                 sqlServerDB.DeleteRow(tableName, nameColumnIndefication, indefication, dbName);
                 DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
                 CustomNotificationBuilder.ShowNotificationOpacity("Успешное удаление в таблице!");
             }
-            else if (nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
+            else if (nameDBManagementSystem == SQLIteConnector.nameDBManagementSystem)
             {
                 sqliteDB.DeleteRow(tableName, nameColumnIndefication, indefication);
                 DataTable.DataContext = GetDataTableSQLite(tableName);

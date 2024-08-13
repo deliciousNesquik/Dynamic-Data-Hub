@@ -11,10 +11,12 @@ using Newtonsoft.Json;
 
 namespace DynamicDataHub.Views
 {
-     class DataBasesListJson
+    #region class for working with json
+    class DataBasesListJson
     {
         public List<string> DataBasesList { get; private set; } = new List<string>();
     }
+    #endregion
 
     public partial class DDHAuthorization : Window
     {

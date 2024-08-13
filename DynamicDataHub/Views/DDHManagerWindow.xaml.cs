@@ -156,32 +156,37 @@ namespace DynamicDataHub
         {
             TreeViewItem tableName = (TreeViewItem)sender;
             this.tableName = tableName.Header.ToString();
-
-            if (this.nameDBManagementSystem == SQLIteConnector.NameDBManagementSystem)
-            {
-                DatabaseConfiguration.tableName = this.tableName;
-                dataTableControl = new UserControlDataTable();
-                FrameTableData.Navigate(dataTableControl);
-            }
-            else if (this.nameDBManagementSystem == SQLServerConnector.NameDBManagementSystem)
-            {
-                if (tableName.Parent.GetType() == typeof(TreeViewItem)) // verify that parent is TreeViewItem
+            switch (this.nameDBManagementSystem) {
+                case "SQLite":
                 {
-                    TreeViewItem Tables = (TreeViewItem)tableName.Parent;
-
-                    if (Tables.Parent.GetType() == typeof(TreeViewItem))
-                    {
-                        TreeViewItem DB = (TreeViewItem)Tables.Parent;
-                        this.tableName = tableName.Header.ToString();
-                        this.dbName = DB.Header.ToString();
-
-                        DatabaseConfiguration.tableName = this.tableName;
-                        DatabaseConfiguration.dbName = this.dbName;
-
-                        dataTableControl = new UserControlDataTable();
-                        FrameTableData.Navigate(dataTableControl);
-                    }
+                    DatabaseConfiguration.tableName = this.tableName;
+                    dataTableControl = new UserControlDataTable();
+                    FrameTableData.Navigate(dataTableControl);
+                    break;
                 }
+                case "MS SQL Server":
+                {
+                    if (tableName.Parent.GetType() == typeof(TreeViewItem)) // verify that parent is TreeViewItem
+                    {
+                        TreeViewItem Tables = (TreeViewItem)tableName.Parent;
+
+                        if (Tables.Parent.GetType() == typeof(TreeViewItem))
+                        {
+                            TreeViewItem DB = (TreeViewItem)Tables.Parent;
+                            this.tableName = tableName.Header.ToString();
+                            this.dbName = DB.Header.ToString();
+
+                            DatabaseConfiguration.tableName = this.tableName;
+                            DatabaseConfiguration.dbName = this.dbName;
+
+                            dataTableControl = new UserControlDataTable();
+                            FrameTableData.Navigate(dataTableControl);
+                        }
+                    }
+                        break;
+                }
+                default:
+                    break;
             }
         }
 
@@ -272,10 +277,12 @@ namespace DynamicDataHub
         private void Window_ContentRendered(object sender, EventArgs e) { connectionWindow.Focus(); }
         #endregion
 
+        #region create a new user query (button click)
         private void NewQuery_Click(object sender, RoutedEventArgs e)
         {
             var queryEnvironment = new QueryExecutionEnvironment();
             FrameTableData.Navigate(queryEnvironment);
         }
+        #endregion
     }
 }
