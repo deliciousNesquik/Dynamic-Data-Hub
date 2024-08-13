@@ -7,6 +7,12 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.4*"/>
+        </Grid.RowDefinitions>
+        <Frame Grid.Row="1" Name="FrameResultExecutionQuery" NavigationUIVisibility="Hidden" VerticalAlignment="Bottom"/>
+        
         <Button Name="FileOpen" Click="FileOpen_Click" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 5 5 5">
             <Image Source="../Resources/file_open_white.png"/>
         </Button>
@@ -18,6 +24,9 @@
         <Button Name="QueryRun" Click="ExecuteQuery_Click" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55 5 5 5">
             <Image Source="../Resources/query_run_white.png"/>
         </Button>
+
+        <ComboBox Name="ChoiseDatabaseComboBox" SelectionChanged="ChoiseDatabaseComboBox_SelectionChanged" Visibility="Hidden" Width="150" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80 5 5 5"/>
+
 
         <TextBox Name="QueryTextBox" TextWrapping="WrapWithOverflow" AcceptsReturn="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="#121212" BorderBrush="Transparent" BorderThickness="0" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,35,0,0"/>
         <Grid.ContextMenu>

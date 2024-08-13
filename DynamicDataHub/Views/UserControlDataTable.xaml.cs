@@ -42,6 +42,7 @@ namespace DynamicDataHub
         private string nameDbFile;
         private string nameDBManagementSystem;
 
+        private DataTable dataTable;
 
         private string preparingCellForEditId;
 
@@ -53,10 +54,10 @@ namespace DynamicDataHub
         #endregion
 
         #region builder
-        public UserControlDataTable()
+        public UserControlDataTable(DataTable content)
         {
             InitializeComponent();
-
+            this.dataTable = content;
             this.tableName = DatabaseConfiguration.tableName;
             this.dbName = DatabaseConfiguration.dbName;
             this.nameDBManagementSystem = DatabaseConfiguration.nameDbManagementSystem;
@@ -266,16 +267,23 @@ namespace DynamicDataHub
         #region loaded datagrid for user control
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            switch (this.nameDBManagementSystem)
+            if (dataTable == null)
             {
-                case "MS SQL Server":
-                    DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
-                    break;
-                case "SQLite":
-                    DataTable.DataContext = GetDataTableSQLite(tableName);
-                    break;
-                default:
-                    return;
+                switch (this.nameDBManagementSystem)
+                {
+                    case "MS SQL Server":
+                        DataTable.DataContext = GetDataTableSQLServer(tableName, dbName);
+                        break;
+                    case "SQLite":
+                        DataTable.DataContext = GetDataTableSQLite(tableName);
+                        break;
+                    default:
+                        return;
+                }
+            }
+            else
+            {
+                DataTable.DataContext = dataTable;
             }
         }
         #endregion

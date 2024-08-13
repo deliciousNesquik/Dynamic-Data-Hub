@@ -48,6 +48,19 @@ namespace DynamicDataHub.Views
             this.nameDBManagementSystem = DatabaseConfiguration.nameDbManagementSystem;
             this.serverName = DatabaseConfiguration.serverName;
             this.nameDbFile = DatabaseConfiguration.serverName;
+
+            if(this.nameDBManagementSystem == SQLServerConnector.nameDBManagementSystem) {
+
+                ChoiseDatabaseComboBox.Visibility = Visibility.Visible;
+                sqlServer = new SQLServerConnector(this.serverName);
+                List<string> listDb = sqlServer.GetDBNames();
+
+                foreach(string dbName in listDb)
+                {
+                    ChoiseDatabaseComboBox.Items.Add(dbName);
+                }
+            }
+
         }
         #endregion
 
@@ -57,10 +70,8 @@ namespace DynamicDataHub.Views
             sqlServer = new SQLServerConnector(this.serverName);
             query = QueryTextBox.Text;
             DataTable dataTable = sqlServer.CreateQuery(query, dbName);
-            foreach(DataRow row in dataTable.Rows)
-            {
-                Console.WriteLine(row[0].ToString());
-            }
+            UserControlDataTable content = new UserControlDataTable(dataTable);
+            FrameResultExecutionQuery.Navigate(content);
         }
         #endregion
 
@@ -94,6 +105,13 @@ namespace DynamicDataHub.Views
                     sw.Close();
                 }
             }
+        }
+
+
+
+        private void ChoiseDatabaseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.dbName = ChoiseDatabaseComboBox.SelectedItem.ToString();
         }
     }
 }

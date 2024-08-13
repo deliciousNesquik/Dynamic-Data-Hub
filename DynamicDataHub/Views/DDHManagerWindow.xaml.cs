@@ -28,7 +28,7 @@ namespace DynamicDataHub
         public string dbName { get; private set; }
 
 
-        private UserControlDataTable dataTableControl = new UserControlDataTable();
+        private UserControlDataTable dataTableControl = new UserControlDataTable(null);
 
 
         StackPanel InfoMessageStackPanel;
@@ -153,22 +153,35 @@ namespace DynamicDataHub
 
         #region handlers for interaction with UI elements
         private void TableSelected(object sender, RoutedEventArgs e)
-        {
+        { 
+            FrameTableData.Content = null;
             TreeViewItem tableName = (TreeViewItem)sender;
             this.tableName = tableName.Header.ToString();
             switch (this.nameDBManagementSystem) {
                 case "SQLite":
                 {
+                    TreeViewItem parent = (TreeViewItem)tableName.Parent;
+                    foreach (TreeViewItem t in parent.Items)
+                    {
+                        t.BorderThickness = new Thickness(0);
+                    }
                     DatabaseConfiguration.tableName = this.tableName;
-                    dataTableControl = new UserControlDataTable();
+                    dataTableControl = new UserControlDataTable(null);
                     FrameTableData.Navigate(dataTableControl);
+                    tableName.IsSelected = false;
+                    tableName.BorderBrush = new SolidColorBrush(Colors.White);
+                    tableName.BorderThickness = new Thickness(0.5);
                     break;
                 }
                 case "MS SQL Server":
                 {
-                    if (tableName.Parent.GetType() == typeof(TreeViewItem)) // verify that parent is TreeViewItem
+                    if (tableName.Parent.GetType() == typeof(TreeViewItem))
                     {
                         TreeViewItem Tables = (TreeViewItem)tableName.Parent;
+                        foreach(TreeViewItem t in Tables.Items)
+                        {
+                            t.BorderThickness = new Thickness(0);
+                        }
 
                         if (Tables.Parent.GetType() == typeof(TreeViewItem))
                         {
@@ -179,8 +192,11 @@ namespace DynamicDataHub
                             DatabaseConfiguration.tableName = this.tableName;
                             DatabaseConfiguration.dbName = this.dbName;
 
-                            dataTableControl = new UserControlDataTable();
+                            dataTableControl = new UserControlDataTable(null);
                             FrameTableData.Navigate(dataTableControl);
+                            tableName.IsSelected = false;
+                            tableName.BorderBrush = new SolidColorBrush(Colors.White);
+                            tableName.BorderThickness = new Thickness(0.5);
                         }
                     }
                         break;
@@ -281,7 +297,7 @@ namespace DynamicDataHub
         private void NewQuery_Click(object sender, RoutedEventArgs e)
         {
             var queryEnvironment = new QueryExecutionEnvironment();
-            QueryFrame.Navigate(queryEnvironment);
+            FrameTableData.Navigate(queryEnvironment);
         }
         #endregion
     }

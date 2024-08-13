@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\obj\x64\Debug\
+C:\Users\prod_upal\Desktop\13 08\DynamicDataHub\obj\x64\Debug\
 DynamicDataHub
 none
 false
 DEBUG;TRACE
-C:\Users\SystemX\Desktop\Dynamic-Data-Hub\DynamicDataHub\App.xaml
+C:\Users\prod_upal\Desktop\13 08\DynamicDataHub\App.xaml
 41508999371
 1-600760770
 17-1742058288
-30702666240
+30836721729
 Views\QueryExecutionEnvironment.xaml;Views\UserControlDataTable.xaml;Views\DDHAuthorizationWindow.xaml;Views\DDHManagerWindow.xaml;
 
 False
