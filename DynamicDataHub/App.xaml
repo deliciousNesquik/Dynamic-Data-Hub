@@ -20,9 +20,10 @@
         <Style TargetType="ListBox">
             <Setter Property="Background" Value="#121212" />
         </Style>
-        <Style TargetType="{x:Type TextBlock}">
-            <Setter Property="Foreground" Value="#E0E0E0" />
+        <Style TargetType="TreeViewItem">
+            <Setter Property="Foreground" Value="White" />
         </Style>
+
 
         <!--Окна и рамки-->
         <Style TargetType="Grid">
@@ -31,6 +32,14 @@
         </Style>
         <Style TargetType="Frame">
             <Setter Property="BorderBrush" Value="White" />
+        </Style>
+
+        <!-- ComboBox -->
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="Black"></Setter>
+        </Style>
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="Black"></Setter>
         </Style>
 
         <!--Label button-->

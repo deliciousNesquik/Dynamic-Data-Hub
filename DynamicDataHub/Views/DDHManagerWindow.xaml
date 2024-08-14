@@ -29,6 +29,9 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="MainText" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="#E0E0E0" />
+        </Style>
         <Style TargetType="TextBlock" x:Key="LabelText">
             <Setter Property="Foreground" Value="White"></Setter>
             <Style.Triggers>
@@ -40,6 +43,11 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="TextBlock" x:Key="CodeTextBlock">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="FontFamily" Value="Consolas"></Setter>
+            <Setter Property="Foreground" Value="LightGray"></Setter>
+        </Style>
     </Window.Resources>
     <Grid Name="MainGrid">
         <Grid.ColumnDefinitions>
@@ -49,6 +57,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Name="RowObjectExplorer" Height="40"/>
             <RowDefinition Name="RowConnecting" Height="30"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1">
@@ -66,11 +75,11 @@
         <Frame Name="FrameConnectiong" Grid.Column="0" Grid.Row="1" BorderThickness="1.1 0 1 1"/>
         <Frame Name="FrameExplorer" Grid.Column="0" Grid.Row="2" BorderThickness="1.1 0 1 1"/>
         <Frame Name="FrameControlElements" Grid.Column="1" Grid.Row="0" />
-        <Frame Name="FrameTableData" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" NavigationUIVisibility="Hidden"/>
+        <Frame Name="FrameTableData" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2" NavigationUIVisibility="Hidden"/>
         <Frame Name="QueryFrame" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" NavigationUIVisibility="Hidden" />
         <Border CornerRadius="0 0 40 0" Grid.Row="0" Grid.Column="1" BorderBrush="White" BorderThickness="0 0 1 1"></Border>
         <StackPanel Name="SPWrap" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="0">
-            <TextBlock Margin="10" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="1" />
+            <TextBlock Style="{StaticResource MainText}" FontWeight="Bold" Margin="5" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="1" />
 
             <Button Template="{StaticResource MainButton}" Name="WrapColumn" Grid.Column="0" Grid.Row="1" Width="20" Height="20" Margin="48.5 5 0 5" Click="WrapColumn_Click" RenderTransformOrigin="0.5,0.5">
                 <!--87-->
@@ -82,7 +91,19 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </Button.RenderTransform>
-                <TextBlock Text="◀️" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Style="{StaticResource MainText}" Text="◀️" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Button>
+        </StackPanel>
+        <StackPanel Name="FilterStackPanel" Visibility="Hidden" Height="40" HorizontalAlignment="Left" Margin="10 13 0 0" VerticalAlignment="Center" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+            <TextBlock VerticalAlignment="Center" Margin="0 0 10 0" Style="{StaticResource CodeTextBlock}" Text="SELECT * FROM"></TextBlock>
+            <TextBlock Style="{StaticResource CodeTextBlock}" Text="not selected" TextDecorations="Underline" Foreground="DimGray" Name="CurrentTableTextblock" Margin="0 0 10 0" Height="15"></TextBlock>
+            <TextBlock VerticalAlignment="Center" Margin="0 0 10 0" Style="{StaticResource CodeTextBlock}" Text="WHERE"></TextBlock>
+            <ComboBox FontFamily="Consolas" Name="ColumnsComboBox" Margin="0 0 10 0" Width="100" Height="25">
+            </ComboBox>
+            <TextBlock VerticalAlignment="Center" Margin="0 0 10 0" Style="{StaticResource CodeTextBlock}">=</TextBlock>
+            <TextBox Name="SearchLine" TextWrapping="Wrap" Margin="0 0 10 0" Width="80" Height="25"></TextBox>
+            <Button Height="15" Name="FilterRowsButton" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" BorderBrush="Transparent">
+                <TextBlock FontWeight="Black" FontFamily="Consolas" Text="FILTER" Foreground="LawnGreen" Style="{StaticResource LabelText}"></TextBlock>
             </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0">
@@ -98,7 +119,7 @@
         </StackPanel>
 
 
-        <TreeView Name="TreeContent" Grid.Row="2" Grid.Column="0" Background="#121212">
+        <TreeView Name="TreeContent" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Background="#121212">
         </TreeView>
 
     </Grid>

@@ -148,6 +148,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\TableTextBlockHelper.cs" />
     <Compile Include="Interfaces\IDataTableControl.cs" />
     <Compile Include="Modules\CustomMessageBoxBuilder.cs" />
     <Compile Include="Modules\CustomNotificationBuilder.cs" />

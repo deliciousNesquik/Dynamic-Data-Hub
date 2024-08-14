@@ -28,6 +28,19 @@ namespace DynamicDataHub.Modules{
             return CreateQuery($"pragma table_info('{TableName}')");
         }
 
+        public List<string> GetColumnNames(string tableName)
+        {
+            var columns = new List<string>();
+            var databases = CreateQuery($"SELECT c.name FROM pragma_table_info('{tableName}') c;");
+
+            foreach (DataRow row in databases.Rows)
+            {
+                columns.Add(row[0].ToString());
+            }
+
+            return columns;
+        }
+
 
         public DataTable DeleteRow(string TableName, string NameColumnTable, string ColumnValue)
         {

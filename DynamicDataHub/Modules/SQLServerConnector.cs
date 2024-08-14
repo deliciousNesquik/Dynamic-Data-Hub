@@ -126,6 +126,18 @@ namespace DynamicDataHub.Modules
             return CreateQuery($"delete from [{TableName}] where [{ColumnName}] = N'{ValueColumn}'", DBName);
         }
 
+        public List<string> GetColumnNames(string tableName, string dbName)
+        {
+            var dataTable = CreateQuery($"SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = N'{tableName}'", dbName);
+            var result = new List<string>();
+            foreach (DataRow dataTableRow in dataTable.Rows)
+            {
+                result.Add(dataTableRow["COLUMN_NAME"].ToString());
+            }
+
+            return result;
+        }
+
         public DataTable UpdateRow(string dbName, string tableName, string editingColumn, string editingElement, string basedColumn, string valueBasedColumn)
         {
             return CreateQuery($"update [{tableName}] set [{editingColumn}] = '{editingElement}' where [{basedColumn}] = '{valueBasedColumn}'", dbName);

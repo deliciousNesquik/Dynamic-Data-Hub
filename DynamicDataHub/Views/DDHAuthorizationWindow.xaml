@@ -12,6 +12,11 @@
         WindowStyle="None" 
         ResizeMode="NoResize" 
         Closing="Window_Closing">
+    <Window.Resources>
+        <Style x:Key="MainText" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="#E0E0E0" />
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -29,8 +34,8 @@
         <Border Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="0 0.5 0 0" BorderBrush="Black"/>
 
 
-        <TextBlock Text="DDH version 0.1" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0 0 0"/>
-        <TextBlock Text="made by" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0">
+        <TextBlock Style="{StaticResource MainText}" Text="DDH version 0.1" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 0 0 0"/>
+        <TextBlock Style="{StaticResource MainText}" Text="made by" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 10 0">
             <TextBlock> </TextBlock>
             <Hyperlink Name="prodUpalLink" NavigateUri="https://t.me/hash3j">prod_upal</Hyperlink>
             <TextBlock>, </TextBlock>
@@ -43,7 +48,7 @@
 
         <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                <TextBlock Name="NameDBServerBlock" Text="Имя сервера" VerticalAlignment="Center"></TextBlock>
+                <TextBlock Style="{StaticResource MainText}" Name="NameDBServerBlock" Text="Имя сервера" VerticalAlignment="Center"></TextBlock>
                 <TextBox Name="NameDBServerBox" Height="25" FontSize="15" Width="200" Margin="30 0 0 0"></TextBox>
                 <Button Name="OpenExplorer" Visibility="Hidden" Click="OpenExplorer_Click" Width="25" Height="19"  Margin="5 0 0 0">
                     <Image Source="../Resources/explorer.png" Width="20"></Image>
@@ -51,9 +56,11 @@
             </StackPanel>
         </StackPanel>
 
-        <Button Template="{StaticResource MainButton}" Name="ConnectionButton" Content="Соединить" Click="ConnectionButton_Click" Grid.Column="1" Grid.Row="2" Width="120" Height="20"></Button>
+        <Button Template="{StaticResource MainButton}" Name="ConnectionButton" Click="ConnectionButton_Click" Grid.Column="1" Grid.Row="2" Width="120" Height="20">
+            <TextBlock Text="Соединить" Style="{StaticResource MainText}"></TextBlock>
+        </Button>
         <Button Name="CloseWindow"  Template="{StaticResource MainButton}" Grid.Row="0" Grid.Column="2" Width="25" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 5 5 0" Click="CloseWindow_Click">
-            <TextBlock Text="✖️" HorizontalAlignment="Center" FontSize="10" VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource MainText}" Text="✖️" HorizontalAlignment="Center" FontSize="10" VerticalAlignment="Center">
             </TextBlock>
         </Button>
 
