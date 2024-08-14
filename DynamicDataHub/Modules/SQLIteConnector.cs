@@ -16,7 +16,7 @@ namespace DynamicDataHub.Modules{
         private string pathFileDB;
         private IDbConnection GetConnection;
 
-        public static string nameDBManagementSystem { get; private set; } = "SQLite";
+        public const string nameDBManagementSystem = "SQLite";
 
         public SQLIteConnector(string pathFileDB) 
         {

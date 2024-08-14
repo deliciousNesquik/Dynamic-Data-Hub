@@ -17,6 +17,7 @@ namespace DynamicDataHub
         private DDHAuthorization connectionWindow;
         private SQLServerConnector sqlServerDB;
         private SQLIteConnector sqliteDB;
+        private GetDataTable getDataTable;
         private CustomMessageBoxBuilder customMessageBoxBuilder = new CustomMessageBoxBuilder();
 
         public string serverName { get; private set; }
@@ -68,6 +69,7 @@ namespace DynamicDataHub
         public DDHManager()
         {
             InitializeComponent();
+            
             connectionWindow = new DDHAuthorization(this);
             dataTableControl.GetLinkWindow(this);
             CustomNotificationBuilder.CreateNotification(MainGrid);
@@ -153,12 +155,13 @@ namespace DynamicDataHub
 
         #region handlers for interaction with UI elements
         private void TableSelected(object sender, RoutedEventArgs e)
-        { 
+        {
+            getDataTable = new GetDataTable();
             FrameTableData.Content = null;
             TreeViewItem tableName = (TreeViewItem)sender;
             this.tableName = tableName.Header.ToString();
             switch (this.nameDBManagementSystem) {
-                case "SQLite":
+                case SQLIteConnector.nameDBManagementSystem:
                 {
                     TreeViewItem parent = (TreeViewItem)tableName.Parent;
                     foreach (TreeViewItem t in parent.Items)
@@ -166,14 +169,16 @@ namespace DynamicDataHub
                         t.BorderThickness = new Thickness(0);
                     }
                     DatabaseConfiguration.tableName = this.tableName;
-                    dataTableControl = new UserControlDataTable(null);
+                    dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLite(this.tableName));
                     FrameTableData.Navigate(dataTableControl);
+
                     tableName.IsSelected = false;
                     tableName.BorderBrush = new SolidColorBrush(Colors.White);
                     tableName.BorderThickness = new Thickness(0.5);
+
                     break;
                 }
-                case "MS SQL Server":
+                case SQLServerConnector.nameDBManagementSystem:
                 {
                     if (tableName.Parent.GetType() == typeof(TreeViewItem))
                     {
@@ -192,7 +197,7 @@ namespace DynamicDataHub
                             DatabaseConfiguration.tableName = this.tableName;
                             DatabaseConfiguration.dbName = this.dbName;
 
-                            dataTableControl = new UserControlDataTable(null);
+                            dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLServer(this.tableName, this.dbName));
                             FrameTableData.Navigate(dataTableControl);
                             tableName.IsSelected = false;
                             tableName.BorderBrush = new SolidColorBrush(Colors.White);

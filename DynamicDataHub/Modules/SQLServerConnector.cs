@@ -20,7 +20,7 @@ namespace DynamicDataHub.Modules
 
         private CustomMessageBoxBuilder customMessageBoxBuilder = new CustomMessageBoxBuilder();
 
-        public static string nameDBManagementSystem { get; private set;} = "MS SQL Server";
+        public const string nameDBManagementSystem  = "MS SQL Server";
 
 
         public SQLServerConnector(string serverName)
@@ -137,7 +137,7 @@ namespace DynamicDataHub.Modules
 
             foreach (var key in keyValuePairs.Keys)
             {
-                query += $"{key},";
+                query += $"[{key}],";
             }
 
             int lastIndexColumns = query.LastIndexOf(',');
@@ -222,6 +222,7 @@ namespace DynamicDataHub.Modules
 
             return tables;
         }
+
     }
 
 }

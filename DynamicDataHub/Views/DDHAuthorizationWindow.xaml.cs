@@ -122,7 +122,7 @@ namespace DynamicDataHub.Views
 
             switch (_currentDBManagementSystem)
             {
-                case "SQLite":
+                case SQLIteConnector.nameDBManagementSystem:
                     _fileName = NameDBServerBox.Text;
                     if (!string.IsNullOrWhiteSpace(_fileName))
                     {
@@ -148,7 +148,7 @@ namespace DynamicDataHub.Views
                         customMessageBox.ShowError("Ошибка", "Выберите файл базы данных", "Закрыть", this);
                     }
                     break;
-                case "MS SQL Server":
+                case SQLServerConnector.nameDBManagementSystem:
 
                     _serverName = NameDBServerBox.Text;
 
