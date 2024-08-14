@@ -1,28 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml.Linq;
+using DynamicDataHub.Helpers;
 using DynamicDataHub.Interfaces;
 using DynamicDataHub.Modules;
 
 namespace DynamicDataHub
 {
-    /// <summary>
-    /// Логика взаимодействия для UserControlDataTable.xaml
-    /// </summary>
     public partial class UserControlDataTable : UserControl 
     {
         #region vars
@@ -45,7 +31,7 @@ namespace DynamicDataHub
 
         private Dictionary<string, string> columnValuePairs = new Dictionary<string, string>();
 
-        
+
 
         private Window window;
         #endregion
@@ -62,6 +48,8 @@ namespace DynamicDataHub
             this.nameDbFile = DatabaseConfiguration.filePathDb;
 
             getDataTable = new GetDataTable();
+            FilterRowsButton.Click += FilterRowsButtonOnClick;
+
 
             CustomNotificationBuilder.CreateNotification(MainGrid);
 
@@ -79,6 +67,78 @@ namespace DynamicDataHub
         }
         #endregion
 
+        #region function for work filter
+        private void FilterRowsButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            UpdateColumnsComboBox();
+            if (this.tableName == null) return;
+            var selectedColumn = ColumnsComboBox.SelectedItem as string;
+            DataTable dataTable = null;
+            if (string.IsNullOrEmpty(SearchLine.Text))
+            {
+                CustomNotificationBuilder.ShowNotificationOpacity("Напишите условие");
+                switch (this.nameDBManagementSystem)
+                {
+                    case SQLIteConnector.nameDBManagementSystem:
+                        dataTable = sqliteDB.CreateQuery($"SELECT * FROM {this.tableName}");
+                        DataTable.DataContext = dataTable;
+                        break;
+
+                    case SQLServerConnector.nameDBManagementSystem:
+                        dataTable = sqlServerDB.CreateQuery($"SELECT * FROM {this.tableName}");
+                        DataTable.DataContext = dataTable;
+                        break;
+                }
+
+                return;
+            }
+
+            switch (this.nameDBManagementSystem)
+            {
+                case SQLIteConnector.nameDBManagementSystem:
+                    if (selectedColumn is null)
+                    {
+                        dataTable = sqliteDB.CreateQuery($"SELECT * FROM {this.tableName}");
+                        DataTable.DataContext = dataTable;
+                        break;
+                    }
+
+                    dataTable = sqliteDB.CreateQuery(
+                        $"SELECT * FROM {this.tableName} WHERE {selectedColumn} LIKE '{SearchLine.Text}'"
+                    );
+                    DataTable.DataContext = dataTable;
+                    break;
+                case SQLServerConnector.nameDBManagementSystem:
+                    if (selectedColumn is null)
+                    {
+                        dataTable = sqliteDB.CreateQuery($"SELECT * FROM {this.tableName}");
+                        DataTable.DataContext = dataTable;
+                        break;
+                    }
+                    dataTable = sqlServerDB.CreateQuery(
+                        $"SELECT * FROM {this.tableName} WHERE {selectedColumn} LIKE '{SearchLine.Text}'", this.dbName);
+                    DataTable.DataContext = dataTable;
+                    break;
+            }
+        }
+
+        private void UpdateColumnsComboBox()
+        {
+            switch (this.nameDBManagementSystem)
+            {
+                case SQLIteConnector.nameDBManagementSystem:
+                    //sqliteDB.GetColumnNames(this.tableName).ForEach(Console.WriteLine);
+                    ColumnsComboBox.ItemsSource = sqliteDB.GetColumnNames(this.tableName);
+                    break;
+                case SQLServerConnector.nameDBManagementSystem:
+                    //sqlServerDB.GetColumnNames(this.tableName, this.dbName).ForEach(Console.WriteLine);
+                    ColumnsComboBox.ItemsSource = sqlServerDB.GetColumnNames(this.tableName, this.dbName);
+                    break;
+            }
+        }
+
+        #endregion
+
         #region get link parent window
         public void GetLinkWindow(Window w)
         {
@@ -86,9 +146,15 @@ namespace DynamicDataHub
         }
         #endregion
 
-
         #region loaded datagrid for user control
-        private void UserControl_Loaded(object sender, RoutedEventArgs e){DataTable.DataContext = dataTable;}
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            SearchLine.Clear();
+            ColumnsComboBox.ItemsSource = null;
+            CurrentTableTextblock.SetTable(this.tableName);
+            UpdateColumnsComboBox();
+            DataTable.DataContext = dataTable;
+        }
         #endregion
 
         #region handler for interaction with table data

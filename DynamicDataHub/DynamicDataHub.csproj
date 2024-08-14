@@ -128,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Views\FilterUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\QueryExecutionEnvironment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -159,6 +163,9 @@
     <Compile Include="Modules\PostgreSQLConnector.cs" />
     <Compile Include="Modules\SQLIteConnector.cs" />
     <Compile Include="Modules\SQLServerConnector.cs" />
+    <Compile Include="Views\FilterUserControl.xaml.cs">
+      <DependentUpon>FilterUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\QueryExecutionEnvironment.xaml.cs">
       <DependentUpon>QueryExecutionEnvironment.xaml</DependentUpon>
     </Compile>

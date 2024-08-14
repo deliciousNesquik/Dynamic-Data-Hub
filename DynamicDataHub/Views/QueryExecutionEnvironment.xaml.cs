@@ -49,7 +49,9 @@ namespace DynamicDataHub.Views
             this.serverName = DatabaseConfiguration.serverName;
             this.nameDbFile = DatabaseConfiguration.serverName;
 
-            if(this.nameDBManagementSystem == SQLServerConnector.nameDBManagementSystem) {
+            CustomNotificationBuilder.CreateNotification(MainGrid);
+
+            if (this.nameDBManagementSystem == SQLServerConnector.nameDBManagementSystem) {
 
                 ChoiseDatabaseComboBox.Visibility = Visibility.Visible;
                 sqlServer = new SQLServerConnector(this.serverName);

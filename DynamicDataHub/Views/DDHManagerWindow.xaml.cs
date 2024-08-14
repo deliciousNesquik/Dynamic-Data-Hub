@@ -72,90 +72,14 @@ namespace DynamicDataHub
         public DDHManager()
         {
             InitializeComponent();
-            FilterRowsButton.Click += FilterRowsButtonOnClick;
+            
             connectionWindow = new DDHAuthorization(this);
             dataTableControl.GetLinkWindow(this);
             CustomNotificationBuilder.CreateNotification(MainGrid);
-
         }
         #endregion
 
-        #region function for work filter
-        private void FilterRowsButtonOnClick(object sender, RoutedEventArgs e)
-        {
-            UpdateColumnsComboBox();
-            if (this.tableName == null) return;
-            var selectedColumn = ColumnsComboBox.SelectedItem as string;
-            DataTable dataTable = null;
-            if (string.IsNullOrEmpty(SearchLine.Text))
-            {
-                CustomNotificationBuilder.ShowNotificationOpacity("Напишите условие");
-                switch (this.nameDBManagementSystem)
-                {
-                    case SQLIteConnector.nameDBManagementSystem:
-                        dataTable = sqliteDB.CreateQuery($"SELECT * FROM {this.tableName}");
-                        dataTableControl = new UserControlDataTable(dataTable);
-                        FrameTableData.Navigate(dataTableControl);
-                        break;
-
-                    case SQLServerConnector.nameDBManagementSystem:
-                        dataTable = sqlServerDB.CreateQuery($"SELECT * FROM {this.tableName}");
-                        dataTableControl = new UserControlDataTable(dataTable);
-                        FrameTableData.Navigate(dataTableControl);
-                        break;
-                }
-
-                return;
-            }
-
-            switch (this.nameDBManagementSystem)
-            {
-                case SQLIteConnector.nameDBManagementSystem:
-                    if (selectedColumn is null)
-                    {
-                        dataTable = sqliteDB.CreateQuery($"SELECT * FROM {this.tableName}");
-                        dataTableControl = new UserControlDataTable(dataTable);
-                        FrameTableData.Navigate(dataTableControl);
-                        break;
-                    }
-
-                    dataTable = sqliteDB.CreateQuery(
-                        $"SELECT * FROM {this.tableName} WHERE {selectedColumn} LIKE '{SearchLine.Text}'");
-                    dataTableControl = new UserControlDataTable(dataTable);
-                    FrameTableData.Navigate(dataTableControl);
-                    break;
-                case SQLServerConnector.nameDBManagementSystem:
-                    if (selectedColumn is null)
-                    {
-                        dataTable = sqliteDB.CreateQuery($"SELECT * FROM {this.tableName}");
-                        dataTableControl = new UserControlDataTable(dataTable);
-                        FrameTableData.Navigate(dataTableControl);
-                        break;
-                    }
-                    dataTable = sqlServerDB.CreateQuery(
-                        $"SELECT * FROM {this.tableName} WHERE {selectedColumn} LIKE '{SearchLine.Text}'", this.dbName);
-                    dataTableControl = new UserControlDataTable(dataTable);
-                    FrameTableData.Navigate(dataTableControl);
-                    break;
-            }
-        }
-
-        private void UpdateColumnsComboBox()
-        {
-            switch (this.nameDBManagementSystem)
-            {
-                case SQLIteConnector.nameDBManagementSystem:
-                    //sqliteDB.GetColumnNames(this.tableName).ForEach(Console.WriteLine);
-                    ColumnsComboBox.ItemsSource = sqliteDB.GetColumnNames(this.tableName);
-                    break;
-                case SQLServerConnector.nameDBManagementSystem:
-                    //sqlServerDB.GetColumnNames(this.tableName, this.dbName).ForEach(Console.WriteLine);
-                    ColumnsComboBox.ItemsSource = sqlServerDB.GetColumnNames(this.tableName, this.dbName);
-                    break;
-            }
-        }
-
-        #endregion
+       
 
         #region functions of connecting to databases
         public void ConnectionSQLServer(String ServerName, String NameDBManagementSystem)
@@ -188,19 +112,18 @@ namespace DynamicDataHub
 
                                 Table.Selected += TableSelected;
                                 Tables.Items.Add(Table);
-
                             }
                         }
                         else
                         {
-                            CustomNotificationBuilder.ShowNotificationOpacity("База данных не содержит таблиц");
+                            //CustomNotificationBuilder.ShowNotificationOpacity("База данных не содержит таблиц");
                         }
 
                     }
                 }
                 else
                 {
-                    CustomNotificationBuilder.ShowNotificationOpacity("Отсутствуют базы данных");
+                    //CustomNotificationBuilder.ShowNotificationOpacity("Отсутствуют базы данных");
                 }
             }
             catch (Exception ex)
@@ -236,21 +159,17 @@ namespace DynamicDataHub
         #region handlers for interaction with UI elements
         private void TableSelected(object sender, RoutedEventArgs e)
         {
-            FilterStackPanel.Visibility = Visibility.Visible;
-            SearchLine.Clear();
-            ColumnsComboBox.ItemsSource = null;
             getDataTable = new GetDataTable();
 
             TreeViewItem tableName = (TreeViewItem)sender;
             this.tableName = tableName.Header.ToString();
 
             FrameTableData.Content = null;
-            CurrentTableTextblock.SetTable(this.tableName);
+            
 
             switch (this.nameDBManagementSystem) {
                 case SQLIteConnector.nameDBManagementSystem:
                 {
-                    UpdateColumnsComboBox();
                     TreeViewItem parent = (TreeViewItem)tableName.Parent;
                     foreach (TreeViewItem t in parent.Items)
                     {
@@ -281,7 +200,6 @@ namespace DynamicDataHub
                             TreeViewItem DB = (TreeViewItem)Tables.Parent;
                             this.tableName = tableName.Header.ToString();
                             this.dbName = DB.Header.ToString();
-                            UpdateColumnsComboBox();
 
                             DatabaseConfiguration.tableName = this.tableName;
                             DatabaseConfiguration.dbName = this.dbName;
@@ -387,14 +305,12 @@ namespace DynamicDataHub
         private void Window_ContentRendered(object sender, EventArgs e) { 
 
             connectionWindow.Focus();
-            UpdateColumnsComboBox();
         }
         #endregion
 
         #region create a new user query (button click)
         private void NewQuery_Click(object sender, RoutedEventArgs e)
         {
-            FilterStackPanel.Visibility = Visibility.Hidden;
             var queryEnvironment = new QueryExecutionEnvironment();
             FrameTableData.Navigate(queryEnvironment);
         }
