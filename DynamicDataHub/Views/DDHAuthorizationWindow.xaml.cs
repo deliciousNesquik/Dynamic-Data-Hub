@@ -48,6 +48,10 @@ namespace DynamicDataHub.Views
             {"NoSelectDBFile", new List<string>{"Select the database file", "Выберите файл базы данных"}},
             {"SpecifyServerName", new List<string>{"Specify the server name", "Укажите имя сервера"}},
             {"SelectDBMS", new List<string>{ "Select a DBMS", "Выберите СУБД"}},
+            
+            {"ToolTipNameDBServerBox", new List<string>{"A field for entering the name of the server to connect to for further work with databases", "Поле для ввода имени сервера к которому необходимо подключиться для дальнейшей работы с базами данными"}},
+            {"ToolTipOpenExplorer", new List<string>{"A button to select a database on your computer for further work with it", "Кнопка для того чтобы выбрать базу данных на вашем компьютере для дальнейшей работы с ней"}},
+            {"ToolTipConnectionTB", new List<string>{"A button to connect the program to your one or many databases", " Кнопка для соединения программы с вашей одной или многими базами данных"}},
         };
 
         #endregion
@@ -81,6 +85,10 @@ namespace DynamicDataHub.Views
             NameDBServerBlock.Text = localizationOfWords["NameDBServerBlock_0"][languageSelected];
             ConnectionTB.Text = localizationOfWords["ConnectionTB"][languageSelected];
             CreationsByTB.Text = localizationOfWords["CreationsByTB"][languageSelected];
+
+            ToolTipNameDBServerBox.Content = localizationOfWords["ToolTipNameDBServerBox"][languageSelected];
+            ToolTipOpenExplorer.Content = localizationOfWords["ToolTipOpenExplorer"][languageSelected];
+            ToolTipConnectionTB.Content = localizationOfWords["ToolTipConnectionTB"][languageSelected];
 
             this.customMessageBox.CenterInParentWindow(this);
 

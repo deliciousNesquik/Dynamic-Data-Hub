@@ -48,16 +48,32 @@
 
         <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                <TextBlock Style="{StaticResource MainText}" Name="NameDBServerBlock" Text="Имя сервера" VerticalAlignment="Center"></TextBlock>
-                <TextBox Name="NameDBServerBox" Height="25" FontSize="15" Width="200" Margin="30 0 0 0"></TextBox>
+                <TextBlock Style="{StaticResource MainText}" Name="NameDBServerBlock" Text="Имя сервера" VerticalAlignment="Center"/>
+                <TextBox Name="NameDBServerBox" Height="25" FontSize="15" Width="200" Margin="30 0 0 0">
+                    <TextBox.ToolTip>
+                        <ToolTip x:Name="ToolTipNameDBServerBox">
+                            Поле для ввода имени сервера к которому необходимо подключиться для дальнейшей работы с базами данными
+                        </ToolTip>
+                    </TextBox.ToolTip>
+                </TextBox>
                 <Button Name="OpenExplorer" Visibility="Hidden" Click="OpenExplorer_Click" Width="25" Height="19"  Margin="5 0 0 0">
                     <Image Source="../Resources/explorer.png" Width="20"></Image>
+                    <Button.ToolTip>
+                        <ToolTip x:Name="ToolTipOpenExplorer">
+                            Кнопка для того чтобы выбрать базу данных на вашем компьютере для дальнейшей работы с ней
+                        </ToolTip>
+                    </Button.ToolTip>
                 </Button>
             </StackPanel>
         </StackPanel>
 
         <Button Template="{StaticResource MainButton}" Name="ConnectionButton" Click="ConnectionButton_Click" IsDefault="True" Grid.Column="1" Grid.Row="2" Width="120" Height="20">
             <TextBlock Name="ConnectionTB" Text="Соединить" Style="{StaticResource MainText}"></TextBlock>
+            <Button.ToolTip>
+                <ToolTip x:Name="ToolTipConnectionTB">
+                    Кнопка для соединения программы с вашей одной или многими базами данных
+                </ToolTip>
+            </Button.ToolTip>
         </Button>
         <Button Name="CloseWindow"  Template="{StaticResource MainButton}" IsCancel="True" Grid.Row="0" Grid.Column="2" Width="25" Height="25" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 5 5 0" Click="CloseWindow_Click">
             <TextBlock Style="{StaticResource MainText}" Text="✖️" HorizontalAlignment="Center" FontSize="10" VerticalAlignment="Center">
