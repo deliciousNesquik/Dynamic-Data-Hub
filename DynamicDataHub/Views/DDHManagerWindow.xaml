@@ -68,7 +68,7 @@
                 <TextBlock FontWeight="Bold" Style="{StaticResource LabelText}" Name="SettingsTB" Text="Settings" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
         </StackPanel>
-        <Frame Name="FrameObjectExplorer" Grid.Column="0" Grid.Row="0"  BorderThickness="0 1 2 0" />
+        <Frame Name="FrameObjectExplorer" Grid.Column="0" Grid.Row="0"  BorderThickness="0 1 2 0"/>
         <Frame Name="FrameConnectiong" Grid.Column="0" Grid.Row="1" BorderThickness="1 1 1 1" />
         <Frame Name="FrameExplorer" Grid.Column="0" Grid.Row="2" />
         <Frame Name="FrameControlElements" Grid.Column="1" Grid.Row="0" />
@@ -90,19 +90,19 @@
             </Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0">
-            <Button  Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="Connect" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Connect_Click">
+            <Button  Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Name="Connect" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Connect_Click">
                 <TextBlock Style="{StaticResource LabelText}" Text="Connect" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
-            <Button Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}"  Visibility="Visible" Name="Disconnect" Width="75" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Disconnect_Click">
+            <Button Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Name="Disconnect" Width="75" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Disconnect_Click">
                 <TextBlock Style="{StaticResource LabelText}" Text="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
             <Button Template="{StaticResource MainButton}" Name="Refresh" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 0 0 0" Click="Refresh_Click">
-                <TextBlock Text="⟲" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="⟲" Style="{StaticResource LabelText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
         </StackPanel>
 
 
-        <TreeView Name="TreeContent" Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Background="#121212">
+        <TreeView Name="TreeContent" Grid.Row="2" Grid.RowSpan="3" Grid.Column="0" Background="#121212">
         </TreeView>
 
     </Grid>
