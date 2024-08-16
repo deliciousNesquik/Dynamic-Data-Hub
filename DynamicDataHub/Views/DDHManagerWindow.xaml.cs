@@ -25,12 +25,14 @@ namespace DynamicDataHub
         private UserControlDataTable dataTableControl = new UserControlDataTable(null);
         private string nameDBManagementSystem;
 
+        private HashSet<string> tabItem = new HashSet<string>();
+
 
         /*
          * 0 - Russian
          * 1 - English
          */
-        private int languageSelected = 0;
+        private int languageSelected = 1;
         private Dictionary<string, List<string>> localizationOfWords = new Dictionary<string, List<string>>
         {
             {"Title", new List<string>{"Database Manager", "Менеджер базы данных"}},
@@ -39,6 +41,9 @@ namespace DynamicDataHub
             {"NewQuery", new List<string>{"New Query", "Новый запрос"}},
             {"Settings", new List<string>{"Settings", "Настройки"}}, 
             {"TBObjectExplorer", new List<string>{ "Object Explorer", "Проводник"}},
+            
+            {"ConnectTB", new List<string>{ "Connect", "Соединить"}},
+            {"DisconnectTB", new List<string>{ "Disconnect", "Отключить"}},
         };
 
 
@@ -65,12 +70,12 @@ namespace DynamicDataHub
 
             if (WindowState != WindowState.Maximized)
             {
-                absoluteX = mainWindowBounds.X + ColumnObjectExplorer.Width.Value + 8 + ((owner.RenderSize.Width - connectionWindow.Width) / 2);
+                absoluteX = mainWindowBounds.X + LeftPanel.Width.Value + 8 + ((owner.RenderSize.Width - connectionWindow.Width) / 2);
                 absoluteY = mainWindowBounds.Y + RowObjectExplorer.Height.Value + RowConnecting.Height.Value + 2 + ((owner.RenderSize.Height - connectionWindow.Height) / 2);
             }
             else
             {
-                absoluteX = ColumnObjectExplorer.Width.Value + 8 + ((owner.RenderSize.Width - connectionWindow.Width) / 2);
+                absoluteX = LeftPanel.Width.Value + 8 + ((owner.RenderSize.Width - connectionWindow.Width) / 2);
                 absoluteY = RowObjectExplorer.Height.Value + RowConnecting.Height.Value + 2 + ((owner.RenderSize.Height - connectionWindow.Height) / 2);
             }
 
@@ -79,6 +84,33 @@ namespace DynamicDataHub
             positionElements.Add(absoluteY);
 
             return positionElements;
+        }
+
+        private void AddTab()
+        {
+            if (tabItem.Add(DatabaseConfiguration.tableName))
+            {
+                TabItem tab = new TabItem();
+                tab.Header = DatabaseConfiguration.tableName;
+                tab.Content = DatabaseConfiguration.dbName;
+
+                TabControlTable.Items.Add(tab);
+            }
+        }
+        private void OpenTab(TabItem selectedTab)
+        {
+            this.tableName = selectedTab.Header.ToString();
+            this.dbName = selectedTab.Content.ToString();
+
+            DatabaseConfiguration.tableName = this.tableName;
+            DatabaseConfiguration.dbName = this.dbName;
+
+            dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLServer(this.tableName, this.dbName));
+            FrameData.Navigate(dataTableControl);
+        }
+        private void CloseTab()
+        {
+
         }
 
         
@@ -97,6 +129,9 @@ namespace DynamicDataHub
             NewQueryTB.Text = localizationOfWords["NewQuery"][languageSelected];
             SettingsTB.Text = localizationOfWords["Settings"][languageSelected];
             TBObjectExplorer.Text = localizationOfWords["TBObjectExplorer"][languageSelected];
+
+            ConnectTB.Text = localizationOfWords["ConnectTB"][languageSelected];
+            DisconnectTB.Text = localizationOfWords["DisconnectTB"][languageSelected];
         }
         #endregion
 
@@ -183,26 +218,28 @@ namespace DynamicDataHub
             TreeViewItem tableName = (TreeViewItem)sender;
             this.tableName = tableName.Header.ToString();
 
-            FrameTableData.Content = null;
+            FrameData.Content = null;
             
 
             switch (this.nameDBManagementSystem) {
                 case SQLIteConnector.nameDBManagementSystem:
                 {
-                    TreeViewItem parent = (TreeViewItem)tableName.Parent;
-                    foreach (TreeViewItem t in parent.Items)
-                    {
-                        t.BorderThickness = new Thickness(0);
-                    }
-                    DatabaseConfiguration.tableName = this.tableName;
-                    dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLite(this.tableName));
-                    FrameTableData.Navigate(dataTableControl);
+                        TreeViewItem parent = (TreeViewItem)tableName.Parent;
+                        foreach (TreeViewItem t in parent.Items)
+                        {
+                            t.BorderThickness = new Thickness(0);
+                        }
+                        DatabaseConfiguration.tableName = this.tableName;
+                        dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLite(this.tableName));
+                        FrameData.Navigate(dataTableControl);
 
-                    tableName.IsSelected = false;
-                    tableName.BorderBrush = new SolidColorBrush(Colors.White);
-                    tableName.BorderThickness = new Thickness(0.5);
+                        tableName.IsSelected = false;
+                        tableName.BorderBrush = new SolidColorBrush(Colors.White);
+                        tableName.BorderThickness = new Thickness(0.5);
 
-                    break;
+                        AddTab();
+
+                        break;
                 }
                 case SQLServerConnector.nameDBManagementSystem:
                 {
@@ -224,10 +261,12 @@ namespace DynamicDataHub
                             DatabaseConfiguration.dbName = this.dbName;
 
                             dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLServer(this.tableName, this.dbName));
-                            FrameTableData.Navigate(dataTableControl);
+                            FrameData.Navigate(dataTableControl);
                             tableName.IsSelected = false;
                             tableName.BorderBrush = new SolidColorBrush(Colors.White);
                             tableName.BorderThickness = new Thickness(0.5);
+
+                            AddTab();
                         }
                     }
                         break;
@@ -241,7 +280,7 @@ namespace DynamicDataHub
 
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            List<double> positionElement = CallConnectionWindow(FrameTableData);
+            List<double> positionElement = CallConnectionWindow(FrameData);
 
             connectionWindow = new DDHAuthorization(this);
             connectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -256,7 +295,7 @@ namespace DynamicDataHub
 
         private void Disconnect_Click(object sender, RoutedEventArgs e)
         {
-            FrameTableData.Navigate(null);
+            FrameData.Navigate(null);
             TreeContent.Items.Clear();
         }
 
@@ -265,53 +304,53 @@ namespace DynamicDataHub
 
         }
 
-        private void WrapColumn_Click(object sender, RoutedEventArgs e)
-        {
-            //Создание обьекта класса ротейрТрансформ 
-            RotateTransform rotateTransform = new RotateTransform(0);
-            //Получение ротейрТрансформ у кнопки для дальнейшей логики
-            var WrapColumnTransform = WrapColumn.RenderTransform as RotateTransform;
+        //private void WrapColumn_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //Создание обьекта класса ротейрТрансформ 
+        //    RotateTransform rotateTransform = new RotateTransform(0);
+        //    //Получение ротейрТрансформ у кнопки для дальнейшей логики
+        //    var WrapColumnTransform = WrapColumn.RenderTransform as RotateTransform;
 
-            //Проверка если угол кнопки равен 0, тогда панельку можно свернуть
-            if (WrapColumnTransform?.Angle == 0 || WrapColumnTransform?.Angle == null)
-            {
-                //Скрытие элементов
-                TBObjectExplorer.Visibility = Visibility.Hidden;
-                Connect.Visibility = Visibility.Hidden;
-                Disconnect.Visibility = Visibility.Hidden;
-                //Сдвиг кнопки влево
-                WrapColumn.Margin = new Thickness(-100.5, 0, 0, 0);
-                Refresh.Margin = new Thickness(-145, 0, 0, 0);
-                //Создания трансформа поворота и поворот кнопки на 180
-                rotateTransform = new RotateTransform(180);
-                WrapColumn.RenderTransform = rotateTransform;
-                //Установление размера для колонки
-                ColumnObjectExplorer.Width = new GridLength(30);
-            }
-            //Если угол не 0 тогда панельку нужно развернуть
-            else
-            {
-                //Отображение элементов
-                TBObjectExplorer.Visibility = Visibility.Visible;
-                Connect.Visibility = Visibility.Visible;
-                Disconnect.Visibility = Visibility.Visible;
-                //Сдвиг кнопки на прежнее место
-                WrapColumn.Margin = new Thickness(48.5, 5, 0, 5);
-                Refresh.Margin = new Thickness(5, 0, 0, 0);
-                //Создания трансформа поворота и поворот кнопки на 0
-                rotateTransform = new RotateTransform(0);
-                WrapColumn.RenderTransform = rotateTransform;
-                //Установление размера для колонки
-                ColumnObjectExplorer.Width = new GridLength(180);
-            }
+        //    //Проверка если угол кнопки равен 0, тогда панельку можно свернуть
+        //    if (WrapColumnTransform?.Angle == 0 || WrapColumnTransform?.Angle == null)
+        //    {
+        //        //Скрытие элементов
+        //        TBObjectExplorer.Visibility = Visibility.Hidden;
+        //        Connect.Visibility = Visibility.Hidden;
+        //        Disconnect.Visibility = Visibility.Hidden;
+        //        //Сдвиг кнопки влево
+        //        WrapColumn.Margin = new Thickness(-100.5, 0, 0, 0);
+        //        Refresh.Margin = new Thickness(-145, 0, 0, 0);
+        //        //Создания трансформа поворота и поворот кнопки на 180
+        //        rotateTransform = new RotateTransform(180);
+        //        WrapColumn.RenderTransform = rotateTransform;
+        //        //Установление размера для колонки
+        //        ColumnObjectExplorer.Width = new GridLength(30);
+        //    }
+        //    //Если угол не 0 тогда панельку нужно развернуть
+        //    else
+        //    {
+        //        //Отображение элементов
+        //        TBObjectExplorer.Visibility = Visibility.Visible;
+        //        Connect.Visibility = Visibility.Visible;
+        //        Disconnect.Visibility = Visibility.Visible;
+        //        //Сдвиг кнопки на прежнее место
+        //        WrapColumn.Margin = new Thickness(48.5, 5, 0, 5);
+        //        Refresh.Margin = new Thickness(5, 0, 0, 0);
+        //        //Создания трансформа поворота и поворот кнопки на 0
+        //        rotateTransform = new RotateTransform(0);
+        //        WrapColumn.RenderTransform = rotateTransform;
+        //        //Установление размера для колонки
+        //        ColumnObjectExplorer.Width = new GridLength(180);
+        //    }
 
-        }
+        //}
         #endregion
 
         #region handlers for opening the connection window
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            List<double> positionElement = CallConnectionWindow(FrameTableData);
+            List<double> positionElement = CallConnectionWindow(FrameData);
 
             connectionWindow.WindowStartupLocation = WindowStartupLocation.Manual;
 
@@ -331,8 +370,55 @@ namespace DynamicDataHub
         private void NewQuery_Click(object sender, RoutedEventArgs e)
         {
             var queryEnvironment = new QueryExecutionEnvironment();
-            FrameTableData.Navigate(queryEnvironment);
+            FrameData.Navigate(queryEnvironment);
         }
         #endregion
+
+        private void GridSplitter_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (LeftPanel.Width.Value <= 190)
+            {
+                ConnectButton.Visibility = Visibility.Collapsed;
+                if(LeftPanel.Width.Value <= 120)
+                {
+                    DisconnectButton.Visibility = Visibility.Collapsed;
+                    TBObjectExplorer.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    DisconnectButton.Visibility = Visibility.Visible;
+                    TBObjectExplorer.Visibility = Visibility.Visible;
+                }
+
+                if(LeftPanel.Width.Value == 50){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 50, 50);}
+                if(LeftPanel.Width.Value == 48){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 48, 48);}
+                if(LeftPanel.Width.Value == 46){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 46, 46);}
+                if(LeftPanel.Width.Value == 44){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 44, 44);}
+                if(LeftPanel.Width.Value == 42){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 42, 42);}
+                if(LeftPanel.Width.Value == 40){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 40, 40);}
+                if(LeftPanel.Width.Value == 38){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 38, 38);}
+                if(LeftPanel.Width.Value == 36){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 36, 36);}
+                if(LeftPanel.Width.Value == 34){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 34, 34);}
+                if(LeftPanel.Width.Value == 32){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 32, 32);}
+                if(LeftPanel.Width.Value == 30){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 30, 30);}
+            }
+            else
+            {
+                ConnectButton.Visibility = Visibility.Visible;
+            }            
+        }
+
+        private void TabControlTable_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var tabControl = sender as TabControl;
+            if (tabControl != null)
+            {
+                var selectedTab = tabControl.SelectedItem as TabItem;
+                if (selectedTab != null)
+                {
+                    OpenTab(selectedTab);
+                }
+            }
+        }
     }
 }

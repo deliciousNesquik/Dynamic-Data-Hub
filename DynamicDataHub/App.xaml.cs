@@ -13,5 +13,9 @@ namespace DynamicDataHub
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            this.ShutdownMode = ShutdownMode.OnLastWindowClose;
+        }
     }
 }

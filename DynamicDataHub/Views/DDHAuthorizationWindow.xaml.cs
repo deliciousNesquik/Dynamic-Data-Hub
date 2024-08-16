@@ -33,7 +33,7 @@ namespace DynamicDataHub.Views
          * 0 - Russian
          * 1 - English
          */
-        private int languageSelected = 0;
+        private int languageSelected = 1;
         private Dictionary<string, List<string>> localizationOfWords = new Dictionary<string, List<string>>
         {
             {"NameDBServerBlock_0", new List<string>{"Server Name", "Имя сервера"}},
