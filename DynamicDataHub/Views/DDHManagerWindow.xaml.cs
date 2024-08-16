@@ -22,17 +22,24 @@ namespace DynamicDataHub
         private SQLIteConnector sqliteDB;
         private GetDataTable getDataTable;
         private CustomMessageBoxBuilder customMessageBoxBuilder = new CustomMessageBoxBuilder();
+        private UserControlDataTable dataTableControl = new UserControlDataTable(null);
+        private string nameDBManagementSystem;
+
+        private int languageSelected = 0;
+        private Dictionary<string, List<string>> localizationOfWords = new Dictionary<string, List<string>>
+        {
+            {"Tables", new List<string>{"Tables", "Таблицы"}},
+            {"Databases", new List<string>{ "Databases", "Базы данных>"}}
+        };
+
 
         public string serverName { get; private set; }
         public string nameDbFile { get; private set; }
-
-        private string nameDBManagementSystem;
-
         public string tableName { get; private set; }
         public string dbName { get; private set; }
 
 
-        private UserControlDataTable dataTableControl = new UserControlDataTable(null);
+        
 
 
         StackPanel InfoMessageStackPanel;
@@ -89,7 +96,7 @@ namespace DynamicDataHub
             sqlServerDB = new SQLServerConnector(ServerName);
             try
             {
-                TreeViewItem Databases = new TreeViewItem() { Header = "Базы данных" };
+                TreeViewItem Databases = new TreeViewItem() { Header = localizationOfWords["Databases"][languageSelected] };
                 TreeContent.Items.Add(Databases);
 
                 if (sqlServerDB.GetDBNames().Count > 0)
@@ -99,7 +106,7 @@ namespace DynamicDataHub
                         TreeViewItem Database = new TreeViewItem() { Header = i };
                         Databases.Items.Add(Database);
 
-                        TreeViewItem Tables = new TreeViewItem() { Header = "Таблицы" };
+                        TreeViewItem Tables = new TreeViewItem() { Header = localizationOfWords["Tables"][languageSelected] };
                         Database.Items.Add(Tables);
 
                         if (sqlServerDB.GetDBTables(i).Count > 0)
@@ -139,7 +146,7 @@ namespace DynamicDataHub
 
             sqliteDB = new SQLIteConnector(NameDBFIle_);
 
-            TreeViewItem Tables = new TreeViewItem() { Header = "Таблицы" };
+            TreeViewItem Tables = new TreeViewItem() { Header = localizationOfWords["Tables"][languageSelected] };
             TreeContent.Items.Add(Tables);
 
 
