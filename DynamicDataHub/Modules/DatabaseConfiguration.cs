@@ -14,5 +14,7 @@ namespace DynamicDataHub.Modules
         public static string dbName { get; set; }
         public static string nameDbManagementSystem { get; set; }
 
+        public static int countRowsAffected { get; set; }
+
     }
 }

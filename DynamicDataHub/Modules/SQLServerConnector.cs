@@ -57,7 +57,10 @@ namespace DynamicDataHub.Modules
                     IDbCommand command = connection.CreateCommand();
                     command.CommandText = query;
                     connection.Open();
-                    databases.Load(command.ExecuteReader(CommandBehavior.CloseConnection));
+                    var t = command.ExecuteReader(CommandBehavior.CloseConnection);
+                    int rowsAffected = t.RecordsAffected;
+                    DatabaseConfiguration.countRowsAffected = rowsAffected;
+                    databases.Load(t);
                 }
                 return databases;
             }

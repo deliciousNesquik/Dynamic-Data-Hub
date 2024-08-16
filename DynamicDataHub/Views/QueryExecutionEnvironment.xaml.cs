@@ -72,8 +72,20 @@ namespace DynamicDataHub.Views
             sqlServer = new SQLServerConnector(this.serverName);
             query = QueryTextBox.Text;
             DataTable dataTable = sqlServer.CreateQuery(query, dbName);
-            UserControlDataTable content = new UserControlDataTable(dataTable);
-            FrameResultExecutionQuery.Navigate(content);
+            if (dataTable.Columns.Count > 0)
+            {
+                foreach (DataColumn t in dataTable.Columns)
+                {
+                    t.ReadOnly = true;
+                }
+                UserControlDataTable content = new UserControlDataTable(dataTable);
+                FrameResultExecutionQuery.Navigate(content);
+            }
+            else if (dataTable.Columns.Count == 0)
+            {
+                MessageStatusExecutionQuery messageStatusExecutionQuery = new MessageStatusExecutionQuery();
+                FrameResultExecutionQuery.Navigate(messageStatusExecutionQuery);
+            }
         }
         #endregion
 

@@ -132,6 +132,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MessageStatusExecutionQuery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\QueryExecutionEnvironment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -165,6 +169,9 @@
     <Compile Include="Modules\SQLServerConnector.cs" />
     <Compile Include="Views\FilterUserControl.xaml.cs">
       <DependentUpon>FilterUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MessageStatusExecutionQuery.xaml.cs">
+      <DependentUpon>MessageStatusExecutionQuery.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\QueryExecutionEnvironment.xaml.cs">
       <DependentUpon>QueryExecutionEnvironment.xaml</DependentUpon>

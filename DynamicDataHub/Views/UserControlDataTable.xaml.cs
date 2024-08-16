@@ -31,8 +31,6 @@ namespace DynamicDataHub
 
         private Dictionary<string, string> columnValuePairs = new Dictionary<string, string>();
 
-
-
         private Window window;
         #endregion
 

@@ -79,8 +79,6 @@ namespace DynamicDataHub
         }
         #endregion
 
-       
-
         #region functions of connecting to databases
         public void ConnectionSQLServer(String ServerName, String NameDBManagementSystem)
         {
