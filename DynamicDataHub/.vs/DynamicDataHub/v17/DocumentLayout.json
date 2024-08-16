@@ -3,28 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\views\\usercontroldatatable.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\usercontroldatatable.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\views\\filterusercontrol.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\filterusercontrol.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\views\\usercontroldatatable.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\usercontroldatatable.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\views\\filterusercontrol.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\filterusercontrol.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\views\\ddhmanagerwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhmanagerwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\views\\ddhmanagerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhmanagerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\views\\ddhauthorizationwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhauthorizationwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,77 +22,14 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "FilterUserControl.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\FilterUserControl.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\FilterUserControl.xaml.cs",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\FilterUserControl.xaml.cs",
-              "RelativeToolTip": "Views\\FilterUserControl.xaml.cs",
-              "ViewState": "AQIAACUAAAAAAAAAAAAQwCkAAAA/AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-14T17:57:59.267Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FilterUserControl.xaml",
-              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\FilterUserControl.xaml",
-              "RelativeDocumentMoniker": "Views\\FilterUserControl.xaml",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\FilterUserControl.xaml",
-              "RelativeToolTip": "Views\\FilterUserControl.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-08-14T16:53:38.065Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DDHManagerWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\DDHManagerWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml.cs",
-              "RelativeToolTip": "Views\\DDHManagerWindow.xaml.cs",
-              "ViewState": "AQIAAIgAAAAAAAAAAAAQwJ8AAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-14T15:49:37.254Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "DDHManagerWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml",
-              "RelativeDocumentMoniker": "Views\\DDHManagerWindow.xaml",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml",
-              "RelativeToolTip": "Views\\DDHManagerWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-08-13T10:59:30.43Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "UserControlDataTable.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\UserControlDataTable.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\UserControlDataTable.xaml.cs",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\UserControlDataTable.xaml.cs",
-              "RelativeToolTip": "Views\\UserControlDataTable.xaml.cs",
-              "ViewState": "AQIAAGYAAAAAAAAAAAAcwH4AAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-14T15:45:27.333Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UserControlDataTable.xaml",
-              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\UserControlDataTable.xaml",
-              "RelativeDocumentMoniker": "Views\\UserControlDataTable.xaml",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\UserControlDataTable.xaml",
-              "RelativeToolTip": "Views\\UserControlDataTable.xaml",
+              "Title": "DDHAuthorizationWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHAuthorizationWindow.xaml",
+              "RelativeDocumentMoniker": "Views\\DDHAuthorizationWindow.xaml",
+              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHAuthorizationWindow.xaml",
+              "RelativeToolTip": "Views\\DDHAuthorizationWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-08-14T18:08:45.615Z",
+              "WhenOpened": "2024-08-16T17:21:39.544Z",
               "EditorCaption": ""
             }
           ]
