@@ -29,6 +29,27 @@ namespace DynamicDataHub.Views
         //Переменная для хранения путя к файлу
         private string selectedFilePath;
 
+        /*
+         * 0 - Russian
+         * 1 - English
+         */
+        private int languageSelected = 0;
+        private Dictionary<string, List<string>> localizationOfWords = new Dictionary<string, List<string>>
+        {
+            {"NameDBServerBlock_0", new List<string>{"Server Name", "Имя сервера"}},
+            {"NameDBServerBlock_1", new List<string>{"Database file", "Файл базы данных"}},
+            {"ConnectionTB", new List<string>{"Connection", "Соединить"}},
+            {"CreationsByTB", new List<string>{"made by", "создано"}},
+            {"NotSelected", new List<string>{"Not selected", "Не выбрано"}},
+            {"Error", new List<string>{"Error", "Ошибка"}},
+            {"Close", new List<string>{"Close", "Закрыть"}},
+            {"Connection", new List<string>{"Connection", "Подключение"}},
+            {"FailedConnectDB", new List<string>{"Failed to connect to the database", "Не удалось подключится к базе данных"}},
+            {"NoSelectDBFile", new List<string>{"Select the database file", "Выберите файл базы данных"}},
+            {"SpecifyServerName", new List<string>{"Specify the server name", "Укажите имя сервера"}},
+            {"SelectDBMS", new List<string>{ "Select a DBMS", "Выберите СУБД"}},
+        };
+
         #endregion
 
         #region internal function
@@ -57,10 +78,13 @@ namespace DynamicDataHub.Views
             this.customMessageBox = new CustomMessageBoxBuilder();
 
             InitializeComponent();
+            NameDBServerBlock.Text = localizationOfWords["NameDBServerBlock_0"][languageSelected];
+            ConnectionTB.Text = localizationOfWords["ConnectionTB"][languageSelected];
+            CreationsByTB.Text = localizationOfWords["CreationsByTB"][languageSelected];
 
             this.customMessageBox.CenterInParentWindow(this);
-            
-            DBMSComboBox.Items.Add("Не выбрано");
+
+            DBMSComboBox.Items.Add(localizationOfWords["NotSelected"][languageSelected]);
             foreach (string _ in GetDataBasesList())
             {
                 DBMSComboBox.Items.Add(_);
@@ -84,13 +108,13 @@ namespace DynamicDataHub.Views
         {
             if (!DBMSComboBox.SelectedItem.ToString().Contains("SQLite"))
             {
-                NameDBServerBlock.Text = "Имя сервера";
+                NameDBServerBlock.Text = localizationOfWords["NameDBServerBlock_0"][languageSelected];
                 NameDBServerBox.Clear();
                 OpenExplorer.Visibility = Visibility.Hidden;
             }
             else
             {
-                NameDBServerBlock.Text = "Файл базы данных";
+                NameDBServerBlock.Text = localizationOfWords["NameDBServerBlock_1"][languageSelected];
                 NameDBServerBox.Clear();
                 OpenExplorer.Visibility = Visibility.Visible;
             }
@@ -140,12 +164,20 @@ namespace DynamicDataHub.Views
                         }
                         else
                         {
-                            customMessageBox.ShowError("Ошибка", "Не удалось подключится к базе данных", "Закрыть", this);
+                            customMessageBox.ShowError(
+                                                        localizationOfWords["Error"][languageSelected],
+                                                        localizationOfWords["FailedConnectDB"][languageSelected], 
+                                                        localizationOfWords["Close"][languageSelected], 
+                                                        this);
                         }
                     }
                     else
                     {
-                        customMessageBox.ShowError("Ошибка", "Выберите файл базы данных", "Закрыть", this);
+                        customMessageBox.ShowError(
+                                                    localizationOfWords["Error"][languageSelected],
+                                                    localizationOfWords["NoSelectDBFile"][languageSelected], 
+                                                    localizationOfWords["Close"][languageSelected], 
+                                                    this);
                     }
                     break;
                 case SQLServerConnector.nameDBManagementSystem:
@@ -154,7 +186,10 @@ namespace DynamicDataHub.Views
 
                     if (!string.IsNullOrWhiteSpace(_serverName))
                     {
-                        customMessageBox.ShowLoading("Подключение", "Подключение", this);
+                        customMessageBox.ShowLoading(
+                                                        localizationOfWords["Connection"][languageSelected],
+                                                        localizationOfWords["Connection"][languageSelected], 
+                                                        this);
                         SQLServerConnector test_connection = new SQLServerConnector(_serverName);
                         bool isConnected;
 
@@ -172,20 +207,30 @@ namespace DynamicDataHub.Views
                         {
                             customMessageBox.customMessageBox.Visibility = Visibility.Hidden;
                             CustomMessageBoxBuilder.ClosingState = true;
-                            customMessageBox.ShowError("Ошибка", "Не удалось подключится к базе данных", "Закрыть", this);
+                            customMessageBox.ShowError(
+                                                        localizationOfWords["Error"][languageSelected],
+                                                        localizationOfWords["FailedConnectDB"][languageSelected],
+                                                        localizationOfWords["Close"][languageSelected],
+                                                        this);
                         }
                     }
                     else
                     {
-                        customMessageBox.ShowError("Ошибка", "Укажите имя сервера!", "Закрыть", this);
+                        customMessageBox.ShowError(
+                                                localizationOfWords["Error"][languageSelected],
+                                                localizationOfWords["SpecifyServerName"][languageSelected],
+                                                localizationOfWords["Close"][languageSelected],
+                                                this);
                     }
                     break;
-
-                case "Не выбрано":
-                    customMessageBox.ShowError("Ошибка", "Выберите СУБД", "Закрыть", this);
-                    break;
                 default:
-                    throw new InvalidOperationException($"Неизвестная система управления базами данных: {_currentDBManagementSystem}");
+                    //throw new InvalidOperationException($"Неизвестная система управления базами данных: {_currentDBManagementSystem}");
+                    customMessageBox.ShowError(
+                                                localizationOfWords["Error"][languageSelected], 
+                                                localizationOfWords["SelectDBMS"][languageSelected], 
+                                                localizationOfWords["Close"][languageSelected], 
+                                                this);
+                    break;
             }
         }
         #endregion

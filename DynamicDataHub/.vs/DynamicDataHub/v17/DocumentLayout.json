@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\views\\ddhmanagerwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhmanagerwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\views\\ddhauthorizationwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhauthorizationwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\views\\ddhmanagerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhmanagerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|c:\\users\\systemx\\desktop\\dynamic-data-hub\\dynamicdatahub\\views\\ddhauthorizationwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{30670230-868F-4203-BA33-40E0F54695E6}|DynamicDataHub.csproj|solutionrelative:views\\ddhauthorizationwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,26 +27,26 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "DDHManagerWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml.cs",
-              "RelativeDocumentMoniker": "Views\\DDHManagerWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml.cs",
-              "RelativeToolTip": "Views\\DDHManagerWindow.xaml.cs",
-              "ViewState": "AQIAAG8AAAAAAAAAAAAAAJoAAABHAAAA",
+              "Title": "DDHAuthorizationWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHAuthorizationWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Views\\DDHAuthorizationWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHAuthorizationWindow.xaml.cs",
+              "RelativeToolTip": "Views\\DDHAuthorizationWindow.xaml.cs",
+              "ViewState": "AQIAANEAAAAAAAAAAAAQwOcAAAA2AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-14T15:49:37.254Z",
+              "WhenOpened": "2024-08-16T18:01:52.737Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "DDHManagerWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml",
-              "RelativeDocumentMoniker": "Views\\DDHManagerWindow.xaml",
-              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHManagerWindow.xaml",
-              "RelativeToolTip": "Views\\DDHManagerWindow.xaml",
+              "Title": "DDHAuthorizationWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHAuthorizationWindow.xaml",
+              "RelativeDocumentMoniker": "Views\\DDHAuthorizationWindow.xaml",
+              "ToolTip": "C:\\Users\\SystemX\\Desktop\\Dynamic-Data-Hub\\DynamicDataHub\\Views\\DDHAuthorizationWindow.xaml",
+              "RelativeToolTip": "Views\\DDHAuthorizationWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-08-13T10:59:30.43Z",
+              "WhenOpened": "2024-08-16T18:01:51.979Z",
               "EditorCaption": ""
             }
           ]

@@ -25,11 +25,20 @@ namespace DynamicDataHub
         private UserControlDataTable dataTableControl = new UserControlDataTable(null);
         private string nameDBManagementSystem;
 
+
+        /*
+         * 0 - Russian
+         * 1 - English
+         */
         private int languageSelected = 0;
         private Dictionary<string, List<string>> localizationOfWords = new Dictionary<string, List<string>>
         {
+            {"Title", new List<string>{"Database Manager", "Менеджер базы данных"}},
             {"Tables", new List<string>{"Tables", "Таблицы"}},
-            {"Databases", new List<string>{ "Databases", "Базы данных>"}}
+            {"Databases", new List<string>{"Databases", "Базы данных"}},
+            {"NewQuery", new List<string>{"New Query", "Новый запрос"}},
+            {"Settings", new List<string>{"Settings", "Настройки"}}, 
+            {"TBObjectExplorer", new List<string>{ "Object Explorer", "Проводник"}},
         };
 
 
@@ -83,6 +92,11 @@ namespace DynamicDataHub
             connectionWindow = new DDHAuthorization(this);
             dataTableControl.GetLinkWindow(this);
             CustomNotificationBuilder.CreateNotification(MainGrid);
+
+            this.Title = localizationOfWords["Title"][languageSelected];
+            NewQueryTB.Text = localizationOfWords["NewQuery"][languageSelected];
+            SettingsTB.Text = localizationOfWords["Settings"][languageSelected];
+            TBObjectExplorer.Text = localizationOfWords["TBObjectExplorer"][languageSelected];
         }
         #endregion
 

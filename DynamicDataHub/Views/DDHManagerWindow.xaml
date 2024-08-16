@@ -61,11 +61,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1">
-            <Button Margin="10 10 10 10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="NewQuery" Click="NewQuery_Click" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <TextBlock FontWeight="Bold" Style="{StaticResource LabelText}" Text="New Query" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Margin="10 10 10 10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="NewQuery" Click="NewQuery_Click" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock FontWeight="Bold" Style="{StaticResource LabelText}" Name="NewQueryTB" Text="New Query" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
-            <Button Margin="10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="Settings" Width="65" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
-                <TextBlock FontWeight="Bold" Style="{StaticResource LabelText}" Text="Settings" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Margin="10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="Settings" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <TextBlock FontWeight="Bold" Style="{StaticResource LabelText}" Name="SettingsTB" Text="Settings" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
         </StackPanel>
         <Frame Name="FrameObjectExplorer" Grid.Column="0" Grid.Row="0"  BorderThickness="0 1 2 0" />
