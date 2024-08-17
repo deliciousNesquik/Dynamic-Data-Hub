@@ -14,6 +14,7 @@
         MinHeight="450"
         MinWidth="700"
         Loaded="Window_Loaded">
+    
     <Window.Resources>
         <Style TargetType="Button" x:Key="LabelButtonStyle">
             <Setter Property="Background" Value="Transparent"></Setter>
@@ -60,6 +61,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
+        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1">
             <Button Margin="10 10 10 10" Template="{StaticResource LabelButton}" Style="{StaticResource LabelButtonStyle}" Visibility="Visible" Name="NewQuery" Click="NewQuery_Click" Height="20" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <TextBlock FontWeight="Bold" Style="{StaticResource LabelText}" Name="NewQueryTB" Text="New Query" HorizontalAlignment="Center" VerticalAlignment="Center"/>
@@ -68,15 +71,18 @@
                 <TextBlock FontWeight="Bold" Style="{StaticResource LabelText}" Name="SettingsTB" Text="Settings" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Button>
         </StackPanel>
-        <Frame Name="LeftPanelFrame" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"/>
         
-        <Frame Name="FrameObjectExplorer" Grid.Column="0" Grid.Row="0"  BorderThickness="0 1 2 0"/>
-        <Frame Name="FrameConnectiong" Grid.Column="0" Grid.Row="1" BorderThickness="1 1 1 1" />
+        
+        <Frame Name="LeftPanelFrame" Grid.Column="0" Grid.Row="0" Grid.RowSpan="4"/>
+        <Frame Name="FrameObjectExplorer" Grid.Column="0" Grid.Row="0"  BorderThickness="1 1 1 1"/>
+        <Frame Name="FrameConnectiong" Grid.Column="0" Grid.Row="1" BorderThickness="1 0 1 1" />
         <Frame Name="FrameExplorer" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" />
-        <Frame Name="FrameControlElements" Grid.Column="1" Grid.Row="0" />
-
-        <Frame Name="FrameData" Grid.Column="1" Grid.Row="2" Grid.RowSpan="3" NavigationUIVisibility="Hidden"/>
-        <Border Name="BorderRadiusTop" CornerRadius="0 0 50 50" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="White" BorderThickness="3 3 3 3"></Border>
+        <Frame Name="FrameControlElements" BorderThickness="0 1 1 1" Grid.Column="1" Grid.Row="0" />
+        <Frame Name="FrameTabElements" BorderThickness="0 1 1 1" Grid.Column="1" Grid.Row="1" />
+        <Frame Name="FrameData" BorderThickness="0 0 1 1" Grid.Column="1" Grid.Row="2" Grid.RowSpan="3" NavigationUIVisibility="Hidden"/>
+        
+        
+        <!--<Border Name="BorderRadiusTop" CornerRadius="0 0 50 50" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="White" BorderThickness="1 1 1 1"></Border>-->
         <TextBlock Style="{StaticResource MainText}" FontWeight="Bold" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" Name="TBObjectExplorer" Text="Object Explorer" Grid.Column="0" Grid.Row="0" />
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Template="{StaticResource LabelButton}" Name="ConnectButton" Style="{StaticResource LabelButtonStyle}" Width="65" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5 0 0 0" Click="Connect_Click">
@@ -91,12 +97,68 @@
         </Button>
 
 
-        <TreeView Name="TreeContent" Grid.Row="2" Grid.RowSpan="3" Grid.Column="0" Background="#121212">
-        </TreeView>
+        <TreeView 
+            Name="TreeContent" 
+            Grid.Row="2" 
+            Grid.RowSpan="3" 
+            Grid.Column="0" 
+            Background="#121212"
+        />
 
-        <GridSplitter MouseMove="GridSplitter_MouseMove" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="2" Grid.Row="0" Grid.RowSpan="4" Grid.Column="0"/>
+        <GridSplitter 
+            MouseMove="GridSplitter_MouseMove" 
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Stretch" 
+            Width="1" 
+            Grid.Row="0" 
+            Grid.RowSpan="4" 
+            Grid.Column="0"
+        />
 
-        <TabControl Name="TabControlTable" SelectionChanged="TabControlTable_SelectionChanged" Grid.Row="1" Grid.Column="1">
+        <TabControl 
+            Name="TabControlTable" 
+            Background="#121212"
+            BorderBrush="White" 
+            BorderThickness="0" 
+            SelectionChanged="TabControlTable_SelectionChanged" 
+            Grid.Row="1" 
+            Grid.Column="1"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="0 0 1 3"
+        >
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border
+                                    Name="Border"
+                                    BorderBrush="White"
+                                    BorderThickness="1,1,1,0"
+                                    CornerRadius="7,7,0,0">
+                                    <ContentPresenter
+                                        x:Name="ContentSite"
+                                        Margin="4 1 4 1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        ContentSource="Header" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Background" Value="White"/>
+                </Style>
+            </TabControl.Resources>
+            <!--<TabItem BorderThickness="0">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <TextBlock Text="Tab1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <Button Content="✖️"/>
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>-->
+                
         </TabControl>
 
     </Grid>

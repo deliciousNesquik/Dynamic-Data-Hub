@@ -21,18 +21,17 @@ namespace DynamicDataHub
         private SQLServerConnector sqlServerDB;
         private SQLIteConnector sqliteDB;
         private GetDataTable getDataTable;
-        private CustomMessageBoxBuilder customMessageBoxBuilder = new CustomMessageBoxBuilder();
         private UserControlDataTable dataTableControl = new UserControlDataTable(null);
         private string nameDBManagementSystem;
 
-        private HashSet<string> tabItem = new HashSet<string>();
+        private HashSet<string> tabItems = new HashSet<string>();
 
 
         /*
          * 0 - Russian
          * 1 - English
          */
-        private int languageSelected = 1;
+        private int languageSelected = 0;
         private Dictionary<string, List<string>> localizationOfWords = new Dictionary<string, List<string>>
         {
             {"Title", new List<string>{"Database Manager", "Менеджер базы данных"}},
@@ -51,13 +50,6 @@ namespace DynamicDataHub
         public string nameDbFile { get; private set; }
         public string tableName { get; private set; }
         public string dbName { get; private set; }
-
-
-        
-
-
-        StackPanel InfoMessageStackPanel;
-        TextBlock InfoMessageTextBlock;
         #endregion
 
         #region internal functions
@@ -88,32 +80,130 @@ namespace DynamicDataHub
 
         private void AddTab()
         {
-            if (tabItem.Add(DatabaseConfiguration.tableName))
+            Console.WriteLine("Добавление вкладки");
+            if (tabItems.Add(DatabaseConfiguration.tableName))
             {
                 TabItem tab = new TabItem();
-                tab.Header = DatabaseConfiguration.tableName;
                 tab.Content = DatabaseConfiguration.dbName;
+
+                StackPanel sp = new StackPanel 
+                { 
+                    Orientation = Orientation.Horizontal 
+                };
+
+                TextBlock textBlock = new TextBlock
+                {
+                    Text = DatabaseConfiguration.tableName,
+                    Foreground = Brushes.White,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                Button closeButton = new Button 
+                { 
+                    Content = "✖️",
+                    Foreground = Brushes.White,
+                    Width = 20, 
+                    Height = 20, 
+                    Margin = new Thickness(10, 0, 0, 0) 
+                };
+                closeButton.Click += CloseTabButtonClick; // Убедитесь, что у вас есть метод CloseTabButtonClick
+
+                sp.Children.Add(textBlock);
+                sp.Children.Add(closeButton);
+
+                tab.Header = sp;
+                tab.Focus();
 
                 TabControlTable.Items.Add(tab);
             }
         }
         private void OpenTab(TabItem selectedTab)
         {
-            this.tableName = selectedTab.Header.ToString();
-            this.dbName = selectedTab.Content.ToString();
+            StackPanel sp = selectedTab.Header as StackPanel;
+            TextBlock tb = null;
 
-            DatabaseConfiguration.tableName = this.tableName;
-            DatabaseConfiguration.dbName = this.dbName;
+            // Проверяем, действительно ли Header является StackPanel
+            if (sp != null)
+            {
+                // Перебираем все дочерние элементы StackPanel
+                foreach (UIElement child in sp.Children)
+                {
+                    // Проверяем, является ли дочерний элемент TextBlock
+                    if (child is TextBlock)
+                    {
+                        tb = child as TextBlock;
+                        break; // Выходим из цикла, так как нашли нужный TextBlock
+                    }
+                }
+            }
 
-            dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLServer(this.tableName, this.dbName));
-            FrameData.Navigate(dataTableControl);
+            if (tb != null)
+            {
+                this.tableName = tb.Text; // Используем текст из найденного TextBlock
+                this.dbName = selectedTab.Content.ToString();
+
+                DatabaseConfiguration.tableName = this.tableName;
+                DatabaseConfiguration.dbName = this.dbName;
+
+                dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLServer(this.tableName, this.dbName));
+                FrameData.Navigate(dataTableControl);
+            }
+            else
+            {
+                // Обработка случая, когда TextBlock не найден
+                this.tableName = string.Empty;
+            }
         }
-        private void CloseTab()
+        private void CloseTabButtonClick(object sender, RoutedEventArgs e)
         {
+            var button = sender as Button;
+            if (button != null)
+            {
+                TabItem tabItem = FindParent<TabItem>(button);
+                if (tabItem != null && TabControlTable.Items.Contains(tabItem))
+                {
+                    TabControlTable.Items.Remove(tabItem);
 
+                    StackPanel sp = tabItem.Header as StackPanel;
+                    TextBlock tb = null;
+
+                    // Проверяем, действительно ли Header является StackPanel
+                    if (sp != null)
+                    {
+                        // Перебираем все дочерние элементы StackPanel
+                        foreach (UIElement child in sp.Children)
+                        {
+                            // Проверяем, является ли дочерний элемент TextBlock
+                            if (child is TextBlock)
+                            {
+                                tb = child as TextBlock;
+                                break; // Выходим из цикла, так как нашли нужный TextBlock
+                            }
+                        }
+                    }
+
+                    if (tb != null)
+                    {
+                        tabItems.Remove(tb.Text);
+                    }
+                }
+            }
         }
 
-        
+        // Помощник для поиска родительского элемента заданного типа
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            var parentObject = VisualTreeHelper.GetParent(child);
+
+            if (parentObject == null) return null;
+
+            if (parentObject is T parent)
+                return parent;
+
+            return FindParent<T>(parentObject);
+        }
+
+
         #endregion
 
         #region builders
@@ -182,7 +272,7 @@ namespace DynamicDataHub
             }
             catch (Exception ex)
             {
-                customMessageBoxBuilder.ShowError("Внутренняя ошибка", ex.Message, "Назад", this);
+                //customMessageBoxBuilder.ShowError("Внутренняя ошибка", ex.Message, "Назад", this);
             }
         }
 
@@ -390,17 +480,17 @@ namespace DynamicDataHub
                     TBObjectExplorer.Visibility = Visibility.Visible;
                 }
 
-                if(LeftPanel.Width.Value == 50){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 50, 50);}
-                if(LeftPanel.Width.Value == 48){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 48, 48);}
-                if(LeftPanel.Width.Value == 46){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 46, 46);}
-                if(LeftPanel.Width.Value == 44){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 44, 44);}
-                if(LeftPanel.Width.Value == 42){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 42, 42);}
-                if(LeftPanel.Width.Value == 40){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 40, 40);}
-                if(LeftPanel.Width.Value == 38){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 38, 38);}
-                if(LeftPanel.Width.Value == 36){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 36, 36);}
-                if(LeftPanel.Width.Value == 34){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 34, 34);}
-                if(LeftPanel.Width.Value == 32){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 32, 32);}
-                if(LeftPanel.Width.Value == 30){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 30, 30);}
+                //if(LeftPanel.Width.Value == 50){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 50, 50);}
+                //if(LeftPanel.Width.Value == 48){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 48, 48);}
+                //if(LeftPanel.Width.Value == 46){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 46, 46);}
+                //if(LeftPanel.Width.Value == 44){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 44, 44);}
+                //if(LeftPanel.Width.Value == 42){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 42, 42);}
+                //if(LeftPanel.Width.Value == 40){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 40, 40);}
+                //if(LeftPanel.Width.Value == 38){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 38, 38);}
+                //if(LeftPanel.Width.Value == 36){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 36, 36);}
+                //if(LeftPanel.Width.Value == 34){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 34, 34);}
+                //if(LeftPanel.Width.Value == 32){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 32, 32);}
+                //if(LeftPanel.Width.Value == 30){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 30, 30);}
             }
             else
             {
