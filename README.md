@@ -17,10 +17,13 @@
 ## Usage
 ### Open application
 #### Select the required DBMS from the list above
-<img src="https://github.com/user-attachments/assets/dda140ae-c46e-4c86-96d1-dd6d3a3f5be2" height="345"/><br>
+<img src="https://github.com/user-attachments/assets/a8a518cd-2a88-4e8b-afd1-79bfea37c908" height="345"/><br>
 #### If you do not select a DBMS from the list, an error window will open saying that the DBMS is not selected and connection is not possible
-<img src="https://github.com/user-attachments/assets/568b8f83-e07d-4359-9ecb-f7f82edbab9e" height="400"/><br>
+<img src="https://github.com/user-attachments/assets/d38098ba-a55e-4479-a7ce-0d0887e10ae7" height="400"/><br>
+
+
 #### If you write the wrong server name or specify the wrong database file, then a connection window will open, and later a window with a connection error will appear
-<img src="https://github.com/user-attachments/assets/a7c1fd36-f72d-4469-89bb-b01ddc6f8e00" height="400"/><br>
+<img src="https://github.com/user-attachments/assets/102d3b65-608f-4f70-b4a4-e4079bbd3965" height="400"/><br>
+<img src="https://github.com/user-attachments/assets/536cb14d-b374-4eb1-9c6e-02d86d3bb167" height="400"/><br>
 #### If the connection is successful, the connection window will disappear and a list of objects will appear
-<img src="https://github.com/user-attachments/assets/3ee9cdac-23d4-403f-9789-dfb05db6f851" height="400"/><br>
+<img src="https://github.com/user-attachments/assets/dc6ad054-22e6-456a-bb95-0a6d2257aaed" height="400"/><br>
