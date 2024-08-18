@@ -16,5 +16,7 @@ namespace DynamicDataHub.Modules
 
         public static int countRowsAffected { get; set; }
 
+        public static string messageOfError { get; set; }
+
     }
 }

@@ -21,10 +21,18 @@ namespace DynamicDataHub.Views
     /// </summary>
     public partial class MessageStatusExecutionQuery : UserControl
     {
-        public MessageStatusExecutionQuery()
+        public MessageStatusExecutionQuery(string message)
         {
             InitializeComponent();
-            MessageStatusExecuteTextBlock.Text = $"затронуто строк : {DatabaseConfiguration.countRowsAffected}";
+            if (message == null)
+            {
+                MessageStatusExecuteTextBlock.Text = $"затронуто строк : {DatabaseConfiguration.countRowsAffected}";
+            }
+            else
+            {
+                MessageStatusExecuteTextBlock.Text = message;
+            }
+
             QueryExecutionTimeTextBlock.Text = $"Время выполнения запроса: {DateTime.Now.ToString()}";
         }
     }

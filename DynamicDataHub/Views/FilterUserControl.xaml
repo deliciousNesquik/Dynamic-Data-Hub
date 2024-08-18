@@ -41,7 +41,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Grid Name="MainGrid">
+    <Grid>
         <StackPanel Name="FilterStackPanel" Visibility="Visible" Height="40" HorizontalAlignment="Left" Margin="10 5 0 0" VerticalAlignment="Top" Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center" Margin="0 0 10 0" Style="{StaticResource CodeTextBlock}" Text="SELECT * FROM"></TextBlock>
             <TextBlock Style="{StaticResource CodeTextBlock}" Text="not selected" TextDecorations="Underline" Foreground="DimGray" Name="CurrentTableTextblock" Margin="0 0 10 0" Height="15"></TextBlock>

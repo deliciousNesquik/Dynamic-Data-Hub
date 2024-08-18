@@ -79,6 +79,7 @@
         <Frame Name="FrameExplorer" Grid.Column="0" Grid.Row="2" Grid.RowSpan="2" />
         <Frame Name="FrameControlElements" BorderThickness="0 1 1 1" Grid.Column="1" Grid.Row="0" />
         <Frame Name="FrameTabElements" BorderThickness="0 1 1 1" Grid.Column="1" Grid.Row="1" />
+        <Frame Name="FrameFilterBar" BorderThickness="0 1 1 1" Grid.Column="1" Grid.Row="2" VerticalAlignment="Top" />
         <Frame Name="FrameData" BorderThickness="0 0 1 1" Grid.Column="1" Grid.Row="2" Grid.RowSpan="3" NavigationUIVisibility="Hidden"/>
         
         
