@@ -139,14 +139,28 @@ namespace DynamicDataHub
 
             if (tb != null)
             {
-                this.tableName = tb.Text; // Используем текст из найденного TextBlock
-                this.dbName = selectedTab.Content.ToString();
+                switch (this.nameDBManagementSystem) {
+                    case SQLServerConnector.nameDBManagementSystem:
+                        this.tableName = tb.Text; // Используем текст из найденного TextBlock
+                        this.dbName = selectedTab.Content.ToString();
 
-                DatabaseConfiguration.tableName = this.tableName;
-                DatabaseConfiguration.dbName = this.dbName;
+                        DatabaseConfiguration.tableName = this.tableName;
+                        DatabaseConfiguration.dbName = this.dbName;
 
-                dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLServer(this.tableName, this.dbName));
-                FrameData.Navigate(dataTableControl);
+                        dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLServer(this.tableName, this.dbName));
+                        FrameData.Navigate(dataTableControl);
+                        break;
+                    case SQLIteConnector.nameDBManagementSystem:
+                        this.tableName = tb.Text; // Используем текст из найденного TextBlock
+                        //this.dbName = selectedTab.Content.ToString();
+
+                        DatabaseConfiguration.tableName = this.tableName;
+                        //DatabaseConfiguration.dbName = this.dbName;
+
+                        dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLite(this.tableName)); ;
+                        FrameData.Navigate(dataTableControl);
+                        break;
+                }             
             }
             else
             {

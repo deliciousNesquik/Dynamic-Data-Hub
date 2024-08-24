@@ -35,6 +35,7 @@ namespace DynamicDataHub.Views
         private string nameDBManagementSystem;
 
         private SQLServerConnector sqlServer;
+        private SQLIteConnector sqliteConnector;
         #endregion
 
         #region builder
@@ -47,7 +48,7 @@ namespace DynamicDataHub.Views
             this.dbName = DatabaseConfiguration.dbName;
             this.nameDBManagementSystem = DatabaseConfiguration.nameDbManagementSystem;
             this.serverName = DatabaseConfiguration.serverName;
-            this.nameDbFile = DatabaseConfiguration.serverName;
+            this.nameDbFile = DatabaseConfiguration.filePathDb;
 
             CustomNotificationBuilder.CreateNotification(MainGrid);
 
@@ -69,30 +70,45 @@ namespace DynamicDataHub.Views
         #region button click execution query 
         private void ExecuteQuery_Click(object sender, RoutedEventArgs e)
         {
-            sqlServer = new SQLServerConnector(this.serverName);
             query = QueryTextBox.Text;
-            DataTable dataTable = sqlServer.CreateQuery(query, dbName);
-            if (dataTable != null)
-            {
-                if (dataTable.Columns.Count > 0)
-                {
-                    foreach (DataColumn t in dataTable.Columns)
-                    {
-                        t.ReadOnly = true;
-                    }
-                    UserControlDataTable content = new UserControlDataTable(dataTable);
-                    FrameResultExecutionQuery.Navigate(content.DataTable);
-                }
-                else if (dataTable.Columns.Count == 0)
-                {
-                    MessageStatusExecutionQuery messageStatusExecutionQuery = new MessageStatusExecutionQuery(null);
-                    FrameResultExecutionQuery.Navigate(messageStatusExecutionQuery);
-                }
-            }
+            if (query == null) return;
             else
             {
-                MessageStatusExecutionQuery messageStatusExecutionQuery = new MessageStatusExecutionQuery(DatabaseConfiguration.messageOfError);
-                FrameResultExecutionQuery.Navigate(messageStatusExecutionQuery);
+                DataTable dataTable = null;
+                switch (this.nameDBManagementSystem)
+                {
+                    case SQLServerConnector.nameDBManagementSystem:
+                        sqlServer = new SQLServerConnector(this.serverName);
+                        dataTable = sqlServer.CreateQuery(query, dbName);
+                        break;
+                    case SQLIteConnector.nameDBManagementSystem:
+                        sqliteConnector = new SQLIteConnector(this.nameDbFile);
+                        dataTable = sqliteConnector.CreateQuery(query);
+                        break;
+                }
+
+                if (dataTable != null)
+                {
+                    if (dataTable.Columns.Count > 0)
+                    {
+                        foreach (DataColumn t in dataTable.Columns)
+                        {
+                            t.ReadOnly = true;
+                        }
+                        UserControlDataTable content = new UserControlDataTable(dataTable);
+                        FrameResultExecutionQuery.Navigate(content);
+                    }
+                    else if (dataTable.Columns.Count == 0)
+                    {
+                        MessageStatusExecutionQuery messageStatusExecutionQuery = new MessageStatusExecutionQuery(null);
+                        FrameResultExecutionQuery.Navigate(messageStatusExecutionQuery);
+                    }
+                }
+                else
+                {
+                    MessageStatusExecutionQuery messageStatusExecutionQuery = new MessageStatusExecutionQuery(DatabaseConfiguration.messageOfError);
+                    FrameResultExecutionQuery.Navigate(messageStatusExecutionQuery);
+                }
             }
         }
         #endregion
