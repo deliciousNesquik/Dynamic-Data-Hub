@@ -13,6 +13,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -109,6 +110,7 @@ namespace DynamicDataHub.Views
                     MessageStatusExecutionQuery messageStatusExecutionQuery = new MessageStatusExecutionQuery(DatabaseConfiguration.messageOfError);
                     FrameResultExecutionQuery.Navigate(messageStatusExecutionQuery);
                 }
+                GridSplitter.Visibility = Visibility.Visible;
             }
         }
         #endregion
@@ -151,5 +153,17 @@ namespace DynamicDataHub.Views
         {
             this.dbName = ChoiseDatabaseComboBox.SelectedItem.ToString();
         }
+
+        //private void GridSplitter_SizeChanged(object sender, SizeChangedEventArgs e)
+        //{
+        //    if (!string.IsNullOrEmpty(QueryTextBox.Text))
+        //    {
+        //        Console.WriteLine(1111111);
+        //        double currentHeight = e.NewSize.Height;
+        //        Console.WriteLine(FrameResultExecutionQuery.Height + "before");
+        //        FrameResultExecutionQuery.Height = currentHeight - GridSplitter.Height;
+        //        Console.WriteLine(FrameResultExecutionQuery.Height + "after");
+        //    }
+        //}
     }
 }

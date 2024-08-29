@@ -21,7 +21,7 @@ namespace DynamicDataHub
         private SQLServerConnector sqlServerDB;
         private SQLIteConnector sqliteDB;
         private GetDataTable getDataTable;
-        private UserControlDataTable dataTableControl = new UserControlDataTable(null);
+        private UserControlDataTable dataTableControl;
         private string nameDBManagementSystem;
 
         private HashSet<string> tabItems = new HashSet<string>();
@@ -226,7 +226,7 @@ namespace DynamicDataHub
             InitializeComponent();
             
             connectionWindow = new DDHAuthorization(this);
-            dataTableControl.GetLinkWindow(this);
+            //dataTableControl.GetLinkWindow(this);
             CustomNotificationBuilder.CreateNotification(MainGrid);
 
             this.Title = localizationOfWords["Title"][languageSelected];
@@ -328,22 +328,22 @@ namespace DynamicDataHub
             switch (this.nameDBManagementSystem) {
                 case SQLIteConnector.nameDBManagementSystem:
                 {
-                        TreeViewItem parent = (TreeViewItem)tableName.Parent;
-                        foreach (TreeViewItem t in parent.Items)
-                        {
-                            t.BorderThickness = new Thickness(0);
-                        }
-                        DatabaseConfiguration.tableName = this.tableName;
-                        dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLite(this.tableName));
-                        FrameData.Navigate(dataTableControl);
+                    TreeViewItem parent = (TreeViewItem)tableName.Parent;
+                    foreach (TreeViewItem t in parent.Items)
+                    {
+                        t.BorderThickness = new Thickness(0);
+                    }
+                    DatabaseConfiguration.tableName = this.tableName;
+                    dataTableControl = new UserControlDataTable(getDataTable.GetDataTableSQLite(this.tableName));
+                    FrameData.Navigate(dataTableControl);
 
-                        tableName.IsSelected = false;
-                        tableName.BorderBrush = new SolidColorBrush(Colors.White);
-                        tableName.BorderThickness = new Thickness(0.5);
+                    tableName.IsSelected = false;
+                    tableName.BorderBrush = new SolidColorBrush(Colors.White);
+                    tableName.BorderThickness = new Thickness(0.5);
 
-                        AddTab();
+                    AddTab();
 
-                        break;
+                    break;
                 }
                 case SQLServerConnector.nameDBManagementSystem:
                 {

@@ -172,30 +172,29 @@ namespace DynamicDataHub.Modules{
         {
             bool isConnected = false;
             GetConnection = new SQLiteConnection($"Data Source={this.pathFileDB};Version=3;");
-            try
-            {
-                await Task.Run(() => {
-                    using (IDbConnection connection = GetConnection)
+
+            await Task.Run(() => {
+                using (IDbConnection connection = GetConnection)
+                {
+                    try
                     {
-                        try
-                        {
-                            connection.Open();
-                            isConnected = true;
-                            connection.Close();
-                        }
-                        catch (SqlException sqlEx)
-                        {
-                            Console.WriteLine($"SQL Exception при подключении к базе данных: {sqlEx.Message}");
-                            isConnected = false;
-                        }
+                        connection.Open();
+                        isConnected = true;
+                        connection.Close();
                     }
-                });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Общая ошибка при подключении к базе данных: {ex.Message}");
-                isConnected = false;
-            }
+                    catch (SqlException sqlEx)
+                    {
+                        Console.WriteLine($"SQL Exception при подключении к базе данных: {sqlEx.Message}");
+                        isConnected = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Общая ошибка при подключении к базе данных: {ex.Message}");
+                        isConnected = false;
+                    }
+
+                }
+            });
 
             return isConnected;
         }

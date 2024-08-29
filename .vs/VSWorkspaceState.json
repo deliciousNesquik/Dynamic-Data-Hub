@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\DynamicDataHub",
+    "\\DynamicDataHub\\Views"
   ],
-  "SelectedNode": "\\DynamicDataHub.sln",
+  "SelectedNode": "\\DynamicDataHub\\Views\\QueryExecutionEnvironment.xaml.cs",
   "PreviewInSolutionExplorer": false
 }

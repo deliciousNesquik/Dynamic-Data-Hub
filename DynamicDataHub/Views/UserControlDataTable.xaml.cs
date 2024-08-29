@@ -46,8 +46,8 @@ namespace DynamicDataHub
             this.nameDbFile = DatabaseConfiguration.filePathDb;
 
             getDataTable = new GetDataTable();
-            FilterRowsButton.Click += FilterRowsButtonOnClick;
 
+            FilterRowsButton.Click += FilterRowsButtonOnClick;
 
             CustomNotificationBuilder.CreateNotification(MainGrid);
 

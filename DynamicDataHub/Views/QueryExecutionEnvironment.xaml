@@ -14,15 +14,16 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <GridSplitter Grid.Row="1"
+        <GridSplitter Name="GridSplitter" Grid.Row="1"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Top"
                   ShowsPreview="True"
                   Height="3" 
-                  Margin="-10"/>
+                  Margin="-10" Visibility="Hidden"
+                  />
 
 
-        <Frame Grid.Row="1" Name="FrameResultExecutionQuery" NavigationUIVisibility="Hidden" VerticalAlignment="Bottom"/>
+        <Frame Grid.Row="1" Name="FrameResultExecutionQuery" NavigationUIVisibility="Hidden"/>
 
         <Button Grid.Row="0" Name="FileOpen" Click="FileOpen_Click" Width="20" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5 5 5 5">
             <Image Source="../Resources/file_open_white.png"/>
