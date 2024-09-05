@@ -493,18 +493,6 @@ namespace DynamicDataHub
                     DisconnectButton.Visibility = Visibility.Visible;
                     TBObjectExplorer.Visibility = Visibility.Visible;
                 }
-
-                //if(LeftPanel.Width.Value == 50){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 50, 50);}
-                //if(LeftPanel.Width.Value == 48){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 48, 48);}
-                //if(LeftPanel.Width.Value == 46){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 46, 46);}
-                //if(LeftPanel.Width.Value == 44){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 44, 44);}
-                //if(LeftPanel.Width.Value == 42){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 42, 42);}
-                //if(LeftPanel.Width.Value == 40){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 40, 40);}
-                //if(LeftPanel.Width.Value == 38){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 38, 38);}
-                //if(LeftPanel.Width.Value == 36){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 36, 36);}
-                //if(LeftPanel.Width.Value == 34){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 34, 34);}
-                //if(LeftPanel.Width.Value == 32){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 32, 32);}
-                //if(LeftPanel.Width.Value == 30){BorderRadiusTop.CornerRadius = new CornerRadius(0, 0, 30, 30);}
             }
             else
             {

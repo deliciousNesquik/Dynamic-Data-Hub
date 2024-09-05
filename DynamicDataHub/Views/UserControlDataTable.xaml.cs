@@ -196,56 +196,36 @@ namespace DynamicDataHub
             {
                 if (getDataTable.nullableColumns.Count == 0)
                 {
-                    if (columnValuePairs.ContainsKey(editedColumn))
-                    {
-                        return;
-                    }
+                    if (columnValuePairs.ContainsKey(editedColumn)) return;
+
                     columnValuePairs.Add(editedColumn, editedValue);
 
-                    if (columnValuePairs.Count == countInsertColumns)
-                    {
-                        switch (this.nameDBManagementSystem)
-                        {
-                            case SQLServerConnector.nameDBManagementSystem:
-                                sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
-                                await Task.Delay(100);
+                    if (!(columnValuePairs.Count == countInsertColumns)) return;
 
-                                DataTable.DataContext = getDataTable.GetDataTableSQLServer(tableName, dbName);
-
-                                break;
-                            case SQLIteConnector.nameDBManagementSystem:
-                                sqliteDB.AddRow(tableName, columnValuePairs);
-                                await Task.Delay(100);
-
-                                DataTable.DataContext = getDataTable.GetDataTableSQLite(tableName);
-                                break;
-                        }
-                    }
                 }
                 else if (getDataTable.nullableColumns.Count > 0)
                 {
                     countInsertColumns -= getDataTable.nullableColumns.Count;
                     columnValuePairs.Add(editedColumn, editedValue);
 
-                    if (columnValuePairs.Count >= countInsertColumns)
-                    {
-                        switch (this.nameDBManagementSystem)
-                        {
-                            case SQLServerConnector.nameDBManagementSystem:
-                                sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
-                                await Task.Delay(100);
+                    if (!(columnValuePairs.Count >= countInsertColumns)) return;
 
-                                DataTable.DataContext = getDataTable.GetDataTableSQLServer(tableName, dbName);
+                }
+                switch (this.nameDBManagementSystem)
+                {
+                    case SQLServerConnector.nameDBManagementSystem:
+                        sqlServerDB.AddRow(tableName, columnValuePairs, dbName);
+                        await Task.Delay(100);
 
-                                break;
-                            case SQLIteConnector.nameDBManagementSystem:
-                                sqliteDB.AddRow(tableName, columnValuePairs);
-                                await Task.Delay(100);
+                        DataTable.DataContext = getDataTable.GetDataTableSQLServer(tableName, dbName);
 
-                                DataTable.DataContext = getDataTable.GetDataTableSQLite(tableName);
-                                break;
-                        }
-                    }
+                        break;
+                    case SQLIteConnector.nameDBManagementSystem:
+                        sqliteDB.AddRow(tableName, columnValuePairs);
+                        await Task.Delay(100);
+
+                        DataTable.DataContext = getDataTable.GetDataTableSQLite(tableName);
+                        break;
                 }
             }
         }

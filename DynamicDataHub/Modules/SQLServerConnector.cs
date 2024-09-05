@@ -66,56 +66,6 @@ namespace DynamicDataHub.Modules
             }
             catch (SqlException ex){
                 DatabaseConfiguration.messageOfError = ex.Message;
-                //switch (ex.Number)
-                //{
-                //    case 18456:
-                //        MessageBox.Show("Неверный логин или пароль");
-                //        break;
-                //    case 102:
-                //        MessageBox.Show("Некорректный синтаксис запроса");
-                //        break;
-                //    case 18451:
-                //        MessageBox.Show("Не удалось установить соединение с сервером");
-                //        break;
-                //    case 156:
-                //        MessageBox.Show("Недопустимый параметр в функции или процедуре");
-                //        break;
-                //    case 229:
-                //        MessageBox.Show("Недостаточно прав для выполнения операции");
-                //        break;
-                //    case 2601:
-                //        MessageBox.Show("Запись в таблицу запрещена");
-                //        break;
-                //    case 262:
-                //        MessageBox.Show("Недостаточно прав для выполнения операции");
-                //        break;
-                //    case 2627:
-                //        MessageBox.Show("Конфликт конкуренции (два процесса пытаются изменить одну и ту же строку)");
-                //        break;
-                //    case 2629:
-                //        MessageBox.Show("Попытка вставить дублирующуюся запись в столбец, ограниченный UNIQUE");
-                //        break;
-                //    case 266:
-                //        MessageBox.Show("Попытка вставить дубликат ключевого значения в столбце, ограниченном PRIMARY KEY или UNIQUE");
-                //        break;
-                //    case 2720:
-                //        MessageBox.Show("Попытка вставить значение, которое превышает максимально допустимый размер для столбца");
-                //        break;
-                //    case 2746:
-                //        MessageBox.Show("Попытка вставить значение NULL в столбец, который не позволяет NULL");
-                //        break;
-                //    case 245:
-                //        MessageBox.Show("Ошибка преобразования типов");
-                //        break;
-                //    case 547:
-                //        MessageBox.Show("Конфликт инструкции DELETE с ограничением REFERENCE в базе данных");
-                //        break;
-                //    default:
-                //        MessageBox.Show($"Неизвестная ошибка {ex.Number} - {ex.Message}");
-                //        Clipboard.SetText(ex.Message);
-                //        break;
-
-                //}
 
                 return null;
             }
@@ -196,30 +146,27 @@ namespace DynamicDataHub.Modules
         {
             bool isConnected = false;
             GetConnection = new SqlConnection("Data Source=" + this.serverName + ";Initial Catalog='';Integrated Security=True;trustservercertificate=True");
-            try
-            {
-                await Task.Run(() => {
-                    using (IDbConnection connection = GetConnection)
+            await Task.Run(() => {
+                using (IDbConnection connection = GetConnection)
+                {
+                    try
                     {
-                        try
-                        {
-                            connection.Open();
-                            isConnected = true;
-                            connection.Close();
-                        }
-                        catch (SqlException sqlEx)
-                        {
-                            Console.WriteLine($"SQL Exception при подключении к базе данных: {sqlEx.Message}");
-                            isConnected = false;
-                        }
+                        connection.Open();
+                        isConnected = true;
+                        connection.Close();
                     }
-                });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Общая ошибка при подключении к базе данных: {ex.Message}");
-                isConnected = false;
-            }
+                    catch (SqlException sqlEx)
+                    {
+                        Console.WriteLine($"SQL Exception при подключении к базе данных: {sqlEx.Message}");
+                        isConnected = false;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Общая ошибка при подключении к базе данных: {ex.Message}");
+                        isConnected = false;
+                    }
+                }
+            });
 
             return isConnected;
         }

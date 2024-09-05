@@ -147,23 +147,10 @@ namespace DynamicDataHub.Views
             }
         }
 
-
-
         private void ChoiseDatabaseComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             this.dbName = ChoiseDatabaseComboBox.SelectedItem.ToString();
         }
 
-        //private void GridSplitter_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    if (!string.IsNullOrEmpty(QueryTextBox.Text))
-        //    {
-        //        Console.WriteLine(1111111);
-        //        double currentHeight = e.NewSize.Height;
-        //        Console.WriteLine(FrameResultExecutionQuery.Height + "before");
-        //        FrameResultExecutionQuery.Height = currentHeight - GridSplitter.Height;
-        //        Console.WriteLine(FrameResultExecutionQuery.Height + "after");
-        //    }
-        //}
     }
 }
