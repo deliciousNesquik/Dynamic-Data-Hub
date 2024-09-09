@@ -140,6 +140,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TableManagerUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\UserControlDataTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -175,6 +179,9 @@
     </Compile>
     <Compile Include="Views\QueryExecutionEnvironment.xaml.cs">
       <DependentUpon>QueryExecutionEnvironment.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TableManagerUserControl.xaml.cs">
+      <DependentUpon>TableManagerUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserControlDataTable.xaml.cs">
       <DependentUpon>UserControlDataTable.xaml</DependentUpon>

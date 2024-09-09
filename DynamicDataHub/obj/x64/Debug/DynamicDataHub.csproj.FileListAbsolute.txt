@@ -820,3 +820,5 @@ C:\Users\prod_upal\Desktop\04 09 r\DynamicDataHub\obj\x64\Debug\DynamicDataHub.c
 C:\Users\prod_upal\Desktop\04 09 r\DynamicDataHub\obj\x64\Debug\DynamicDataHub.csproj.CopyComplete
 C:\Users\prod_upal\Desktop\04 09 r\DynamicDataHub\obj\x64\Debug\DynamicDataHub.exe
 C:\Users\prod_upal\Desktop\04 09 r\DynamicDataHub\obj\x64\Debug\DynamicDataHub.pdb
+C:\Users\prod_upal\Desktop\04 09 r\DynamicDataHub\obj\x64\Debug\Views\TableManagerUserControl.g.cs
+C:\Users\prod_upal\Desktop\04 09 r\DynamicDataHub\obj\x64\Debug\Views\TableManagerUserControl.baml

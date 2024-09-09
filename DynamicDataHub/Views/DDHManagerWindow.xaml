@@ -151,15 +151,7 @@
                     <Setter Property="Background" Value="White"/>
                 </Style>
             </TabControl.Resources>
-            <!--<TabItem BorderThickness="0">
-                <TabItem.Header>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <TextBlock Text="Tab1" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                        <Button Content="✖️"/>
-                    </StackPanel>
-                </TabItem.Header>
-            </TabItem>-->
-                
+
         </TabControl>
 
     </Grid>

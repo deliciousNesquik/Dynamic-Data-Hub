@@ -198,8 +198,10 @@ namespace DynamicDataHub
 
                     if (tb != null)
                     {
+                        if (tabItems.Count == 1) FrameData.Navigate(null);
                         tabItems.Remove(tb.Text);
                     }
+
                 }
             }
         }
@@ -260,7 +262,19 @@ namespace DynamicDataHub
                         Databases.Items.Add(Database);
 
                         TreeViewItem Tables = new TreeViewItem() { Header = localizationOfWords["Tables"][languageSelected] };
+
+                        ContextMenu contextMenuTreeViewItem = new ContextMenu();
+                        MenuItem buttonTreeViewItem = new MenuItem();
+
+                        buttonTreeViewItem.Header = "Создать таблицу";
+
+                        buttonTreeViewItem.Click += NavigateToManagerTableUC;
+
+                        contextMenuTreeViewItem.Items.Add(buttonTreeViewItem);
+
                         Database.Items.Add(Tables);
+
+
 
                         if (sqlServerDB.GetDBTables(i).Count > 0)
                         {
@@ -277,6 +291,8 @@ namespace DynamicDataHub
                             //CustomNotificationBuilder.ShowNotificationOpacity("База данных не содержит таблиц");
                         }
 
+                        Tables.ContextMenu = contextMenuTreeViewItem;
+
                     }
                 }
                 else
@@ -288,6 +304,11 @@ namespace DynamicDataHub
             {
                 //customMessageBoxBuilder.ShowError("Внутренняя ошибка", ex.Message, "Назад", this);
             }
+        }
+
+        private void NavigateToManagerTableUC(object sender, RoutedEventArgs e)
+        {
+            FrameData.Navigate(new TableManagerUserControl());
         }
 
         public void ConnectionSQLite(string NameDBFIle_, string NameDBManagementSystem)
@@ -408,47 +429,6 @@ namespace DynamicDataHub
 
         }
 
-        //private void WrapColumn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    //Создание обьекта класса ротейрТрансформ 
-        //    RotateTransform rotateTransform = new RotateTransform(0);
-        //    //Получение ротейрТрансформ у кнопки для дальнейшей логики
-        //    var WrapColumnTransform = WrapColumn.RenderTransform as RotateTransform;
-
-        //    //Проверка если угол кнопки равен 0, тогда панельку можно свернуть
-        //    if (WrapColumnTransform?.Angle == 0 || WrapColumnTransform?.Angle == null)
-        //    {
-        //        //Скрытие элементов
-        //        TBObjectExplorer.Visibility = Visibility.Hidden;
-        //        Connect.Visibility = Visibility.Hidden;
-        //        Disconnect.Visibility = Visibility.Hidden;
-        //        //Сдвиг кнопки влево
-        //        WrapColumn.Margin = new Thickness(-100.5, 0, 0, 0);
-        //        Refresh.Margin = new Thickness(-145, 0, 0, 0);
-        //        //Создания трансформа поворота и поворот кнопки на 180
-        //        rotateTransform = new RotateTransform(180);
-        //        WrapColumn.RenderTransform = rotateTransform;
-        //        //Установление размера для колонки
-        //        ColumnObjectExplorer.Width = new GridLength(30);
-        //    }
-        //    //Если угол не 0 тогда панельку нужно развернуть
-        //    else
-        //    {
-        //        //Отображение элементов
-        //        TBObjectExplorer.Visibility = Visibility.Visible;
-        //        Connect.Visibility = Visibility.Visible;
-        //        Disconnect.Visibility = Visibility.Visible;
-        //        //Сдвиг кнопки на прежнее место
-        //        WrapColumn.Margin = new Thickness(48.5, 5, 0, 5);
-        //        Refresh.Margin = new Thickness(5, 0, 0, 0);
-        //        //Создания трансформа поворота и поворот кнопки на 0
-        //        rotateTransform = new RotateTransform(0);
-        //        WrapColumn.RenderTransform = rotateTransform;
-        //        //Установление размера для колонки
-        //        ColumnObjectExplorer.Width = new GridLength(180);
-        //    }
-
-        //}
         #endregion
 
         #region handlers for opening the connection window
